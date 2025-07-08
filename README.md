@@ -94,11 +94,11 @@ Convert the raw files in original_data/ into clean, trial‑level CSVs stored in
 
 2. Inside the script:
 
-   - Read every file inside original_data/ (e.g., using Path.glob("*")).
+- Read every file inside original_data/ (e.g., using Path.glob("*")).
 
-   - Tidy the data: rename or recode columns so they match the canonical names in CODEBOOK.csv.If a required variable is missing, first add it to CODEBOOK.csv with a short description.
+- Tidy the data: rename or recode columns so they match the canonical names in CODEBOOK.csv.If a required variable is missing, first add it to CODEBOOK.csv with a short description.
 
-   - Write one or more cleaned files (exp1.csv, exp2.csv, …) into a new folder called processed_data/.
+- Write one or more cleaned files (exp1.csv, exp2.csv, …) into a new folder called processed_data/.
 
 ```
 <authorYEAR_title>/
@@ -112,23 +112,23 @@ Convert the raw files in original_data/ into clean, trial‑level CSVs stored in
 
 1. In the experiment folder, create a script named `generate_prompts.py`.
 2. This script should:
-   - Read the standardized CSV file(s).
-   - Generate a JSONL file (`prompts.jsonl`) with one line per participant.
-   - Each prompt should:
-     - Represent an entire session from one participant.
-     - Include trial-by-trial data.
-     - Begin with the instructions. Use original instructions, if available.
-     - Mark human responses with `<< >>` (do not use these symbols elsewhere).
-     - For discrete choice tasks, randomize the naming of options per participant (see [binz2022heuristics/generate_prompts.py](https://github.com/marcelbinz/Psych-201/tree/main/binz2022heuristics/generate_prompts.py)).
-     - Stay within a 32K token limit per participant.
+- Read the standardized CSV file(s).
+- Generate a JSONL file (`prompts.jsonl`) with one line per participant.
+- Each prompt should:
+   - Represent an entire session from one participant.
+   - Include trial-by-trial data.
+   - Begin with the instructions. Use original instructions, if available.
+   - Mark human responses with `<< >>` (do not use these symbols elsewhere).
+   - For discrete choice tasks, randomize the naming of options per participant (see [binz2022heuristics/generate_prompts.py](https://github.com/marcelbinz/Psych-201/tree/main/binz2022heuristics/generate_prompts.py)).
+   - Stay within a 32K token limit per participant.
 
 In resulting `prompts.jsonl.zip` each line should have the following three fields:
-  - `"text"`: Full natural language prompt with instructions, cover story and trial-by-trial data.
-  - `"experiment"`: Identifier for the experiment.
-  - `"participant"`: Participant ID.
-  - Optional metadata fields (if available):
-    - `"RTs"`: List of reaction times in ms.
-    - `"age"`, `"diagnosis"`, `"nationality"`, or questionnaire-derived statistics.
+- `"text"`: Full natural language prompt with instructions, cover story and trial-by-trial data.
+- `"experiment"`: Identifier for the experiment.
+- `"participant"`: Participant ID.
+- Optional metadata fields (if available):
+   - `"RTs"`: List of reaction times in ms.
+   - `"age"`, `"diagnosis"`, `"nationality"`, or questionnaire-derived statistics.
    
 Example prompt:
 
@@ -172,9 +172,9 @@ If your dataset includes images:
 
 5. In your README.md, briefly describe:
 
-   - How images were used in the experiment (e.g., as stimuli, options, or cues)
+- How images were used in the experiment (e.g., as stimuli, options, or cues)
 
-   - Any preprocessing applied to reduce image resolution or format
+- Any preprocessing applied to reduce image resolution or format
 
 ### 7  — Final folder Checklist
 
