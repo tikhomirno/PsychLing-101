@@ -50,17 +50,17 @@ For the list of datasets currently being processed and datasets that are open fo
 
 ## How to Contribute
 
-### 0  — Check & Contact
+### 0. Check & Contact
 
 1. Read **CONTRIBUTING.md** to make sure no one is already processing your dataset.
 2. Open a [new issue](https://github.com/Data-X01/PsychLing-101/issues/new/choose) *or* email [psychling101@gmail.com](mailto:psychling101@gmail.com) describing the dataset.
 
-### 1  — Fork the Repository
+### 1. Fork the Repository
 
 1. In the upper‑right corner of the project page, click **Fork ▸ Create fork**.
 2. Enable **Git LFS** on your fork if you plan to add large files (>100 MB).
 
-### 2  — Clone & Create a Feature Branch
+### 2. Clone & Create a Feature Branch
 
 Create a new folder named using the format: `authorYEAR_title` (e.g., `smith2000_priming`).
 
@@ -71,7 +71,7 @@ $ cd PsychLing-101
 $ git checkout -b add_<authorYEAR_title>
 ```
 
-### 3  — Organize Raw Data
+### 3. Organize Raw Data
 
 1. Inside the main folder, create a subfolder named `original_data/`.
 2. Place **all raw files** from the source (e.g., OSF, repositories) into `original_data/`. Supported formats include `.csv`, `.tsv`, `.xlsx`, `.mat`, and `.json`.
@@ -86,7 +86,7 @@ $ git checkout -b add_<authorYEAR_title>
 $ git lfs track "*.csv"
 ```
 
-### 4  — Preprocess Raw Data 
+### 4. Preprocess Raw Data 
 
 Convert the raw files in original_data/ into clean, trial‑level CSVs stored in processed_data/.
 
@@ -108,7 +108,7 @@ Convert the raw files in original_data/ into clean, trial‑level CSVs stored in
 └── CODEBOOK.csv          # reference for standardized column names
 ```
 
-### 5  — Generate LLM Prompts
+### 5. Generate LLM Prompts
 
 1. In the experiment folder, create a script named `generate_prompts.py`.
 2. This script should:
@@ -158,7 +158,7 @@ Trial 8: The word pair is 'cheef' and 'grass'. You press <<l>>. Correct.
 ```
 
 
-### 6  — (Optional) Images
+### 6. (Optional) Images
 
 If your dataset includes images:
 
@@ -176,7 +176,7 @@ If your dataset includes images:
 
 - Any preprocessing applied to reduce image resolution or format
 
-### 7  — Final folder Checklist
+### 7. Final folder Checklist
 
 Now your folder should cosist from: 
 
@@ -189,7 +189,7 @@ Now your folder should cosist from:
 * [ ] `prompts.jsonl(.zip)`
 * [ ] *(optional)* `images.zip`
 
-### 8  — Commit & Push
+### 8. Commit & Push
 
 ```bash
 $ git add <authorYEAR_title>
@@ -197,12 +197,12 @@ $ git commit -m "Add <authorYEAR_title> dataset"
 $ git push -u origin HEAD
 ```
 
-### 9  — Open a Pull Request
+### 9. Open a Pull Request
 
 1. Navigate to **Your fork ▸ Pull requests ▸ *Compare & pull request***.
 2. Fill in a short description; the PR template will remind you of the checklist above.
 
-### 10  — Review Process
+### 10. Review Process
 
 A project maintainer will run the checks and leave comments directly in your PR.  Small fixes can be pushed to the same branch; the PR updates automatically.
 
