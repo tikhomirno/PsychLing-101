@@ -60,8 +60,6 @@ In the upper‑right corner of the project page, click **Fork ▸ Create fork**
 
 ## 2. Clone & create a feature branch
 
-On your local machine create a new folder named using the format: `authorYEAR_title` (e.g., `smith2000_priming`).
-
 ```bash
 # Replace YOUR‑USERNAME with your GitHub handle and <authorYEAR_title> with your folder name
 # Clone your fork to the local machine
@@ -80,8 +78,9 @@ In Steps 3.1 – 3.4 you transform the raw files of the original_data into stand
 
 ### 3.1. Organise raw data 
 
-1. Inside the main folder, create a subfolder named `original_data/`.
-2. Place **all raw files** into `original_data/`. If your data are in a proprietary format, export them to one of the open formats before committing.
+1. On your local machine create a new folder named using the format: `authorYEAR_title` (e.g., `smith2000_priming`).
+2. Inside the folder, create a subfolder named `original_data/`.
+3. Place **all raw files** into `original_data/`. If your data are in a proprietary format, export them to one of the open formats before committing.
 
 ```
 <authorYEAR_title>/
