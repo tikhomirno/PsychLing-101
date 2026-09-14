@@ -112,17 +112,28 @@ prompts <- map(participant_ids, \(.participant_id) {
     first_language = unique(data_filtered$first_language),
     other_languages = unique(data_filtered$other_languages),
     handedness = unique(data_filtered$handedness),
-    country_of_residence = unique(data_filtered$country_of_residence)
+    country_of_residence = unique(data_filtered$country_of_residence),
+    # Per-trial reaction times. processed_data stores rt in SECONDS, but the
+    # prompt text above already reports round(rt * 1000) ms, and the rest of the
+    # corpus uses milliseconds -- so emit ms here to match both.
+    rt = I(list(round(data_filtered$rt * 1000)))
   )
 }) |> 
   list_rbind()
 
 # write to JSON lines -----------------------------------------------------
 
-jsonlite::stream_out(
-  prompts,
-  file(file.path(SCRIPT_DIR, "prompts.jsonl")), # NOTE: need to zip this separately...
-  verbose = FALSE
-)
+jsonl_path <- file.path(SCRIPT_DIR, "prompts.jsonl")
+jsonlite::stream_out(prompts, file(jsonl_path), verbose = FALSE)
+
+# Package the deliverable. The script previously left this to be done by hand
+# ("NOTE: need to zip this separately"), so the committed archive was never
+# reproducible from the script. flags="-j9X" junks directory names so the entry
+# is plain "prompts.jsonl".
+# COPYFILE_DISABLE stops macOS zip adding __MACOSX/._* resource-fork entries,
+# which is where the stray entries in several committed archives came from.
+Sys.setenv(COPYFILE_DISABLE = "1")
+zip(file.path(SCRIPT_DIR, "prompts.jsonl.zip"), jsonl_path, flags = "-j9X")
+file.remove(jsonl_path)
 
 # -------------------------------------------------------------------------
