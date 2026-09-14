@@ -1,7 +1,7 @@
-column_name,description
-participant_id,Anonymized participant ID
-trial_id,Trial order index (factorized from raw trial_id)
-stimulus,Four options concatenated as 'opt1; opt2; opt3; opt4'
+Recommended Column Name,Description
 best,Participant's 'best' choice string
+participant_id,Anonymized participant ID
+rt,Time taken by the participant to respond
+stimulus,Four options concatenated as 'opt1; opt2; opt3; opt4'
+trial_id,Trial order index (factorized from raw trial_id)
 worst,Participant's 'worst' choice string
-rt,Time taken by the participant to respond, in milliseconds

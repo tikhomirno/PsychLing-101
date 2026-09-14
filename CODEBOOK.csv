@@ -1,126 +1,126 @@
 Recommended Column Name,Description
-participant_id,Unique identifier assigned to each participant.
+accuracy,Binary indicator of whether the participant's response was correct.
 age,Age of the participant at the time of the experiment.
-gender,Self-reported or observed gender identity of the participant.
-education,Highest completed education level of the participant.
+answer_options,"Answer options for a multiple-choice question, in the order they appeared on screen."
+answer_rt,"Time spent selecting an answer, in milliseconds."
+arousal,Participant's arousal or activation rating for the stimulus.
+article_id,Identifier of the article or text a passage belongs to.
+auditory_rating,Participant's auditory perceptual-strength rating for the stimulus.
+best,Participant's 'best' choice string (from https://doi.org/10.1037/rev0000392)
 clinical_diagnoses,"Any reported or documented clinical conditions relevant to cognitive, language, or psychological functioning."
-first_language,Participant's native or first-acquired language.
-other_languages,"Languages learned after the first language, optionally with proficiency level."
-nationality,Participant's self-reported nationality.
+cloze_certainty,Certainty of the cloze response distribution for a word (0-1).
+cloze_predictability,Proportion of norming participants who produced this exact word form in a cloze task (0-1).
+comprehension_score,Participant's overall proportion or percentage of correct comprehension answers in the session.
+condition,Experimental condition assigned to the trial.
+constituent_1,The first constituent of the compound word.
+constituent_1_contribution,"Participant's rating of how much constituent_1 contributes to the compound's overall meaning (integer, 0â€“5; 0 = not at all, 5 = greatly)."
+constituent_2,The second constituent of the compound word.
+constituent_2_contribution,"Participant's rating of how much constituent_2 contributes to the compound's overall meaning (integer, 0â€“5; 0 = not at all, 5 = greatly)."
+correct_answer_position,On-screen position of the correct answer in a multiple-choice question.
+correct_response,"The response that would have been correct on this trial -- the expected answer itself, not whether the participant gave it. Use accuracy for correctness."
 country_of_birth,Participant's country of birth.
 country_of_residence,Participant's current country of residence.
-trial_id,Unique identifier for a single trial within a session or condition.
-trial_order,Presentation order within the session (0-indexed). The order in which the participant saw this trial.
-list,Experimental list number (1-8). Items were distributed across 8 lists.
-phase_id,"Identifier for the experimental phase or block a trial belongs to (e.g., practice, test, recall)."
-accuracy,Binary indicator of whether the participant's response was correct.
-condition,Experimental condition assigned to the trial.
-stimulus,The linguistic or visual stimulus presented to the participant in a given trial.
-target_word,The target word that participants rated for expectedness (from https://doi.org/10.3758/s13428-024-02379-9)
-response,Participant's response
-response_corrected,Cleaned / corrected response (spelling normalized).
-response1,First association response (for association tasks)
-response2,Second association response (for association tasks)
-responseX,Xth association response (for association tasks)
-best,Participant's 'best' choice string (from https://doi.org/10.1037/rev0000392)
-worst,Participant's 'worst' choice string (from https://doi.org/10.1037/rev0000392)
-rt,"Time taken by the participant to respond, in milliseconds."
-first_key_RT,Time from text-box onset to first typed key (ms).
-image_filename,Filename or identifier for the presented image.
-object,Object identifier (concept depicted by the image).
-name_agreement,Percentage of participants giving the modal name for the image (0-100).
-H_statistic,Entropy of the name distribution for the image (bits).
-Normalised_H_statistic,H-statistic normalised for sample-size differences.
-unknown_osullivan_et_al,Count of responses coded 'unknown' per O'Sullivan coding scheme.
-idiosyncratic_osullivan_et_al,Count of idiosyncratic (singleton) responses per O'Sullivan coding scheme.
-nonobject_osullivan_et_al,Count of non-object / unrelated responses per Oâ€™Sullivan coding scheme.
-physically_dissimilar,Flag/score indicating physical dissimilarity of image variants.
-is_natural,Whether the object is a natural kind (true/false).
-is_modal,Whether the response equals the modal name for that image.
-modalWordFreq,Frequency (e.g. Zipf) of the modal response word.
-responseWordFreq,Frequency of the individual response word.
-modalWordLength,Number of characters in modal name.
-responseWordLength,Number of characters in individual response.
-responseProductionFreq,Production frequency (how many participants produced the response).
-responseProductionFreq_non_outlier,Production freq after outlier removal.
-is_invalid,Flag marking invalid responses (missing/non-word/timed-out).
-is_rt_outlier,Flag marking RT outliers removed from RT analyses.
-not_in_subtlex_uk,Flag if word not found in SUBTLEX-UK frequency resource.
-constituent_1,The first constituent of the compound word.
-constituent_2,The second constituent of the compound word.
-constituent_1_contribution,"Participant's rating of how much constituent_1 contributes to the compound's overall meaning (integer, 0â€“5; 0 = not at all, 5 = greatly)."
-constituent_2_contribution,"Participant's rating of how much constituent_2 contributes to the compound's overall meaning (integer, 0â€“5; 0 = not at all, 5 = greatly)."
-predictability,"Participant's rating of how easily the compound's meaning can be inferred from its two constituents (integer, 0â€“5; 0 = not at all, 5 = greatly)."
-list_id,Experimental list number (0-indexed); indicates which list file the stimulus appeared in.
-start_time,Timestamp when the participant started the survey session (YYYY-MM-DD HH:MM:SS).
-completion_time,Timestamp when the participant completed the survey session (YYYY-MM-DD HH:MM:SS).
-query_c1,Full original Chinese question text asking about constituent_1 contribution.
-c1_contribution,Raw constituent_1 contribution rating as recorded in the original data (same scale as constituent_1_contribution).
-query_c2,Full original Chinese question text asking about constituent_2 contribution.
-c2_contribution,Raw constituent_2 contribution rating as recorded in the original data (same scale as constituent_2_contribution).
-query_comp,Full original Chinese question text asking about predictability.
-comp,Raw predictability rating as recorded in the original data (same scale as predictability).
-session_id,Unique identifier for an experimental or survey session.
-part_of_speech,Part of speech of the presented stimulus.
-valence,Participant's affective valence rating for the stimulus.
-arousal,Participant's arousal or activation rating for the stimulus.
-dominance,Participant's dominance or perceived-control rating for the stimulus.
-unknown_word,Binary indicator of whether the participant reported not knowing the meaning of the stimulus.
-handedness,Participant's self-reported handedness.
-stimulus_type,"Type or category of the presented stimulus, such as word or pseudoword."
-stimulus_translation,"English translation of the presented Italian stimulus, when applicable."
-visual_rating,Participant's visual perceptual-strength rating for the stimulus.
-auditory_rating,Participant's auditory perceptual-strength rating for the stimulus.
-haptic_rating,Participant's haptic perceptual-strength rating for the stimulus.
-olfactory_rating,Participant's olfactory perceptual-strength rating for the stimulus.
-gustatory_rating,Participant's gustatory perceptual-strength rating for the stimulus.
-fluency_list_id,"Fluency round a response belongs to, numbered from 0 within each participant. One round is one timed attempt at one category cue."
 cumulative_rt,"Time from the onset of the round to this response, in milliseconds; the running total of rt within the round."
-round_time_limit,"Time allowed for one round, in milliseconds."
-is_repeated_response,Flag marking a response already given earlier in the same round (a perseveration).
-is_category_mismatch,"Flag marking a response whose category label disagrees with the majority label of the round it is stored in, i.e. one filed under the wrong round. The label itself is left as recorded."
-dmdx_item_code,"Item code assigned by the DMDX presentation software, encoding the experimental list, the design factors and the item number in its digits."
-exposure_duration_ms,Duration in milliseconds for which the stimulus was presented.
-stimulus_length,Number of characters in the presented stimulus.
-letter_position,Position of the probed letter within the presented letter string (1-indexed; counted from the left).
-position_type,Whether the probed letter sat inside the letter string (internal) or at one of its ends (external).
-target_letter,The letter that actually occurred at the probed position of the stimulus; the correct alternative in a forced choice between two letters.
-distractor_letter,The incorrect alternative in a forced choice between two letters.
-letter_similarity_human,Human-rated visual similarity of a pair of letters; higher values indicate greater similarity.
-letter_similarity_hmax,Visual similarity of a pair of letters derived from an HMAX computational model of visual cortex; runs from 0 to 1 and reaches 1 for a letter compared with itself.
-article_id,Identifier of the article or text a passage belongs to.
-paragraph_id,Identifier of a paragraph within its article or text.
 difficulty_level,"Version of the text presented, where a study manipulates text difficulty (e.g. original vs simplified)."
-is_repeated_reading,Binary indicator of whether a trial is a repeated reading of previously presented material.
-question,Comprehension question asked about the preceding stimulus.
-answer_options,"Answer options for a multiple-choice question, in the order they appeared on screen."
-correct_answer_position,On-screen position of the correct answer in a multiple-choice question.
-response_position,On-screen position of the answer the participant selected.
-question_rt,"Time spent reading the question, in milliseconds."
-answer_rt,"Time spent selecting an answer, in milliseconds."
-comprehension_score,Participant's overall proportion or percentage of correct comprehension answers in the session.
-lextale_score,Participant's score on the LexTALE vocabulary test.
-word_position,Position of a word within the text or sentence it belongs to (1-based).
+distractor_letter,The incorrect alternative in a forced choice between two letters.
+dmdx_item_code,"Item code assigned by the DMDX presentation software, encoding the experimental list, the design factors and the item number in its digits."
+dominance,Participant's dominance or perceived-control rating for the stimulus.
+education,Highest completed education level of the participant.
+experiment,"Identifier for the experiment, sub-experiment, or condition a row belongs to, where a study contributes more than one."
+exposure_duration_ms,Duration in milliseconds for which the stimulus was presented.
 first_fixation_duration,Duration of the first fixation on a word in milliseconds (eye-tracking).
-gaze_duration,"Sum of fixations on a word during the first run through it, in milliseconds (eye-tracking)."
-go_past_time,"Time from first entering a word until moving past it to the right, including regressions, in milliseconds (eye-tracking)."
+first_key_RT,Time from text-box onset to first typed key (ms).
+first_language,Participant's native or first-acquired language.
 fixation_count,Number of fixations landing on a word (eye-tracking).
-run_count,Number of separate runs of fixations on a word (eye-tracking).
-is_fixated,Binary indicator of whether a word received any fixation at all (eye-tracking).
+fluency_list_id,"Fluency round a response belongs to, numbered from 0 within each participant. One round is one timed attempt at one category cue."
+gaze_duration,"Sum of fixations on a word during the first run through it, in milliseconds (eye-tracking)."
+gender,Self-reported or observed gender identity of the participant.
+go_past_time,"Time from first entering a word until moving past it to the right, including regressions, in milliseconds (eye-tracking)."
+gustatory_rating,Participant's gustatory perceptual-strength rating for the stimulus.
+H_statistic,Entropy of the name distribution for the image (bits).
+handedness,Participant's self-reported handedness.
+haptic_rating,Participant's haptic perceptual-strength rating for the stimulus.
+idiosyncratic_osullivan_et_al,Count of idiosyncratic (singleton) responses per O'Sullivan coding scheme.
+image_filename,Filename or identifier for the presented image.
+is_category_mismatch,"Flag marking a response whose category label disagrees with the majority label of the round it is stored in, i.e. one filed under the wrong round. The label itself is left as recorded."
 is_first_pass_skipped,Binary indicator of whether a word was skipped during first-pass reading. A first-pass skipped word may still be fixated later during a regression.
+is_fixated,Binary indicator of whether a word received any fixation at all (eye-tracking).
+is_invalid,Flag marking invalid responses (missing/non-word/timed-out).
+is_modal,Whether the response equals the modal name for that image.
+is_natural,Whether the object is a natural kind (true/false).
 is_regressed_into,Binary indicator of whether a regression entered a word (eye-tracking).
 is_regressed_out_of,Binary indicator of whether a regression left a word (eye-tracking).
-lab,Data collection site or laboratory where the session was run (multi-site studies).
-prime,"Prime stimulus presented before the target, typically briefly and masked in priming paradigms."
-prime_code,"Positional code describing how a prime was derived from its target (e.g. 123d56 = a random letter substituted at position 4 of a six-letter target)."
+is_repeated_reading,Binary indicator of whether a trial is a repeated reading of previously presented material.
+is_repeated_response,Flag marking a response already given earlier in the same round (a perseveration).
+is_rt_outlier,Flag marking RT outliers removed from RT analyses.
 is_timeout,Binary indicator of whether the response deadline elapsed without a response.
-vocabulary_score,Participant's score on a vocabulary test administered alongside the main task.
-spelling_score,Participant's score on a spelling test administered alongside the main task.
-text_id,Identifier of the text or passage presented on a trial.
+lab,Data collection site or laboratory where the session was run (multi-site studies).
+letter_position,Position of the probed letter within the presented letter string (1-indexed; counted from the left).
+letter_similarity_hmax,Visual similarity of a pair of letters derived from an HMAX computational model of visual cortex; runs from 0 to 1 and reaches 1 for a letter compared with itself.
+letter_similarity_human,Human-rated visual similarity of a pair of letters; higher values indicate greater similarity.
+lexicality,Lexical status of the letter string: a real word or a pseudoword/nonword.
+lextale_score,Participant's score on the LexTALE vocabulary test.
+list,Experimental list number (1-8). Items were distributed across 8 lists.
+list_id,Experimental list number (0-indexed); indicates which list file the stimulus appeared in.
+modalWordFreq,Frequency (e.g. Zipf) of the modal response word.
+modalWordLength,Number of characters in modal name.
+name_agreement,Percentage of participants giving the modal name for the image (0-100).
+nationality,Participant's self-reported nationality.
+nonobject_osullivan_et_al,Count of non-object / unrelated responses per Oâ€™Sullivan coding scheme.
+Normalised_H_statistic,H-statistic normalised for sample-size differences.
+not_in_subtlex_uk,Flag if word not found in SUBTLEX-UK frequency resource.
+object,Object identifier (concept depicted by the image).
+olfactory_rating,Participant's olfactory perceptual-strength rating for the stimulus.
+other_languages,"Languages learned after the first language, optionally with proficiency level."
+paragraph_id,Identifier of a paragraph within its article or text.
+part_of_speech,Part of speech of the presented stimulus.
+participant_id,Unique identifier assigned to each participant.
+phase_id,"Identifier for the experimental phase or block a trial belongs to (e.g., practice, test, recall)."
+physically_dissimilar,Flag/score indicating physical dissimilarity of image variants.
+pos_predictability,Proportion of cloze responses matching the word's part of speech (0-1).
+position_type,Whether the probed letter sat inside the letter string (internal) or at one of its ends (external).
+predictability,"Participant's rating of how easily the compound's meaning can be inferred from its two constituents (integer, 0â€“5; 0 = not at all, 5 = greatly)."
+prime,"Prime stimulus presented before the target, typically briefly and masked in priming paradigms."
+prime_code,Positional code describing how a prime was derived from its target (e.g. 123d56 = a random letter substituted at position 4 of a six-letter target).
+question,Comprehension question asked about the preceding stimulus.
+question_rt,"Time spent reading the question, in milliseconds."
+response,Participant's response
+response1,First association response (for association tasks)
+response2,Second association response (for association tasks)
+response_correct,Whether the participant's response was correct. A synonym of accuracy; prefer accuracy in new submissions.
+response_corrected,Cleaned / corrected response (spelling normalized).
+response_position,On-screen position of the answer the participant selected.
+responseProductionFreq,Production frequency (how many participants produced the response).
+responseProductionFreq_non_outlier,Production freq after outlier removal.
+responseWordFreq,Frequency of the individual response word.
+responseWordLength,Number of characters in individual response.
+responseX,"Naming pattern, not a literal column: response1, response2, ... hold the 1st, 2nd, ... response in tasks that collect several responses per trial (free association, multi-dimensional ratings)."
+round_time_limit,"Time allowed for one round, in milliseconds."
+rt,"Time taken by the participant to respond, in milliseconds."
+run_count,Number of separate runs of fixations on a word (eye-tracking).
 sentence_number,Index of the sentence containing a word within its text or passage.
+session_id,Unique identifier for an experimental or survey session.
+session_no,"Sequential index of the session within a participant, starting at 1. Distinct from session_id, which is a unique identifier rather than an ordinal."
+soa,Stimulus onset asynchrony in milliseconds: the delay between the onset of a prime or distractor and the onset of the target.
+spelling_score,Participant's score on a spelling test administered alongside the main task.
+start_time,Timestamp when the participant started the survey session (YYYY-MM-DD HH:MM:SS).
+stimulus,The linguistic or visual stimulus presented to the participant in a given trial.
+stimulus_length,Number of characters in the presented stimulus.
+stimulus_translation,"English translation of the presented Italian stimulus, when applicable."
+stimulus_type,"Type or category of the presented stimulus, such as word or pseudoword."
+target_letter,The letter that actually occurred at the probed position of the stimulus; the correct alternative in a forced choice between two letters.
+target_word,The target word that participants rated for expectedness (from https://doi.org/10.3758/s13428-024-02379-9)
+text_id,Identifier of the text or passage presented on a trial.
+trial_id,Unique identifier for a single trial within a session or condition.
+trial_order,Presentation order within the session (0-indexed). The order in which the participant saw this trial.
+unknown_osullivan_et_al,Count of responses coded 'unknown' per O'Sullivan coding scheme.
+unknown_word,Binary indicator of whether the participant reported not knowing the meaning of the stimulus.
+valence,Participant's affective valence rating for the stimulus.
+visual_rating,Participant's visual perceptual-strength rating for the stimulus.
+vocabulary_score,Participant's score on a vocabulary test administered alongside the main task.
+word,The word text shown at this position. Used by studies that present running text; single-item studies use stimulus.
+word_class,Whether a word is a content word or a function word.
 word_in_sentence_number,Position of a word within its sentence.
 word_length,Number of characters in the presented word.
-word_class,Whether a word is a content word or a function word.
-cloze_predictability,Proportion of norming participants who produced this exact word form in a cloze task (0-1).
-pos_predictability,Proportion of cloze responses matching the word's part of speech (0-1).
-cloze_certainty,Certainty of the cloze response distribution for a word (0-1).
+word_position,Position of a word within the text or sentence it belongs to (1-based).
+worst,Participant's 'worst' choice string (from https://doi.org/10.1037/rev0000392)

@@ -1,13 +1,11 @@
 Recommended Column Name,Description
-participant_id,Unique identifier assigned to each participant.
+accuracy,Binary indicator of whether the participant's response was correct
 age,Age of the participant at the time of the experiment.
-gender,Self-reported or observed gender identity of the participant.
-education,Highest completed education level of the participant.
-clinical_diagnoses,Any reported or documented clinical conditions relevant to cognitive, language, or psychological functioning.
+clinical_diagnoses,Any reported or documented clinical conditions relevant to cognitive
 first_language,Participant's native or first-acquired language.
-other_languages,Languages learned after the first language, optionally with proficiency level.
-nationality,Participant's self-reported nationality.
-trial_id,Unique identifier for a single trial within a session or condition.
-accuracy,Binary indicator of whether the participant's response was correct, 1 for correct 0 for incorrect
-stimulus,The linguistic or visual stimulus presented to the participant in a given trial.
+gender,Self-reported or observed gender identity of the participant.
+other_languages,Languages learned after the first language
+participant_id,Unique identifier assigned to each participant.
 response,Participant's response
+stimulus,The linguistic or visual stimulus presented to the participant in a given trial.
+trial_id,Unique identifier for a single trial within a session or condition.
