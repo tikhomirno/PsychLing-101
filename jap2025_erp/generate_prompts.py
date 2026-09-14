@@ -24,9 +24,12 @@ import pandas as pd
 import tiktoken
 
 # -- Paths ---------------------------------------------------------------------
-BASE_DIR = r"D:\PsychLing-101\jap2025_erp"
-IN_FILE  = os.path.join(BASE_DIR, "processed_data", "exp1.csv")
-OUT_ZIP  = os.path.join(BASE_DIR, "processed_data", "prompts.jsonl.zip")
+# Resolve paths from this script's location so it runs from any working
+# directory and always writes inside its own study folder.
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+IN_FILE  = os.path.join(SCRIPT_DIR, "processed_data", "exp1.csv")
+# prompts.jsonl.zip belongs at the study root, not inside processed_data/
+OUT_ZIP  = os.path.join(SCRIPT_DIR, "prompts.jsonl.zip")
 
 EXPERIMENT  = "jap2025_erp"
 TOKEN_LIMIT = 128_000

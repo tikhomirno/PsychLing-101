@@ -2,9 +2,9 @@
 """
 preprocess_data.py -- jap2025_erp
 ----------------------------------
-Main folder   : D:\\PsychLing-101\\jap2025_erp\\
-Amplitude files: D:\\PsychLing-101\\jap2025_erp\\original_data\\E*_erp_amplitudes*.csv
-Output        : D:\\PsychLing-101\\jap2025_erp\\processed_data\\exp1.csv
+Main folder    : this script's own directory
+Amplitude files: original_data/E*_erp_amplitudes*.csv
+Output         : processed_data/exp1.csv
 
 List files (place in main folder):
   merged-list-1.txt
@@ -21,12 +21,25 @@ import glob
 import pandas as pd
 
 # -- Paths ---------------------------------------------------------------------
-BASE_DIR   = r"D:\PsychLing-101\jap2025_erp"
-IN_GLOB    = os.path.join(BASE_DIR, "original_data", "E*_erp_amplitudes*.csv")
-OUT_DIR    = os.path.join(BASE_DIR, "processed_data")
+# Resolve paths from this script's location so it runs from any working
+# directory and always writes inside its own study folder.
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+IN_GLOB    = os.path.join(SCRIPT_DIR, "original_data", "E*_erp_amplitudes*.csv")
+OUT_DIR    = os.path.join(SCRIPT_DIR, "processed_data")
 OUT_FILE   = os.path.join(OUT_DIR,  "exp1.csv")
-LIST1_FILE = os.path.join(BASE_DIR, "merged-list-1.txt")
-LIST2_FILE = os.path.join(BASE_DIR, "merged-list-2.txt")
+# NOTE: these two E-Prime list files are not present in the repository. The
+# submission did not include them, so this script cannot currently be run;
+# processed_data/exp1.csv was produced before they went missing. Obtaining
+# them needs the original contributor.
+LIST1_FILE = os.path.join(SCRIPT_DIR, "original_data", "merged-list-1.txt")
+LIST2_FILE = os.path.join(SCRIPT_DIR, "original_data", "merged-list-2.txt")
+for _f in (LIST1_FILE, LIST2_FILE):
+    if not os.path.exists(_f):
+        raise SystemExit(
+            f"Missing required input: {_f}\n"
+            "This E-Prime list file was not included in the submission; the study's\n"
+            "processed_data/exp1.csv cannot be regenerated without it."
+        )
 os.makedirs(OUT_DIR, exist_ok=True)
 
 # -- E-Prime list parser -------------------------------------------------------
