@@ -43,15 +43,17 @@ suppressPackageStartupMessages({
 })
 
 # Resolve the script's directory so the script runs from anywhere.
-script_dir <- tryCatch(
-  dirname(normalizePath(sys.frame(1)$ofile)),
-  error = function(e) getwd()
-)
-setwd(script_dir)
+# sys.frame(1)$ofile is only defined under source(); under Rscript it fell back
+# to getwd(), so this still required the working directory to be the study
+# folder. Derive the path from the --file= argument instead, and do not setwd.
+.args <- commandArgs(trailingOnly = FALSE)
+SCRIPT_DIR <- dirname(sub("^--file=", "", .args[grep("^--file=", .args)]))
+if (length(SCRIPT_DIR) == 0 || !nzchar(SCRIPT_DIR)) SCRIPT_DIR <- getwd()
+script_dir <- SCRIPT_DIR
 
 processed_dir <- "processed_data"
-out_jsonl     <- "prompts.jsonl"
-out_zip       <- "prompts.jsonl.zip"
+out_jsonl     <- file.path(script_dir, "prompts.jsonl")
+out_zip       <- file.path(script_dir, "prompts.jsonl.zip")
 
 EXPERIMENT_ID <- "keuleers2010_DLP1"
 

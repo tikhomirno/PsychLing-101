@@ -9,11 +9,16 @@
 library(tidyverse)
 library(openxlsx)
 
-setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+# Resolve paths from this script's location. The previous
+# setwd(dirname(rstudioapi::getActiveDocumentContext()$path)) returns ""
+# outside RStudio, so this script could not run under Rscript at all.
+.args <- commandArgs(trailingOnly = FALSE)
+SCRIPT_DIR <- dirname(sub("^--file=", "", .args[grep("^--file=", .args)]))
+if (length(SCRIPT_DIR) == 0 || !nzchar(SCRIPT_DIR)) SCRIPT_DIR <- getwd()
 
 ## Load raw files
-items <- read.xlsx("original_data/13428_2016_720_MOESM2_ESM.xlsx")
-trials <- read.xlsx("original_data/13428_2016_720_MOESM3_ESM.xlsx")
+items <- read.xlsx(file.path(SCRIPT_DIR, "original_data", "13428_2016_720_MOESM2_ESM.xlsx"))
+trials <- read.xlsx(file.path(SCRIPT_DIR, "original_data", "13428_2016_720_MOESM3_ESM.xlsx"))
 
 ## Clean item lvl
 items_clean <- items %>%
@@ -102,11 +107,11 @@ df <- df %>%
 
 ## Save as csv
 dir.create("processed_data")
-write_csv(df, "processed_data/exp1.csv", na = "")
+write_csv(df, file.path(SCRIPT_DIR, "processed_data", "exp1.csv"), na = "")
 
 ## Update codebook
 # Read codebook
-codebook <- read_csv("../CODEBOOK.csv")
+codebook <- read_csv(file.path(SCRIPT_DIR, "..", "CODEBOOK.csv"))
 
 # Rename and change descriptions
 colnames(codebook) <- c("column_name", "description")

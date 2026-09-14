@@ -18,13 +18,15 @@ suppressPackageStartupMessages({
 })
 
 # Resolve paths relative to this script's location so it runs from anywhere.
-script_dir <- tryCatch(
-  dirname(normalizePath(sys.frame(1)$ofile)),
-  error = function(e) getwd()
-)
-setwd(script_dir)
+# sys.frame(1)$ofile is only defined under source(); under Rscript it fell back
+# to getwd(), so this still required the working directory to be the study
+# folder. Derive the path from the --file= argument instead, and do not setwd.
+.args <- commandArgs(trailingOnly = FALSE)
+SCRIPT_DIR <- dirname(sub("^--file=", "", .args[grep("^--file=", .args)]))
+if (length(SCRIPT_DIR) == 0 || !nzchar(SCRIPT_DIR)) SCRIPT_DIR <- getwd()
+script_dir <- SCRIPT_DIR
 
-raw_dir <- "original_data"
+raw_dir <- file.path(script_dir, "original_data")
 out_dir <- "processed_data"
 dir.create(out_dir, showWarnings = FALSE)
 
