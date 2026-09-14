@@ -56,8 +56,22 @@ for participant in participants:
         'text': prompt,
         'experiment': 'guenther2023ViSpa',
         'participant_id': participant,
+        # Per-trial reaction times in ms, in the same order as the trials above.
+        'rt': df_participant['rt'].tolist(),
     })
 
 # Save all prompts to JSONL file
 with jsonlines.open(base_dir / 'prompts.jsonl', 'w') as writer:
     writer.write_all(all_prompts)
+
+# Package the deliverable. The repository layout requires
+# <study>/prompts.jsonl.zip containing a single entry named prompts.jsonl;
+# this script previously wrote only the loose .jsonl, so the committed archive
+# had to be produced by hand.
+import zipfile
+
+jsonl_path = base_dir / 'prompts.jsonl'
+with zipfile.ZipFile(base_dir / 'prompts.jsonl.zip', 'w', zipfile.ZIP_DEFLATED) as zf:
+    zf.write(jsonl_path, 'prompts.jsonl')
+jsonl_path.unlink()
+print(f"Wrote {base_dir / 'prompts.jsonl.zip'}")

@@ -4,3 +4,4 @@ age,Participant age in years (from 'age')
 trial_id,Trial order index (factorized from raw trial_id)
 stimulus,Stimulus string (from 'stim')
 response,Participant response (from 'responses')
+rt,Time taken by the participant to respond, in milliseconds

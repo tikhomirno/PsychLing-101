@@ -19,6 +19,7 @@ def write_codebook(base_dir: Path) -> None:
         {"column_name": "trial_id", "description": "Trial order index (factorized from raw trial_id)"},
         {"column_name": "stimulus", "description": "Stimulus string (from 'stim')"},
         {"column_name": "response", "description": "Participant response (from 'responses')"},
+        {"column_name": "rt", "description": "Time taken by the participant to respond, in milliseconds"},
     ]
     pd.DataFrame(rows).to_csv(codebook_path, index=False)
 
@@ -43,7 +44,7 @@ def preprocess(base_dir: Path) -> None:
     df["age"] = df["age"].astype(float)
     
     # Select and sort
-    cols = ["participant_id", "age", "trial_id", "stimulus", "response"]
+    cols = ["participant_id", "age", "trial_id", "stimulus", "response", "rt"]
     df_out = df.loc[:, [c for c in cols if c in df.columns]].copy()
     df_out = df_out.sort_values(by=[c for c in ["participant_id", "trial_id"] if c in df_out.columns])
 
