@@ -23,5 +23,5 @@ responseProductionFreq_non_outlier,Production freq after outlier removal.
 responseWordFreq,Frequency of the individual response word.
 responseWordLength,Number of characters in individual response.
 rt,Recognition reaction time (ms) measured from image onset to recognition keypress.
-trial_id,trial index per participant (0..T-1).
+trial_order,"Position of the trial within the participant, in presentation order."
 unknown_osullivan_et_al,Count of responses coded 'unknown' per O'Sullivan coding scheme.

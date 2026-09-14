@@ -1,4 +1,4 @@
-participant_id,age,trial_id,stimulus,response
+participant_id,age,trial_order,stimulus,response
 1,41.0,1,epic,awesome
 1,41.0,2,minimum,smallest
 1,41.0,3,email,internet-letter

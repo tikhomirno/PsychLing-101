@@ -24,8 +24,8 @@ PROCESSED_DATA_DIR = SCRIPT_DIR / "processed_data"
 
 SOURCE = ORIGINAL_DATA_DIR / "data_table_1.csv"
 
-# The columns processed_data/exp1.csv is expected to carry, in order.
-EXPECTED_COLUMNS = [
+# The columns the raw export carries, in the order processed_data/exp1.csv uses.
+SOURCE_COLUMNS = [
     "participant_id",
     "age",
     "gender",
@@ -37,6 +37,10 @@ EXPECTED_COLUMNS = [
     "response",
 ]
 
+# The raw export's trial_id identifies the text being rated -- one value per
+# stimulus, shared across participants -- so it is the item, not a trial.
+RENAMES = {"trial_id": "item_id"}
+
 
 def main() -> None:
     if not SOURCE.exists():
@@ -44,7 +48,7 @@ def main() -> None:
 
     df = pd.read_csv(SOURCE)
 
-    missing = [c for c in EXPECTED_COLUMNS if c not in df.columns]
+    missing = [c for c in SOURCE_COLUMNS if c not in df.columns]
     if missing:
         raise SystemExit(
             f"{SOURCE.name} does not carry the expected columns: {missing}\n"
@@ -52,10 +56,10 @@ def main() -> None:
             "has changed, this script needs a real transformation step rather than a copy."
         )
 
-    extra = [c for c in df.columns if c not in EXPECTED_COLUMNS]
+    extra = [c for c in df.columns if c not in SOURCE_COLUMNS]
     if extra:
         print(f"  note: dropping columns not in the codebook: {extra}")
-    df = df[EXPECTED_COLUMNS]
+    df = df[SOURCE_COLUMNS].rename(columns=RENAMES)
 
     PROCESSED_DATA_DIR.mkdir(parents=True, exist_ok=True)
     out = PROCESSED_DATA_DIR / "exp1.csv"

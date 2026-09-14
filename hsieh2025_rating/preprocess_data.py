@@ -16,7 +16,7 @@ df = pd.read_csv(SCRIPT_DIR / "original_data" / "meaningfulness_rating.csv")
 rename_map = {
     "participant": "participant_id",
     "item": "stimulus",
-    "num": "trial_id",
+    "num": "item_id",
     "rating": "response"
 }
 

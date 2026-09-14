@@ -4,8 +4,8 @@ age,Age of the participant at the time of the experiment.
 clinical_diagnoses,Any reported or documented clinical conditions relevant to cognitive
 first_language,Participant's native or first-acquired language.
 gender,Self-reported or observed gender identity of the participant.
+item_id,"Identifier of the stimulus item, shared by every participant who saw it."
 other_languages,Languages learned after the first language
 participant_id,Unique identifier assigned to each participant.
 response,Participant's response
 stimulus,The linguistic or visual stimulus presented to the participant in a given trial.
-trial_id,Unique identifier for a single trial within a session or condition.

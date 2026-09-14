@@ -1,4 +1,4 @@
-experiment,participant_id,age,trial_id,stimulus,response
+experiment,participant_id,age,trial_order,stimulus,response
 open,101822,44.0,1,"Steve hugged Molly and Donna was kissed by Molly. In this context, was Molly kissed?",yes
 open,101822,44.0,2,"Franck read to himself and John read to himself, Anthony and Franck. In this context, was Franck read to?",yes
 open,101822,44.0,3,"Francesco wrote to Nuria and John wrote to Irene. Mary was paid by Francesco. In this context, was Francesco paid?",no

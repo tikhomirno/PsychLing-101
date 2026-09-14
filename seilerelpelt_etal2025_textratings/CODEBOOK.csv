@@ -4,7 +4,7 @@ clinical_diagnoses,"Any reported or documented clinical conditions relevant to c
 condition,Experimental condition assigned to the trial.
 country_of_residence,Participant's current country of residence.
 gender,Self-reported or observed gender identity of the participant.
+item_id,"Identifier of the stimulus item, shared by every participant who saw it."
 participant_id,Unique identifier assigned to each participant.
 response,Participant's response
 stimulus,The linguistic or visual stimulus presented to the participant in a given trial.
-trial_id,Unique identifier for a single trial within a session or condition.

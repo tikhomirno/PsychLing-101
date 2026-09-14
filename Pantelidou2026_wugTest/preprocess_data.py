@@ -80,7 +80,7 @@ def transform_to_target(input_csv, target_columns, column_mapping=None, drop_col
 
 
 target_columns = [
-    'trial_id','participant_id','age','gender','first_language','other_languages',
+    'item_id','participant_id','age','gender','first_language','other_languages',
     'clinical_diagnoses','stimulus','response','accuracy'
 ]
 
@@ -91,7 +91,7 @@ drop_columns = [
 ]
 
 mapping = {
-    'QuestionNumber':'trial_id',
+    'QuestionNumber':'item_id',
     'ParticipantNumber': 'participant_id',
     'Age': 'age',
     'Gender': 'gender',

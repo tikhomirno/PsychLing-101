@@ -23,7 +23,7 @@ output_zip <- file.path(SCRIPT_DIR, "prompts.jsonl.zip")
 df <- read_csv(input_file, show_col_types = FALSE) %>%
   mutate(
     participant_id = as.character(participant_id),
-    trial_id = suppressWarnings(as.integer(trial_id)),
+    trial_order = suppressWarnings(as.integer(trial_order)),
     version = suppressWarnings(as.integer(version)),
     phase_id = as.character(phase_id),
     block = suppressWarnings(as.integer(block)),
@@ -42,7 +42,7 @@ df <- read_csv(input_file, show_col_types = FALSE) %>%
     device_type = as.character(device_type),
     item = suppressWarnings(as.integer(item))
   ) %>%
-  arrange(participant_id, trial_id)
+  arrange(participant_id, trial_order)
 
 # -----------------------------
 # Exact / near-verbatim text blocks from HTML
@@ -238,7 +238,7 @@ make_trial_text <- function(row, show_feedback = FALSE) {
   }
   
   paste0(
-    "Trial ", row$trial_id, ": ",
+    "Trial ", row$trial_order, ": ",
     "The word is '", row$stimulus, "'. ",
     "You moved it to the <<", row$response, ">> line. ",
     "Movement started after <<", row$start_rt, ">> ms and ended after <<", row$end_rt, ">> ms.",
@@ -286,7 +286,7 @@ block_start_screen <- function(version, block_number) {
 # -----------------------------
 make_participant_prompt <- function(dat) {
   dat <- dat %>%
-    arrange(trial_id)
+    arrange(trial_order)
   
   version_value <- unique(dat$version)[1]
   
@@ -301,7 +301,7 @@ make_participant_prompt <- function(dat) {
   for (b in block_ids) {
     dat_block <- dat %>%
       filter(block_number == b) %>%
-      arrange(trial_id)
+      arrange(trial_order)
     
     start_screen <- block_start_screen(version_value, b)
     if (!is.null(start_screen)) {

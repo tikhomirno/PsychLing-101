@@ -1,4 +1,4 @@
-trial_id,condition,stimulus,sentence_extraction,comprehension_probe,probe_clause,response,accuracy,rt,participant_id,handedness,gender,first_language,age,other_languages,country_of_residence
+trial_order,condition,stimulus,sentence_extraction,comprehension_probe,probe_clause,response,accuracy,rt,participant_id,handedness,gender,first_language,age,other_languages,country_of_residence
 1,congruent,"['The', 'MAN', 'that the', 'nurse', 'PHONED', 'left', 'his', 'PILLS', 'at', 'the', 'OFFICE']",object,The nurse left the pills?,main_clause,n,1,1.2531318680003096,001,right,female,English,26,NA,Australia
 2,other,"['The', 'WINE', 'that was', 'FANCY', 'was', 'KEPT', 'in the', 'CELLAR', 'for', 'NEARLY', 'ten', 'YEARS', 'and five', 'MONTHS']",assorted,The wine was fancy?,other,y,1,2.6927643500002887,001,right,female,English,26,NA,Australia
 3,incongruent,"['THE', 'crook', 'that the', 'THIEF', 'warned', 'fled', 'THE', 'town', 'the', 'NEXT', 'morning']",object,The thief fled the town?,main_clause,y,0,3.579832213000373,001,right,female,English,26,NA,Australia

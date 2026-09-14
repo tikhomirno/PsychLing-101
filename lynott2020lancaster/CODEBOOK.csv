@@ -13,6 +13,6 @@ Olfactory,Rating of how strongly the word is experienced by smelling (0 = not at
 participant_id,Globally unique participant identifier (source: participant_ID in original data; e.g. Perception_ID_0001),exp1.csv / exp2.csv
 stimulus,The English word being rated (source: Word in original data),exp1.csv / exp2.csv
 Torso,Rating of how strongly the word is experienced by performing an action with the torso (0 = not at all; 5 = greatly; NA = no response recorded),exp2.csv
-trial_id,1-based index of the word within the participant's session within the norming component,exp1.csv / exp2.csv
+trial_order,"Position of the trial within the participant, in presentation order.",exp1.csv / exp2.csv
 unknown_word,Whether the participant indicated not knowing the meaning of the word (0 = knows the word; 1 = does not know the word; source: Dont_know_word in original data),exp1.csv / exp2.csv
 Visual,Rating of how strongly the word is experienced by seeing (0 = not at all; 5 = greatly; NA = no response recorded),exp1.csv

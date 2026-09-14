@@ -15,7 +15,7 @@ def write_codebook(base_dir: Path) -> None:
     rows = [
         {"column_name": "participant_id", "description": "Anonymized participant ID (numeric)"},
         {"column_name": "age", "description": "Participant age in years"},
-        {"column_name": "trial_id", "description": "0-based index of cue within participant"},
+        {"column_name": "trial_order", "description": "0-based index of cue within participant"},
         {"column_name": "stimulus", "description": "Cue word (lowercased)"},
         {"column_name": "response1", "description": "First association response (lowercased)"},
         {"column_name": "response2", "description": "Second association response (lowercased)"},
@@ -81,7 +81,7 @@ def preprocess(base_dir: Path) -> None:
     )
     df = df[df["resp_num"].between(1, 10, inclusive="both")]
 
-    # Compute trial_id (0-based) per (participant, cue), using trial_order if present, else first row order
+    # Compute trial_order (0-based) per (participant, cue), using trial_order if present, else first row order
     df["_row"] = np.arange(len(df))
     if "trial_order" in df.columns:
         first_order = (
@@ -108,7 +108,7 @@ def preprocess(base_dir: Path) -> None:
         .reset_index()
     )
 
-    # Attach age (first per participant) and trial_id (rank within participant by first_order)
+    # Attach age (first per participant) and trial_order (rank within participant by first_order)
     age_by_participant = (
         df.dropna(subset=["age"])[["participant_id", "age"]]
         .drop_duplicates("participant_id")
@@ -120,7 +120,7 @@ def preprocess(base_dir: Path) -> None:
         .groupby("participant_id")
         .cumcount()
     )
-    wide = wide.rename(columns={"cue": "stimulus", "_rank_within_participant": "trial_id"})
+    wide = wide.rename(columns={"cue": "stimulus", "_rank_within_participant": "trial_order"})
 
     # Ensure all response columns exist and are strings
     for i in range(1, 11):
@@ -130,9 +130,9 @@ def preprocess(base_dir: Path) -> None:
         wide[col] = wide[col].fillna("").astype(str)
 
     # Final ordering and sorting
-    final_cols = ["participant_id", "age", "trial_id", "stimulus"] + [f"response{i}" for i in range(1, 11)]
+    final_cols = ["participant_id", "age", "trial_order", "stimulus"] + [f"response{i}" for i in range(1, 11)]
     df_out = wide.loc[:, final_cols]
-    df_out = df_out.sort_values(["participant_id", "trial_id"]).reset_index(drop=True)
+    df_out = df_out.sort_values(["participant_id", "trial_order"]).reset_index(drop=True)
 
     # Make participant and age numeric if possible (needed by generate_prompts.py which uses .item())
     df_out["participant_id"] = pd.to_numeric(df_out["participant_id"], errors="coerce")

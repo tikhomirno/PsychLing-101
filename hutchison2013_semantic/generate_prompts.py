@@ -36,7 +36,7 @@ def random_letters(n: int) -> str:
 
 def generate_ldt_prompts(base_dir: Path) -> list:
     df = pd.read_csv(base_dir / "processed_data" / "exp1.csv")
-    df = df.sort_values(["participant_id", "trial_id"])
+    df = df.sort_values(["participant_id", "trial_order"])
 
     participants = sorted(df["participant_id"].unique())
     id_map = {p: i + 1 for i, p in enumerate(participants)}
@@ -58,7 +58,7 @@ def generate_ldt_prompts(base_dir: Path) -> list:
         rt_str = df_p["rt"].apply(lambda x: str(int(round(x))) if pd.notna(x) else "not recorded")
 
         lines = (
-            "Trial " + df_p["trial_id"].astype(int).astype(str)
+            "Trial " + df_p["trial_order"].astype(int).astype(str)
             + ": Cue: '" + df_p["prime"].str.upper()
             + "' → Target: '" + df_p["stimulus"]
             + "'. You press <<" + resp_series + ">>. RT: <<" + rt_str + ">> ms."
@@ -99,7 +99,7 @@ def generate_ldt_prompts(base_dir: Path) -> list:
 
 def generate_naming_prompts(base_dir: Path) -> list:
     df = pd.read_csv(base_dir / "processed_data" / "exp2.csv")
-    df = df.sort_values(["participant_id", "trial_id"])
+    df = df.sort_values(["participant_id", "trial_order"])
 
     participants = sorted(df["participant_id"].unique())
     id_map = {p: i + 1 for i, p in enumerate(participants)}
@@ -116,7 +116,7 @@ def generate_naming_prompts(base_dir: Path) -> list:
             lambda x: str(int(round(x))) if pd.notna(x) else "not recorded"
         )
         lines = (
-            "Trial " + df_p["trial_id"].astype(int).astype(str)
+            "Trial " + df_p["trial_order"].astype(int).astype(str)
             + ": Cue: '" + df_p["prime"].str.upper()
             + "' → Target: '" + df_p["stimulus"]
             + "'. Naming time: <<" + rt_str + ">> ms."

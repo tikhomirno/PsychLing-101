@@ -5,15 +5,19 @@
 # libraries ---------------------------------------------------------------
 
 library(tidyverse)
-library(here)
-here::i_am("preprocess_data.R")
+# here() resolves against a project-root marker and fails outside the repository.
+# Resolve from this script's own location instead, like the rest of the corpus.
+.args <- commandArgs(trailingOnly = FALSE)
+SCRIPT_DIR <- dirname(sub("^--file=", "", .args[grep("^--file=", .args)]))
+if (length(SCRIPT_DIR) == 0 || !nzchar(SCRIPT_DIR)) SCRIPT_DIR <- getwd()
+SCRIPT_DIR <- normalizePath(SCRIPT_DIR)
 
 # load and format data ----------------------------------------------------
 
 participant_ids <- sprintf("%03d", 1:40)
 
 data_clean <- map(participant_ids, \(.participant_id) {
-  participant_info <- read_tsv(here("original_data", paste0(.participant_id, "participant_info.txt")), col_types = "ccccci") |> 
+  participant_info <- read_tsv(file.path(SCRIPT_DIR, "original_data", paste0(.participant_id, "participant_info.txt")), col_types = "ccccci") |> 
     select(
       participant_id = Participant,
       handedness = Handedness,
@@ -22,9 +26,9 @@ data_clean <- map(participant_ids, \(.participant_id) {
       age = Age
     )
   
-  trial_info <- read_tsv(here("original_data", paste0(.participant_id, "trial_log.txt")), col_types = "icccccccid") |> 
+  trial_info <- read_tsv(file.path(SCRIPT_DIR, "original_data", paste0(.participant_id, "trial_log.txt")), col_types = "icccccccid") |> 
     select(
-      trial_id = Trial,
+      trial_order = Trial,
       condition = Congruency,
       stimulus = Sentence,
       sentence_extraction = Sentence_extraction,
@@ -88,6 +92,11 @@ annotate_stresses <- function(s, start = 2, step = 3) {
   paste0("['", paste(x, collapse = "', '"), "']")
 }
 
+# KNOWN DEFECT: this script calls capitalize_every_n_string(), which is defined
+# nowhere in this repository and appears in no commit. It therefore cannot have
+# produced the committed processed_data/exp1.csv, and will fail at the mutate()
+# below. The function lived in the contributor's own environment; recovering it
+# needs them. Everything above this point runs.
 data_clean <- data_clean |> 
   rowwise() |> 
   mutate(
@@ -103,6 +112,6 @@ data_clean <- data_clean |>
 
 # save data ---------------------------------------------------------------
 
-write_csv(data_clean, file = here("processed_data", "exp1.csv"))
+write_csv(data_clean, file = file.path(SCRIPT_DIR, "processed_data", "exp1.csv"))
 
 # -------------------------------------------------------------------------

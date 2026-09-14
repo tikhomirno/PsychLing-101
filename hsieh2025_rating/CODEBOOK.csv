@@ -1,5 +1,5 @@
 Recommended Column Name,Description
+item_id,"Identifier of the stimulus item, shared by every participant who saw it."
 participant_id,Unique identifier assigned to each participant.
 response,Participant's response
 stimulus,The linguistic or visual stimulus presented to the participant in a given trial.
-trial_id,Unique identifier for a single trial within a session or condition.

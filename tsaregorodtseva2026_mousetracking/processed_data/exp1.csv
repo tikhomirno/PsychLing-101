@@ -1,4 +1,4 @@
-participant_id,trial_id,version,phase_id,block,block_number,stimulus,stimulus_location,condition,start_rt,end_rt,response,accuracy,concreteness,age,gender,handedness,device_type,item,instruction_mapping,response_category
+participant_id,trial_order,version,phase_id,block,block_number,stimulus,stimulus_location,condition,start_rt,end_rt,response,accuracy,concreteness,age,gender,handedness,device_type,item,instruction_mapping,response_category
 102803,1,2,training,1,0,tree,notrelevant,top,2113,3576,bottom,0,concrete,31,female,right-handed,computer mouse,6,abstract_bottom_concrete_top,abstract
 102803,2,2,training,1,0,fish,notrelevant,top,1546,1800,top,1,concrete,31,female,right-handed,computer mouse,8,abstract_bottom_concrete_top,concrete
 102803,3,2,training,1,0,peace,notrelevant,bottom,1267,1644,bottom,1,abstract,31,female,right-handed,computer mouse,3,abstract_bottom_concrete_top,abstract

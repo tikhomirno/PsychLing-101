@@ -27,14 +27,14 @@ df_cleaned.columns=["stimulus", "response", "accuracy", "rt"]
 #Remove rows that contain missing values (i.e., the pause between two blocks)
 df_cleaned = df_cleaned.dropna()
 
-#Add a trial_id column
-df_cleaned["trial_id"] = np.arange(len(df_cleaned)) % 366 + 1
+#Add a trial_order column
+df_cleaned["trial_order"] = np.arange(len(df_cleaned)) % 366 + 1
 
 #Add a participant_id column
-df_cleaned["participant_id"] = (df_cleaned["trial_id"] == 1).cumsum()
+df_cleaned["participant_id"] = (df_cleaned["trial_order"] == 1).cumsum()
 
 #Reordering columns in the required order
-df_final = df_cleaned.loc[:, ['participant_id', 'stimulus', 'response', 'accuracy', 'rt', 'trial_id']]
+df_final = df_cleaned.loc[:, ['participant_id', 'stimulus', 'response', 'accuracy', 'rt', 'trial_order']]
 
 #"Age" taken from the survey files from psytoolkit
 
@@ -61,8 +61,8 @@ df_cleaned = df_cleaned.rename(columns={'participant': 'participant_id'})
 #Adjust the participant_id (as this will be merged with Experiment 1)
 df_cleaned["participant_id"] = df_cleaned["participant_id"] + 27
 
-#Add a trial_id column
-df_cleaned["trial_id"] = df_cleaned.groupby("participant_id").cumcount() + 1
+#Add a trial_order column
+df_cleaned["trial_order"] = df_cleaned.groupby("participant_id").cumcount() + 1
 
 #"Age" taken from the survey files from psytoolkit
 

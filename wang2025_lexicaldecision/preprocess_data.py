@@ -13,8 +13,8 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 # Read the raw data
 df = pd.read_csv(SCRIPT_DIR / "original_data" / "fullresult.csv", encoding="utf-8", index_col=0)
 
-# Create variable "trial_id"
-df["trial_id"] = pd.factorize(df["item"])[0] + 1
+# Create variable "item_id"
+df["item_id"] = pd.factorize(df["item"])[0] + 1
 
 # Map numeric values to strings in the variable "accuracy" 
 df["accuracy"] = df["accuracy"].map({1: "Correct", 0: "Incorrect"})
@@ -54,11 +54,11 @@ df_cleaned = df.rename(columns=rename_map)
 # (29 rows are blank), so going straight to "string" renders 0 as "0.0".
 df_cleaned["phase_id"] = df_cleaned["phase_id"].astype("Int64").astype("string")
 
-# Column order as committed: the derived trial_id and response sit before
+# Column order as committed: the derived item_id and response sit before
 # image_filename rather than being appended after it.
 df_cleaned = df_cleaned[[
     "participant_id", "phase_id", "stimulus", "condition", "accuracy",
-    "rt", "trial_id", "response", "image_filename",
+    "rt", "item_id", "response", "image_filename",
 ]]
 
 # Export the cleaned file

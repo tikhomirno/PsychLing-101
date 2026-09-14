@@ -1,4 +1,4 @@
-participant_id,trial_id,stimulus,best,worst,rt
+participant_id,trial_order,stimulus,best,worst,rt
 197474,1,baseball - shirt; bone - chicken; brick - roof; net - clipper,brick - roof,baseball - shirt,27472
 197474,2,deer - doe; adder - pushchair; sandbank - gorilla; coast - harbour,deer - doe,adder - pushchair,10814
 197474,3,durham - stob; decoder - gardener; hand - necklace; airplane - camera,decoder - gardener,airplane - camera,19533

@@ -1,4 +1,4 @@
-experiment,participant_id,age,trial_id,stimulus,response
+experiment,participant_id,age,trial_order,stimulus,response
 1word,108385,36.0,1,"Alice yelled at Flavia and Flavia yelled at Alice's sister. Alice's sister was greeted by Alice. In this context, was Alice greeted? (Answer using just one word)",no
 1word,108385,36.0,2,"Jessica and Mary were kissed by Alice. Jessica was kissed by Samuel and Andrew was kissed by Mary. In this context, was Mary kissed? (Answer using just one word)",yes
 1word,108385,36.0,3,"Jessica and Mary were kissed by Alice. Jessica was kissed by Samuel and Andrew was kissed by Mary. In this context, was Mary kissed? (Answer using just one word)",yes

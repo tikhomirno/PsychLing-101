@@ -9,12 +9,12 @@ exp1 = pd.read_csv(base_dir / "processed_data" / "exp1.csv")
 exp2 = pd.read_csv(base_dir / "processed_data" / "exp2.csv")
 
 # sort exp by participant and trial index
-exp1 = exp1.sort_values(by=['participant_id', 'trial_id'])
-exp2 = exp2.sort_values(by=['participant_id', 'trial_id'])
+exp1 = exp1.sort_values(by=['participant_id', 'trial_order'])
+exp2 = exp2.sort_values(by=['participant_id', 'trial_order'])
 
 # create trial index variable for each participant
-exp1['trial_id'] = exp1.groupby('participant_id').cumcount()+1
-exp2['trial_id'] = exp2.groupby('participant_id').cumcount()+1
+exp1['trial_order'] = exp1.groupby('participant_id').cumcount()+1
+exp2['trial_order'] = exp2.groupby('participant_id').cumcount()+1
 
 # map participant number to 1:len(exp.participant.value_counts())
 exp1['participant_id'] = exp1['participant_id'].map({p: i+1 for i, p in enumerate(exp1.participant_id.unique())})
@@ -30,7 +30,7 @@ all_prompts = []
 ################
 # Define number of participants and trials
 participants_exp1 = exp1["participant_id"].unique()
-trials_exp1 = range(exp1["trial_id"].max() + 1)
+trials_exp1 = range(exp1["trial_order"].max() + 1)
 
 # define initial prompt
 instruction1 = """
@@ -46,7 +46,7 @@ for participant in participants_exp1:
     individual_prompt = instruction1
     age = exp1_participant['age'].iloc[0].item()
     for trial in trials_exp1:
-        exp1_trial = exp1_participant.loc[exp1_participant["trial_id"] == trial]
+        exp1_trial = exp1_participant.loc[exp1_participant["trial_order"] == trial]
         if not exp1_trial.empty:  # Only process if trial exists for this participant
             stimulus = exp1_trial["stimulus"].iloc[0]
             response = exp1_trial["response"].iloc[0]
@@ -68,7 +68,7 @@ for participant in participants_exp1:
 ################
 # Define number of participants and trials for experiment 2
 participants_exp2 = exp2["participant_id"].unique()
-trials_exp2 = range(exp2["trial_id"].max() + 1)
+trials_exp2 = range(exp2["trial_order"].max() + 1)
 
 # Define initial prompt for experiment 2
 instruction2 = """
@@ -83,7 +83,7 @@ for participant in participants_exp2:
     individual_prompt = instruction2
     age = exp2_participant['age'].iloc[0].item()
     for trial in trials_exp2:
-        exp2_trial = exp2_participant.loc[exp2_participant["trial_id"] == trial]
+        exp2_trial = exp2_participant.loc[exp2_participant["trial_order"] == trial]
         if not exp2_trial.empty:  # Only process if trial exists for this participant
             stimulus = exp2_trial["stimulus"].iloc[0]
             response = exp2_trial["response"].iloc[0]

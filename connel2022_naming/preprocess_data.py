@@ -135,14 +135,14 @@ def main(input_csv: Path) -> None:
     mapping = build_numeric_mapping(orig_ids)
     df["participant_id"] = df["participant_id"].astype(str).map(mapping).astype(int)
 
-    # Add trial_id: zero-based index for each participant
-    df["trial_id"] = df.groupby("participant_id").cumcount().astype(int)
+    # Add trial_order: zero-based index for each participant
+    df["trial_order"] = df.groupby("participant_id").cumcount().astype(int)
 
     ## 3. Final Reordering and Output
 
     # Reorder columns to put key IDs and RT at the front
     cols = list(df.columns)
-    front_cols = ["participant_id", "trial_id"]
+    front_cols = ["participant_id", "trial_order"]
     if "rt" in cols:
         front_cols.append("rt")
 

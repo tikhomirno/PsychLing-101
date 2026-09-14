@@ -1,4 +1,4 @@
-trial_id,stimulus,participant_id,response
+item_id,stimulus,participant_id,response
 1,和使,101,1
 2,囊隔,101,3
 3,推感,101,2

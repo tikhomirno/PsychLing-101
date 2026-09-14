@@ -31,7 +31,7 @@ def write_codebook(base_dir: Path) -> None:
         {"column_name": "vocabc", "description": "Woodcock-Johnson III analogy test score"},
         {"column_name": "meq", "description": "Morningness-Eveningness Questionnaire (MEQ) score (16-86; higher = more morning-type)"},
         {"column_name": "session", "description": "Session number (1 or 2)"},
-        {"column_name": "trial_id", "description": "Trial order index within participant (1-indexed, sorted by Session, Block, Trial)"},
+        {"column_name": "trial_order", "description": "Trial order index within participant (1-indexed, sorted by Session, Block, Trial)"},
         {"column_name": "prime", "description": "Prime word presented before the target (lowercase)"},
         {"column_name": "prime_type", "description": "Type of prime: first_associate (most common association from Nelson norms) or other_associate (2nd-Nth association)"},
         {"column_name": "soa", "description": "Stimulus onset asynchrony in ms (200 = short/automatic, 1200 = long/intentional)"},
@@ -52,13 +52,13 @@ def preprocess_ldt(base_dir: Path, processed_dir: Path) -> None:
         "type", "rel", "target.ACC", "target.RT",
     ]
     df = pd.read_excel(
-        base_dir / "original_data" / "all ldt subs_all trials3.xlsx",
+        base_dir / "original_data" / "all_ldt_subs_all_trials3.xlsx",
         usecols=ldt_cols,
         engine="openpyxl",
     )
 
     subj = pd.read_excel(
-        base_dir / "original_data" / "LDT subject database.xlsx",
+        base_dir / "original_data" / "LDT_subject_database.xlsx",
         engine="openpyxl",
     ).rename(columns={
         "SUBJECT": "Subject",
@@ -106,9 +106,9 @@ def preprocess_ldt(base_dir: Path, processed_dir: Path) -> None:
     df.loc[word_correct | nw_incorrect, "response"] = "word"
     df.loc[word_incorrect | nw_correct, "response"] = "nonword"
 
-    # trial_id: sequential within participant, sorted by session > block > trial
+    # trial_order: sequential within participant, sorted by session > block > trial
     df = df.sort_values(["Subject", "Session", "Block", "Trial"])
-    df["trial_id"] = df.groupby("Subject").cumcount() + 1
+    df["trial_order"] = df.groupby("Subject").cumcount() + 1
 
     df = df.rename(columns={"Subject": "participant_id", "Session": "session"})
 
@@ -116,11 +116,11 @@ def preprocess_ldt(base_dir: Path, processed_dir: Path) -> None:
         "participant_id", "age", "gender", "education", "vision", "school",
         "ospan", "saccade", "stroop", "stroop_err", "ac",
         "passage", "vocaba", "vocabb", "vocabc", "meq",
-        "session", "trial_id",
+        "session", "trial_order",
         "prime", "prime_type", "soa", "relatedness",
         "stimulus", "lexicality", "response", "rt", "accuracy",
     ]
-    df[out_cols].sort_values(["participant_id", "trial_id"]).to_csv(
+    df[out_cols].sort_values(["participant_id", "trial_order"]).to_csv(
         processed_dir / "exp1.csv", index=False
     )
 
@@ -133,7 +133,7 @@ def preprocess_naming(base_dir: Path, processed_dir: Path) -> None:
         "age.RESP", "Gender.RESP", "EducationLevel.RESP", "Vision.RESP",
     ]
     df = pd.read_excel(
-        base_dir / "original_data" / "all naming subjects.xlsx",
+        base_dir / "original_data" / "all_naming_subjects.xlsx",
         usecols=naming_cols,
         engine="openpyxl",
     )
@@ -155,7 +155,7 @@ def preprocess_naming(base_dir: Path, processed_dir: Path) -> None:
 
     # Merge cognitive/individual-difference measures from naming subject spreadsheet
     nam_subj = pd.read_excel(
-        base_dir / "original_data" / "naming subject-based spreadsheet.xlsx",
+        base_dir / "original_data" / "naming_subject-based_spreadsheet.xlsx",
         engine="openpyxl",
     ).rename(columns={
         "subject": "Subject",
@@ -196,18 +196,18 @@ def preprocess_naming(base_dir: Path, processed_dir: Path) -> None:
     coding_map = {1.0: "correct", 2.0: "unsure", 3.0: "mispronunciation", 4.0: "extraneous"}
     df["response"] = pd.to_numeric(df["coding.RESP"], errors="coerce").map(coding_map)
 
-    df["trial_id"] = df.groupby("Subject").cumcount() + 1
+    df["trial_order"] = df.groupby("Subject").cumcount() + 1
     df = df.rename(columns={"Subject": "participant_id", "Session": "session"})
 
     out_cols = [
         "participant_id", "age", "gender", "education", "vision", "school",
         "ospan", "saccade", "stroop", "stroop_err", "ac",
         "passage", "vocaba", "vocabb", "vocabc", "meq",
-        "session", "trial_id",
+        "session", "trial_order",
         "prime", "prime_type", "soa", "relatedness",
         "stimulus", "response", "rt", "accuracy",
     ]
-    df[out_cols].sort_values(["participant_id", "trial_id"]).to_csv(
+    df[out_cols].sort_values(["participant_id", "trial_order"]).to_csv(
         processed_dir / "exp2.csv", index=False
     )
 

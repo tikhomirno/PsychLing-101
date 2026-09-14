@@ -30,7 +30,7 @@ def randomized_choice_options(num_choices):
 # Generate individual prompts for participants with randomised options and batching
 
 participant_list = df['participant_id'].unique()
-trial_num = range(df['trial_id'].max() + 1)
+trial_num = range(df['item_id'].max() + 1)
 
 max_chars = 50000
 
@@ -66,12 +66,12 @@ for participant in participant_list:
     batch_rts = []
     for trial in trial_num:
         exp_trial = exp_participant.loc[
-            exp_participant['trial_id'] == trial
+            exp_participant['item_id'] == trial
         ]
         if not exp_trial.empty:
             image = exp_trial['image_filename'].iloc[0]
             response = exp_trial['response'].iloc[0]
-            trial_id = exp_trial['trial_id'].iloc[0]
+            item_id = exp_trial['item_id'].iloc[0]
             accuracy = exp_trial['accuracy'].iloc[0]
             rt = exp_trial['rt'].iloc[0]
             #############################
@@ -85,7 +85,7 @@ for participant in participant_list:
             else:
                 randomized_response = response
             datapoint = (
-                f'试次{trial_id}：{image}。'
+                f'试次{item_id}：{image}。'
                 f'你按下了 <<{randomized_response}>> 键。'
                 f'{accuracy}。'
                 f'反应时间为 {rt} 毫秒。\n'

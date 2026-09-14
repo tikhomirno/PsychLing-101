@@ -17,7 +17,7 @@ all_prompts = []
 ################
 # Define number of participants and trials
 participants_exp1 = exp1["participant_id"].unique()
-trials_exp1 = range(exp1["trial_id"].max() + 1)
+trials_exp1 = range(exp1["trial_order"].max() + 1)
 
 # define initial prompt
 instruction1 = 'In this experiment, you will be presented with different single words and asked to find substitutes for them.\n'\
@@ -48,7 +48,7 @@ for participant in participants_exp1:
     age = exp1_participant["age"].iloc[0].item()
     individual_prompt = instruction1
     for trial in trials_exp1:
-        exp1_trial = exp1_participant.loc[exp1_participant["trial_id"] == trial]
+        exp1_trial = exp1_participant.loc[exp1_participant["trial_order"] == trial]
         if not exp1_trial.empty:  # Only process if trial exists for this participant
             stimulus = exp1_trial["stimulus"].iloc[0]
             response = exp1_trial["response"].iloc[0]
@@ -69,7 +69,7 @@ for participant in participants_exp1:
 #################
 # Define number of participants and trials
 participants_exp2 = exp2["participant_id"].unique()
-trials_exp2 = range(exp1["trial_id"].max() + 1)
+trials_exp2 = range(exp1["trial_order"].max() + 1)
 
 # define initial prompt
 instruction2 = 'In this experiment, you will be presented with different single words and asked to find substitutes for them.\n'\
@@ -123,7 +123,7 @@ for participant in participants_exp2:
     age = exp2_participant["age"].iloc[0].item()
     individual_prompt = instruction2
     for trial in trials_exp2:
-        exp2_trial = exp2_participant.loc[exp2_participant["trial_id"] == trial]
+        exp2_trial = exp2_participant.loc[exp2_participant["trial_order"] == trial]
         if not exp2_trial.empty:  # Only process if trial exists for this participant
             stimulus = exp2_trial["stimulus"].iloc[0]
             response = exp2_trial["response"].iloc[0]
@@ -145,7 +145,7 @@ for participant in participants_exp2:
 #############################
 # Define number of participants and trials
 participants_exp_3 = exp_3["participant_id"].unique()
-trials_exp_3 = range(exp_3["trial_id"].max() + 1)
+trials_exp_3 = range(exp_3["trial_order"].max() + 1)
 
 instruction_replication = 'In this experiment, you will be presented with different single words and asked to find substitutes for them.\n'\
     'Later, in another experiment, we will ask other people to guess the original words based on what you will come up with.\n'\
@@ -175,7 +175,7 @@ for participant in participants_exp_3:
     age = exp_3_participant["age"].iloc[0].item()
     individual_prompt = instruction_replication
     for trial in trials_exp_3:
-        exp_3_trial = exp_3_participant.loc[exp_3_participant["trial_id"] == trial]
+        exp_3_trial = exp_3_participant.loc[exp_3_participant["trial_order"] == trial]
         if not exp_3_trial.empty:  # Only process if trial exists for this participant
             stimulus = exp_3_trial["stimulus"].iloc[0]
             response = exp_3_trial["response"].iloc[0]

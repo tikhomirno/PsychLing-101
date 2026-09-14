@@ -1,4 +1,4 @@
-participant_id,age,trial_id,stimulus,response
+participant_id,age,trial_order,stimulus,response
 1,45,1,classic,timeless
 1,45,2,manager,boss
 1,45,3,cousin,family

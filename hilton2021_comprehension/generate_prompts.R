@@ -44,7 +44,7 @@ exp1 <- read_csv(file.path(SCRIPT_DIR, "processed_data", "exp1.csv")) |>
   mutate(
     prompt = paste0(
       "Trial ",
-      trial_id,
+      trial_order,
       ": The sentence stimuli is ",
       stimulus,
       ". The comprehension probe is '",
@@ -87,7 +87,7 @@ participant_ids <- unique(exp1$participant_id)
 prompts <- map(participant_ids, \(.participant_id) {
   data_filtered <- exp1 |> 
     filter(participant_id == .participant_id) |> 
-    arrange(trial_id)
+    arrange(trial_order)
   
   trial_prompts <- data_filtered |> 
     pull(prompt)

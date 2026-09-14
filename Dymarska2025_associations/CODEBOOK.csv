@@ -42,4 +42,4 @@ response7,Seventh association response; spelling-corrected where required (lower
 response8,Eighth association response; spelling-corrected where required (lowercased).
 response9,Ninth association response; spelling-corrected where required (lowercased).
 stimulus,The linguistic or visual stimulus presented to the participant in a given trial.
-trial_id,Unique identifier for a single trial for each participant (1 trial being 1 cue)
+trial_order,"Position of the trial within the participant, in presentation order."

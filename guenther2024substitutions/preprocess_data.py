@@ -17,7 +17,7 @@ def write_codebook(base_dir: Path) -> None:
     rows = [
         {"column_name": "participant_id", "description": "Anonymized participant ID (numeric factor from raw ID)"},
         {"column_name": "age", "description": "Participant age in years (merged from demographics if available)"},
-        {"column_name": "trial_id", "description": "Per-participant sequential index starting at 1"},
+        {"column_name": "trial_order", "description": "Per-participant sequential index starting at 1"},
         {"column_name": "stimulus", "description": "Target word shown on the trial (from 'word')"},
         {"column_name": "response", "description": "Participant's substitution"},
     ]
@@ -32,7 +32,7 @@ def clean_common(df: pd.DataFrame) -> pd.DataFrame:
 
     # Create per-participant trial index
     if "participant_id" in df.columns:
-        df["trial_id"] = df.groupby("participant_id").cumcount() + 1
+        df["trial_order"] = df.groupby("participant_id").cumcount() + 1
 
     # Factorize participant to numeric
     if "participant_id" in df.columns:
@@ -42,9 +42,9 @@ def clean_common(df: pd.DataFrame) -> pd.DataFrame:
     df["age"] = df["age"].astype(float)
     
     # Select canonical columns
-    cols = ["participant_id", "age", "trial_id", "stimulus", "response"]
+    cols = ["participant_id", "age", "trial_order", "stimulus", "response"]
     df_out = df.loc[:, [c for c in cols if c in df.columns]].copy()
-    df_out = df_out.sort_values(by=[c for c in ["participant_id", "trial_id"] if c in df_out.columns])
+    df_out = df_out.sort_values(by=[c for c in ["participant_id", "trial_order"] if c in df_out.columns])
     return df_out
 
 
@@ -100,16 +100,16 @@ def preprocess_replication(base_dir: Path, processed_dir: Path) -> None:
 
     # Create per-participant trial index starting at 1
     if "participant_id" in df.columns:
-        df["trial_id"] = df.groupby("participant_id").cumcount() + 1
+        df["trial_order"] = df.groupby("participant_id").cumcount() + 1
 
     # Factorize participant to numeric (to match exp1/exp2 outputs)
     if "participant_id" in df.columns:
         df["participant_id"] = pd.factorize(df["participant_id"])[0] + 1
 
     # Select canonical columns
-    cols = ["participant_id", "age", "trial_id", "stimulus", "response"]
+    cols = ["participant_id", "age", "trial_order", "stimulus", "response"]
     df_out = df.loc[:, [c for c in cols if c in df.columns]].copy()
-    df_out = df_out.sort_values(by=[c for c in ["participant_id", "trial_id"] if c in df_out.columns])
+    df_out = df_out.sort_values(by=[c for c in ["participant_id", "trial_order"] if c in df_out.columns])
 
     out_path = processed_dir / "exp3.csv"
     df_out.to_csv(out_path, index=False)

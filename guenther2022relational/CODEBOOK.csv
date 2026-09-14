@@ -4,4 +4,4 @@ participant_id,Anonymized participant ID
 response,Participant response (from 'responses')
 rt,Time taken by the participant to respond
 stimulus,Stimulus string (from 'stim')
-trial_id,Trial order index (factorized from raw trial_id)
+trial_order,"Position of the trial within the participant, in presentation order."

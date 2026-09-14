@@ -1,4 +1,4 @@
-participant_id,age,trial_id,stimulus,response1,response2,response3,response4,response5,response6,response7,response8,response9,response10
+participant_id,age,trial_order,stimulus,response1,response2,response3,response4,response5,response6,response7,response8,response9,response10
 101163,32.0,0,checking,thorough,spelling,mistake,balance,account,quality,assurance,knowing,researching,ticking
 101163,32.0,1,under,bridge,bed,tunnel,ground,bunker,underneath,underside,underbelly,underworld,hiding
 101163,32.0,2,meter,distance,mile,gas,electric,ruler,utilities,stride,kilometer,pace,run

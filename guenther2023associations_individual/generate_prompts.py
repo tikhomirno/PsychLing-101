@@ -18,7 +18,7 @@ exp["response"] = (
 
 # Define number of participants and trials
 participants_exp = exp['participant_id'].unique()
-trials_exp = range(exp['trial_id'].max() + 1)
+trials_exp = range(exp['trial_order'].max() + 1)
 
 # define initial prompt
 instruction = 'On the top of the screen a word will appear. Enter the first 10 words that come to mind when reading this word.\n'\
@@ -41,7 +41,7 @@ for participant in participants_exp:
     age = exp_participant['age'].iloc[0].item()
     individual_prompt = instruction
     for trial in trials_exp:
-        exp_trial = exp_participant.loc[exp_participant['trial_id'] == trial]
+        exp_trial = exp_participant.loc[exp_participant['trial_order'] == trial]
         if not exp_trial.empty:  # Only process if trial exists for this participant
             stimulus = exp_trial['stimulus'].iloc[0]
             response = exp_trial['response'].iloc[0]

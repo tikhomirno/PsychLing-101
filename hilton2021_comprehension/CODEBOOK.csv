@@ -14,4 +14,4 @@ response,Participant's response. - either 'y' for yes or 'n' for no
 rt,"Time taken by the participant to respond, in milliseconds. This is timed relative to the onset of the comprehension probe."
 sentence_extraction,"Additional annotation about the 'stimulus' variable, noting whether it is an 'object' or 'subject' extracted relative clause sentence, or 'other'"
 stimulus,"The linguistic or visual stimulus presented to the participant in a given trial. This is formatted in a way that indicates the sequential presentation of the sentence and which words were on screen at a given moment, e.g., ['The', 'man', 'that the', 'nurse', 'phoned', 'left', 'his', 'pills', 'at', 'the', 'office']"
-trial_id,Unique identifier for a single trial within a session or condition.
+trial_order,"Position of the trial within the participant, in presentation order."

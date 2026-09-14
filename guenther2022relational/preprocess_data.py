@@ -16,7 +16,7 @@ def write_codebook(base_dir: Path) -> None:
     rows = [
         {"column_name": "participant_id", "description": "Anonymized participant ID"},
         {"column_name": "age", "description": "Participant age in years (from 'age')"},
-        {"column_name": "trial_id", "description": "Trial order index (factorized from raw trial_id)"},
+        {"column_name": "trial_order", "description": "Trial order index (factorized from raw trial_order)"},
         {"column_name": "stimulus", "description": "Stimulus string (from 'stim')"},
         {"column_name": "response", "description": "Participant response (from 'responses')"},
         {"column_name": "rt", "description": "Time taken by the participant to respond, in milliseconds"},
@@ -36,17 +36,19 @@ def preprocess(base_dir: Path) -> None:
     if "stim" in df.columns:
         df["stimulus"] = df["stim"]
 
-    # Factorize trial_id to integers starting at 1
+    # Factorize trial_order to integers starting at 1
+    # The raw export names this column trial_id; the corpus name for a
+    # per-participant position is trial_order.
     if "trial_id" in df.columns:
-        df["trial_id"] = pd.factorize(df["trial_id"])[0] + 1
+        df["trial_order"] = pd.factorize(df["trial_id"])[0] + 1
 
     # turn age to float
     df["age"] = df["age"].astype(float)
     
     # Select and sort
-    cols = ["participant_id", "age", "trial_id", "stimulus", "response", "rt"]
+    cols = ["participant_id", "age", "trial_order", "stimulus", "response", "rt"]
     df_out = df.loc[:, [c for c in cols if c in df.columns]].copy()
-    df_out = df_out.sort_values(by=[c for c in ["participant_id", "trial_id"] if c in df_out.columns])
+    df_out = df_out.sort_values(by=[c for c in ["participant_id", "trial_order"] if c in df_out.columns])
 
     # Write
     out_path = processed_dir / "exp1.csv"

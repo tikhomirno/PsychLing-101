@@ -4,4 +4,4 @@ participant_id,Anonymized participant ID
 response,"Grammaticality judgment (e.g., 'c' / 'n')"
 rt,Response time in ms (from 'rt')
 stimulus,Sentence string (from 'sentence')
-trial_id,Trial order index (factorized from raw trial_id)
+trial_order,"Position of the trial within the participant, in presentation order."

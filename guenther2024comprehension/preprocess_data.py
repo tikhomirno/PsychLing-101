@@ -17,7 +17,7 @@ def write_codebook(base_dir: Path) -> None:
     rows = [
         {"column_name": "participant_id", "description": "Anonymized participant ID"},
         {"column_name": "age", "description": "Participant age in years"},
-        {"column_name": "trial_id", "description": "Trial order index (factorized from raw trial_id)"},
+        {"column_name": "trial_order", "description": "Trial order index (factorized from raw trial_order)"},
         {"column_name": "stimulus", "description": "Concatenation of sentence_text and sentence_question_full"},
         {"column_name": "response", "description": "Participant's answer text"},
         {"column_name": "experiment", "description": "Experiment number (1 or 2)"},
@@ -55,20 +55,22 @@ def preprocess(base_dir: Path) -> None:
     # turn age to float
     df["age"] = df["age"].astype(float)
 
-    # sort by participant_id and trial_id
+    # sort by participant_id and trial_order
     df = df.sort_values(by=['participant_id', 'trial_id'])
 
-    # Factorize trial_id
+    # Factorize trial_order
+    # The raw export names this column trial_id; the corpus name for a
+    # per-participant position is trial_order.
     if "trial_id" in df.columns:
-        df["trial_id"] = pd.factorize(df["trial_id"])[0] + 1
+        df["trial_order"] = pd.factorize(df["trial_id"])[0] + 1
     
     # Select and sort
-    cols = ["experiment", "participant_id", "age", "trial_id", "stimulus", "response"]
+    cols = ["experiment", "participant_id", "age", "trial_order", "stimulus", "response"]
     
 
     
     df_out = df.loc[:, [c for c in cols if c in df.columns]].copy()
-    df_out = df_out.sort_values(by=[c for c in ["participant_id", "trial_id"] if c in df_out.columns])
+    df_out = df_out.sort_values(by=[c for c in ["participant_id", "trial_order"] if c in df_out.columns])
 
     exp1 = df_out[df_out['experiment'] == '1word']
     exp2 = df_out[df_out['experiment'] == 'open']

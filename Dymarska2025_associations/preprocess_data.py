@@ -40,7 +40,7 @@ def preprocess():
     # Standardize column names (e.g., response1, first_key_RT1)
     wide.columns = [f'{val}{int(num)}' for val, num in wide.columns]
     wide = wide.reset_index()
-    wide['trial_id'] = wide.groupby('participant_id').cumcount() + 1
+    wide['trial_order'] = wide.groupby('participant_id').cumcount() + 1
 
     # Ensure all columns response1 through response20 exist (even if blank)
     for i in range(1, 21):
@@ -50,7 +50,7 @@ def preprocess():
     
     # Final column ordering
     
-    final_cols = ['participant_id', 'trial_id', 'cue_id', 'stimulus'] + [f'response{i}' for i in range(1, 21)] + [f'first_key_RT{i}' for i in range(1, 21)]
+    final_cols = ['participant_id', 'trial_order', 'cue_id', 'stimulus'] + [f'response{i}' for i in range(1, 21)] + [f'first_key_RT{i}' for i in range(1, 21)]
     df_final = wide[final_cols].fillna("")
 
     # 4. Save Processed Data

@@ -7,7 +7,7 @@ base_dir = Path(__file__).parent.resolve()
 df = pd.read_csv(base_dir / "processed_data" / "exp1.csv")
 
 # Sort dataframe by participant ID and trial order
-df = df.sort_values(by=['participant_id', 'trial_id'])
+df = df.sort_values(by=['participant_id', 'trial_order'])
 
 # Remap participant IDs to sequential integers starting from 1
 df['participant_id'] = df['participant_id'].map(
@@ -16,7 +16,7 @@ df['participant_id'] = df['participant_id'].map(
 
 # Get unique participants and trial indices
 participants = df['participant_id'].unique()
-trials = range(df['trial_id'].max() + 1)
+trials = range(df['trial_order'].max() + 1)
 
 # ---- Instructions (unchanged) ----
 instruction = """
@@ -107,7 +107,7 @@ for participant in participants:
     
     # Add each trial's word, all options, and response
     for trial in trials:
-        df_trial = df_participant.loc[df_participant['trial_id'] == trial]
+        df_trial = df_participant.loc[df_participant['trial_order'] == trial]
         if not df_trial.empty:
             word = df_trial['stimulus'].iloc[0]
             parts = word.split(" ")

@@ -21,7 +21,7 @@ soa,"Stimulus onset asynchrony in ms: 200 (short, associated with automatic prim
 stimulus,Target word or nonword presented to the participant,both
 stroop,Stroop interference RT: mean RT in incongruent minus congruent condition (ms),both
 stroop_err,Stroop interference error rate: error rate in incongruent minus congruent condition,both
-trial_id,"Trial order index within participant (1-indexed, sorted by Session, Block, Trial for LDT; Session, Trial for naming)",both
+trial_order,"Position of the trial within the participant, in presentation order.",both
 vision,"Self-reported vision quality (1=excellent 20/20 or better, 7=poor 20/50)",both
 vocaba,Woodcock-Johnson III synonym test score,both
 vocabb,Woodcock-Johnson III antonym test score,both

@@ -4,4 +4,4 @@ experiment,"Answer-format condition: ""1word"" for a one-word answer, ""open"" f
 participant_id,Anonymized participant ID
 response,Participant's answer text
 stimulus,Concatenation of sentence_text and sentence_question_full
-trial_id,Trial order index (factorized from raw trial_id)
+trial_order,"Position of the trial within the participant, in presentation order."

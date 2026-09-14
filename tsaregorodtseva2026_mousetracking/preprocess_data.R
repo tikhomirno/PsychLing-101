@@ -69,7 +69,7 @@ df_clean <- df %>%
   ) %>%
   rename(
     participant_id = VP,
-    trial_id = trial_number,
+    trial_order = trial_number,
     phase_id = part,
     stimulus = word,
     stimulus_location = word_loc,
@@ -80,7 +80,7 @@ df_clean <- df %>%
   ) %>%
   mutate(
     participant_id = as.character(participant_id),
-    trial_id = suppressWarnings(as.integer(trial_id)),
+    trial_order = suppressWarnings(as.integer(trial_order)),
     version = suppressWarnings(as.integer(version)),
     phase_id = as.character(phase_id),
     block = suppressWarnings(as.integer(block)),
@@ -121,7 +121,7 @@ df_clean <- df %>%
       TRUE ~ NA_character_
     )
   ) %>%
-  arrange(participant_id, trial_id)
+  arrange(participant_id, trial_order)
 
 # -----------------------------
 # Save processed file

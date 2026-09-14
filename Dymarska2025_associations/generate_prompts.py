@@ -26,14 +26,14 @@ def generate_prompts():
 
     # 3. Group by participant
     for p_id, group in df.groupby("participant_id"):
-        group = group.sort_values("trial_id")
+        group = group.sort_values("trial_order")
         
         prompt_text = instructions
         rt_list = []  # Initialize empty list for this specific participant
 
         # 4. Build trial-by-trial data
         for _, row in group.iterrows():
-            trial_str = f"Trial {row['trial_id'] + 1}:\n"
+            trial_str = f"Trial {row['trial_order'] + 1}:\n"
             trial_str += f"  Stimulus: '{row['stimulus']}'\n"
             
             responses = []

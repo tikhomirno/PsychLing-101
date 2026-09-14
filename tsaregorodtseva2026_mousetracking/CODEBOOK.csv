@@ -18,5 +18,5 @@ response_category,"Participant’s inferred semantic judgment (abstract or concr
 start_rt,Time in milliseconds from stimulus onset to movement initiation.
 stimulus,The word presented on the screen.
 stimulus_location,"Vertical position of the word in the semantic space (e.g., top, bottom)."
-trial_id,Sequential identifier of trials within the experiment.
+trial_order,"Position of the trial within the participant, in presentation order."
 version,"Experimental version (1 or 2), indicating the initial response mapping rule."

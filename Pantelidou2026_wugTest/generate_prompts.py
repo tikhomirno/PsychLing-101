@@ -93,8 +93,8 @@ def generate_prompts(exp_df, instruction_block1, instruction_block2, experiment_
         )
         exp_df["participant_id"] = pd.to_numeric(exp_df["participant_id"], errors="coerce")
 
-    if "trial_id" in exp_df.columns:
-        exp_df["trial_id"] = pd.to_numeric(exp_df["trial_id"], errors="coerce")
+    if "item_id" in exp_df.columns:
+        exp_df["item_id"] = pd.to_numeric(exp_df["item_id"], errors="coerce")
 
     if "age" in exp_df.columns:
         exp_df["age"] = pd.to_numeric(exp_df["age"], errors="coerce")
@@ -117,11 +117,11 @@ def generate_prompts(exp_df, instruction_block1, instruction_block2, experiment_
         individual_prompt = instruction_block1
         trial_accuracies = []
 
-        trials = exp_participant["trial_id"].dropna().unique()
+        trials = exp_participant["item_id"].dropna().unique()
 
         for trial in trials:
 
-            exp_trial = exp_participant.loc[exp_participant["trial_id"] == trial]
+            exp_trial = exp_participant.loc[exp_participant["item_id"] == trial]
 
             if not exp_trial.empty:
 
@@ -143,7 +143,7 @@ def generate_prompts(exp_df, instruction_block1, instruction_block2, experiment_
                 # Add accuracy to list
                 trial_accuracies.append(accuracy)
 
-                trial_index = int(exp_trial["trial_id"].iloc[0])
+                trial_index = int(exp_trial["item_id"].iloc[0])
 
                 # Build datapoint string WITHOUT accuracy
                 if trial_index == 21:

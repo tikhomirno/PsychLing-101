@@ -1,4 +1,4 @@
-participant_id,age,trial_id,stimulus,response,rt
+participant_id,age,trial_order,stimulus,response,rt
 497,37.0,1,take crest,crest CAUSES take,19121.6800003313
 497,37.0,2,set boat,boat ABOUT set,7958.43999972567
 497,37.0,3,sweat band,band FOR sweat,8061.4049998112

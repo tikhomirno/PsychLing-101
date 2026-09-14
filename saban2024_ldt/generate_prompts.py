@@ -28,7 +28,7 @@ df = pd.concat([df1, df2], ignore_index=True)
 
 # Get unique participants and trial indices
 participants = df['participant_id'].unique() #This puts each participant in a separate column
-trials = range(df['trial_id'].max() + 1)
+trials = range(df['trial_order'].max() + 1)
 
 #Recode response keys
 df["response"] = df["response"].map({1: "a", 2: "l"})

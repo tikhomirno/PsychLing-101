@@ -1,4 +1,4 @@
-participant_id,age,trial_id,stimulus,response,rt
+participant_id,age,trial_order,stimulus,response,rt
 107033,25.0,1,The soldiers that no diplomats supported have shown any bravery in the controversial war,n,4883.0
 107033,25.0,2,No students that the teachers punished could expect any friendliness from the strict principal,c,8872.0
 107033,25.0,3,The comments that no politicians ignored have caused any bitterness toward the liberal newspapers,n,2888.0

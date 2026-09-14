@@ -15,7 +15,7 @@ def write_codebook(base_dir: Path) -> None:
         return
     rows = [
         {"column_name": "participant_id", "description": "Anonymized participant ID"},
-        {"column_name": "trial_id", "description": "Trial order index (factorized from raw trial_id)"},
+        {"column_name": "trial_order", "description": "Trial order index (factorized from raw trial_order)"},
         {"column_name": "stimulus", "description": "Four options concatenated as 'opt1; opt2; opt3; opt4'"},
         {"column_name": "best", "description": "Participant's 'best' choice string"},
         {"column_name": "worst", "description": "Participant's 'worst' choice string"},
@@ -46,14 +46,16 @@ def preprocess(base_dir: Path) -> None:
         + df["option4"].astype(str).str.strip()
     )
 
-    # Factorize trial_id
+    # Factorize trial_order
+    # The raw export names this column trial_id; the corpus name for a
+    # per-participant position is trial_order.
     if "trial_id" in df.columns:
-        df["trial_id"] = pd.factorize(df["trial_id"])[0] + 1
+        df["trial_order"] = pd.factorize(df["trial_id"])[0] + 1
 
     # Select and sort
-    cols = ["participant_id", "trial_id", "stimulus", "best", "worst", "rt"]
+    cols = ["participant_id", "trial_order", "stimulus", "best", "worst", "rt"]
     df_out = df.loc[:, [c for c in cols if c in df.columns]].copy()
-    df_out = df_out.sort_values(by=[c for c in ["participant_id", "trial_id"] if c in df_out.columns])
+    df_out = df_out.sort_values(by=[c for c in ["participant_id", "trial_order"] if c in df_out.columns])
 
     # Write
     out_path = processed_dir / "exp1.csv"

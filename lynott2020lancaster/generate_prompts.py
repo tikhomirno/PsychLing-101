@@ -165,7 +165,7 @@ def build_prompts(
     all_prompts = []
 
     for pid, group in exp.groupby("participant_id", sort=False):
-        group = group.sort_values("trial_id").reset_index(drop=True)
+        group = group.sort_values("trial_order").reset_index(drop=True)
 
         age    = group["age"].iloc[0]
         gender = group["gender"].iloc[0]

@@ -45,10 +45,10 @@ if "participant_id" not in df.columns:
     print("Warning: 'participant_id' not found. Generating dummy IDs based on index.")
     df["participant_id"] = pd.Categorical(df.index.astype(str)).codes
 
-if "trial_id" not in df.columns:
-    df["trial_id"] = df.groupby("participant_id").cumcount().astype(int)
+if "trial_order" not in df.columns:
+    df["trial_order"] = df.groupby("participant_id").cumcount().astype(int)
 else:
-    df["trial_id"] = pd.to_numeric(df["trial_id"], errors="coerce").fillna(0).astype(int)
+    df["trial_order"] = pd.to_numeric(df["trial_order"], errors="coerce").fillna(0).astype(int)
 
 df["rt"] = pd.to_numeric(df.get("rt"), errors="coerce")
 
@@ -130,7 +130,7 @@ print(f"Processing data for {len(participants)} unique participants...")
 
 with OUTPATH.open("w", encoding="utf8") as fo:
     for pid in participants:
-        sub_df = df[df["participant_id"] == pid].sort_values("trial_id")
+        sub_df = df[df["participant_id"] == pid].sort_values("trial_order")
 
         trials = []
         for idx, row in enumerate(sub_df.itertuples(index=False), start=1):

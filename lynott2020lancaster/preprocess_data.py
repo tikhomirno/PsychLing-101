@@ -28,9 +28,9 @@ df = df.rename(columns={
 df = df.drop(columns=["response_ID", "Participant_ID_anonymised",
                        "List", "List_N", "Duration_minutes"])
 
-# Sort, then assign trial_id: 1-based index of each stimulus within participant × component
+# Sort, then assign trial_order: 1-based index of each stimulus within participant × component
 df = df.sort_values(["participant_id", "norming_component", "stimulus", "dimension"]).reset_index(drop=True)
-df["trial_id"] = (
+df["trial_order"] = (
     df.groupby(["participant_id", "norming_component"])["stimulus"]
       .transform(lambda s: s.ne(s.shift()).cumsum())
 )
@@ -38,14 +38,14 @@ df["trial_id"] = (
 def process(component):
     sub = df[df["norming_component"] == component]
     wide = sub.pivot_table(
-        index=["participant_id", "age", "gender", "stimulus", "trial_id"],
+        index=["participant_id", "age", "gender", "stimulus", "trial_order"],
         columns="dimension",
         values="response",
         aggfunc="first"
     ).reset_index()
     wide.columns.name = None
 
-    wide["trial_id"] = wide["trial_id"].astype(int)
+    wide["trial_order"] = wide["trial_order"].astype(int)
 
     if "Dont_know_word" in wide.columns:
         wide = wide.rename(columns={"Dont_know_word": "unknown_word"})
@@ -53,7 +53,7 @@ def process(component):
         cols = [c for c in wide.columns if c != "unknown_word"] + ["unknown_word"]
         wide = wide[cols]
 
-    wide = wide.sort_values(["participant_id", "trial_id"]).reset_index(drop=True)
+    wide = wide.sort_values(["participant_id", "trial_order"]).reset_index(drop=True)
     return wide
 
 # ── exp1: Perception ──────────────────────────────────────────────────────────

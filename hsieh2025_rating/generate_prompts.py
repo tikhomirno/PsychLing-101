@@ -22,14 +22,14 @@ instruction = "此份問卷每道題目皆為由兩個中文字所構成的詞�
 
 # Generate individual prompts for participants
 participant_list = df['participant_id'].unique()
-trial_list = df['trial_id'].unique()
+trial_list = df['item_id'].unique()
 
 for participant in participant_list:
     exp_participant = df[df['participant_id'] == participant]
     #age = exp_participant['age'].iloc[0].item()
     individual_prompt = instruction
     for trial in trial_list:
-        exp_trial = exp_participant.loc[exp_participant['trial_id'] == trial]
+        exp_trial = exp_participant.loc[exp_participant['item_id'] == trial]
         if not exp_trial.empty:  # Only process if trial exists for this participant
             stimulus = exp_trial['stimulus'].iloc[0]
             response = exp_trial['response'].iloc[0]

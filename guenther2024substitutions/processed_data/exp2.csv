@@ -1,4 +1,4 @@
-participant_id,age,trial_id,stimulus,response
+participant_id,age,trial_order,stimulus,response
 1,39.0,1,desire,lust-longing
 1,39.0,2,pregnancy,human-belly
 1,39.0,3,sympathy,sorrow-understanding

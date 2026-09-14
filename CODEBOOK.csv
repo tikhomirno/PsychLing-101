@@ -54,6 +54,7 @@ is_repeated_reading,Binary indicator of whether a trial is a repeated reading of
 is_repeated_response,Flag marking a response already given earlier in the same round (a perseveration).
 is_rt_outlier,Flag marking RT outliers removed from RT analyses.
 is_timeout,Binary indicator of whether the response deadline elapsed without a response.
+item_id,"Identifier of the stimulus item, shared by every participant who saw it. Distinct from trial_id, which identifies one participant's trial."
 lab,Data collection site or laboratory where the session was run (multi-site studies).
 letter_position,Position of the probed letter within the presented letter string (1-indexed; counted from the left).
 letter_similarity_hmax,Visual similarity of a pair of letters derived from an HMAX computational model of visual cortex; runs from 0 to 1 and reaches 1 for a letter compared with itself.
@@ -111,8 +112,8 @@ stimulus_type,"Type or category of the presented stimulus, such as word or pseud
 target_letter,The letter that actually occurred at the probed position of the stimulus; the correct alternative in a forced choice between two letters.
 target_word,The target word that participants rated for expectedness (from https://doi.org/10.3758/s13428-024-02379-9)
 text_id,Identifier of the text or passage presented on a trial.
-trial_id,Unique identifier for a single trial within a session or condition.
-trial_order,Presentation order within the session (0-indexed). The order in which the participant saw this trial.
+trial_id,"Identifier of one trial for one participant. Use trial_order for the position within a participant, and item_id for the stimulus."
+trial_order,"Position of the trial within the participant, in presentation order."
 unknown_osullivan_et_al,Count of responses coded 'unknown' per O'Sullivan coding scheme.
 unknown_word,Binary indicator of whether the participant reported not knowing the meaning of the stimulus.
 valence,Participant's affective valence rating for the stimulus.
