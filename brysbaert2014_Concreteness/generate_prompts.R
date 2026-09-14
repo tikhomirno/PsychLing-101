@@ -13,7 +13,14 @@ library(dplyr)
 library(jsonlite)
 library(readr)
 
-exp1 <- read_csv("processed_data/exp1.csv")
+# Resolve paths from this script's location so it runs from any working
+# directory and always writes inside its own study folder.
+.args <- commandArgs(trailingOnly = FALSE)
+SCRIPT_DIR <- dirname(sub("^--file=", "", .args[grep("^--file=", .args)]))
+if (length(SCRIPT_DIR) == 0 || !nzchar(SCRIPT_DIR)) SCRIPT_DIR <- getwd()
+
+
+exp1 <- read_csv(file.path(SCRIPT_DIR, "processed_data", "exp1.csv"))
 
 instructions <- "Some words refer to things or actions in reality, which you can experience directly through one of the five senses. We call these words concrete words. Other words refer to meanings that cannot be experienced directly but which we know because the meanings can be defined by other words. These are abstract words. Still other words fall in-between the two extremes, because we can experience them to some extent and in addition we rely on language to understand them. We want you to indicate how concrete the meaning of each word is for you by using a 5-point rating scale going from abstract to concrete. A concrete word comes with a higher rating and refers to something that exists in reality; you can have immediate experience of it through your senses (smelling, tasting, touching, hearing, seeing) and the actions you do. The easiest way to explain a word is by pointing to it or by demonstrating it (e.g. To explain 'sweet' you could have someone eat sugar; To explain 'jump' you could simply jump up and down or show people a movie clip about someone jumping up and down; To explain 'couch', you could point to a couch or show a picture of a couch). An abstract word comes with a lower rating and refers to something you cannot experience directly through your senses or actions. Its meaning depends on language. The easiest way to explain it is by using other words (e.g. There is no simple way to demonstrate 'justice'; but we can explain the meaning of the word by using other words that capture parts of its meaning). Because we are collecting values for all the words in a dictionary (over 60 thousand in total), you will see that there are various types of words, even single letters. Always think of how concrete (experience based) the meaning of the word is to you. In all likelihood, you will encounter several words you do not know well enough to give a useful rating. This is informative to us too, as in our research we only want to use words known to people. We may also include one or two fake words which cannot be known by you. Please indicate when you don't know a word by using the letter N (or n). So, we ask you to use a 5-point rating scale going from abstract to concrete and to use the letter N when you do not know the word well enough to give an answer."
 
@@ -58,7 +65,7 @@ prompts_df %>%
   )
 
 # Write to JSONL
-con <- file("prompts.jsonl", "w")
+con <- file(file.path(SCRIPT_DIR, "prompts.jsonl"), "w")
 for (i in seq_len(nrow(prompts_df))) {
   writeLines(toJSON(as.list(prompts_df[i, ]), auto_unbox = TRUE), con)
 }
@@ -72,4 +79,4 @@ close(con)
 
 
 # Zip it
-zip("prompts.jsonl.zip", "prompts.jsonl")
+zip(file.path(SCRIPT_DIR, "prompts.jsonl.zip"), file.path(SCRIPT_DIR, "prompts.jsonl"), flags = "-j9X")

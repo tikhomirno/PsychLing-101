@@ -2,7 +2,14 @@
 library(data.table)
 library(jsonlite)
 
-df <- fread("processed_data/exp1.csv")
+# Resolve paths from this script's location so it runs from any working
+# directory and always writes inside its own study folder.
+.args <- commandArgs(trailingOnly = FALSE)
+SCRIPT_DIR <- dirname(sub("^--file=", "", .args[grep("^--file=", .args)]))
+if (length(SCRIPT_DIR) == 0 || !nzchar(SCRIPT_DIR)) SCRIPT_DIR <- getwd()
+
+
+df <- fread(file.path(SCRIPT_DIR, "processed_data", "exp1.csv"))
 setorder(df, session_id, trial_order)
 
 randomized_choice_options <- function(num_choices = 2) {
@@ -10,7 +17,7 @@ randomized_choice_options <- function(num_choices = 2) {
   sample(possible_keys, num_choices)
 }
 
-con <- file("prompts.jsonl", open = "w")
+con <- file(file.path(SCRIPT_DIR, "prompts.jsonl"), open = "w")
 participants <- unique(df$session_id)
 
 for (pid in participants) {

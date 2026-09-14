@@ -5,11 +5,18 @@
 library(tidyverse)
 library(jsonlite)
 
+# Resolve paths from this script's location so it runs from any working
+# directory and always writes inside its own study folder.
+.args <- commandArgs(trailingOnly = FALSE)
+SCRIPT_DIR <- dirname(sub("^--file=", "", .args[grep("^--file=", .args)]))
+if (length(SCRIPT_DIR) == 0 || !nzchar(SCRIPT_DIR)) SCRIPT_DIR <- getwd()
+
+
 # Read preprocessed data -------------------------------------------------------
 
-exp1 <- read_csv("processed_data/exp1.csv") |> arrange(participant_id, trial_order, rt)
-exp2 <- read_csv("processed_data/exp2.csv") |> arrange(participant_id, rt)
-exp3 <- read_csv("processed_data/exp3.csv")
+exp1 <- read_csv(file.path(SCRIPT_DIR, "processed_data", "exp1.csv")) |> arrange(participant_id, trial_order, rt)
+exp2 <- read_csv(file.path(SCRIPT_DIR, "processed_data", "exp2.csv")) |> arrange(participant_id, rt)
+exp3 <- read_csv(file.path(SCRIPT_DIR, "processed_data", "exp3.csv"))
 
 # Create prompts Experiment 1 --------------------------------------------------
 
@@ -180,6 +187,6 @@ exp3_tbl <- exp3_tbl |>
 
 exp <- bind_rows(exp1_tbl, exp2_tbl, exp3_tbl)
 
-stream_out(exp, file("prompts.jsonl"))
-zip("prompts.jsonl.zip", "prompts.jsonl")
-file.remove("prompts.jsonl")
+stream_out(exp, file(file.path(SCRIPT_DIR, "prompts.jsonl")))
+zip(file.path(SCRIPT_DIR, "prompts.jsonl.zip"), file.path(SCRIPT_DIR, "prompts.jsonl"), flags = "-j9X")
+file.remove(file.path(SCRIPT_DIR, "prompts.jsonl"))

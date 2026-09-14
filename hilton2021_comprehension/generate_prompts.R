@@ -5,9 +5,14 @@
 # libraries ---------------------------------------------------------------
 
 library(tidyverse)
-library(here)
 library(jsonlite)
-here::i_am("generate_prompts.R")
+
+# Resolve paths from this script's location so it runs from any working
+# directory and always writes inside its own study folder.
+.args <- commandArgs(trailingOnly = FALSE)
+SCRIPT_DIR <- dirname(sub("^--file=", "", .args[grep("^--file=", .args)]))
+if (length(SCRIPT_DIR) == 0 || !nzchar(SCRIPT_DIR)) SCRIPT_DIR <- getwd()
+
 
 # load data ---------------------------------------------------------------
 
@@ -21,7 +26,7 @@ randomise_letters <- function(x) {
   )
 }
 
-exp1 <- read_csv(here("processed_data", "exp1.csv")) |>
+exp1 <- read_csv(file.path(SCRIPT_DIR, "processed_data", "exp1.csv")) |>
   nest(.by = participant_id) |>
   mutate(
     remapping   = map(data, ~ randomise_letters(.x$response)),
@@ -116,7 +121,7 @@ prompts <- map(participant_ids, \(.participant_id) {
 
 jsonlite::stream_out(
   prompts,
-  file("prompts.jsonl"), # NOTE: need to zip this separately...
+  file(file.path(SCRIPT_DIR, "prompts.jsonl")), # NOTE: need to zip this separately...
   verbose = FALSE
 )
 

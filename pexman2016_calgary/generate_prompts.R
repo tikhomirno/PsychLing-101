@@ -11,7 +11,14 @@
 library(tidyverse)
 library(jsonlite)
 
-setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+# Resolve paths from this script's location so it runs from any working
+# directory and always writes inside its own study folder.
+.args <- commandArgs(trailingOnly = FALSE)
+SCRIPT_DIR <- dirname(sub("^--file=", "", .args[grep("^--file=", .args)]))
+if (length(SCRIPT_DIR) == 0 || !nzchar(SCRIPT_DIR)) SCRIPT_DIR <- getwd()
+
+
+# (removed setwd(rstudioapi::...) -- it cannot work outside RStudio; see SCRIPT_DIR above)
 
 # -----------------------------------------------------------------------------
 # INSTRUCTION
@@ -95,7 +102,7 @@ build_participant_prompt <- function(df_participant, trial_indices) {
 # -----------------------------------------------------------------------------
 
 main <- function() {
-  df <- read_csv("processed_data/exp1.csv", show_col_types = FALSE)
+  df <- read_csv(file.path(SCRIPT_DIR, "processed_data", "exp1.csv"), show_col_types = FALSE)
 
   df <- df[order(df$participant_id, df$trial_order), , drop = FALSE]
   df$participant_id <- match(df$participant_id, unique(df$participant_id))
@@ -103,7 +110,7 @@ main <- function() {
   participants <- unique(df$participant_id)
   trial_indices <- 0:max(df$trial_id)
   
-  con <- file("prompts.jsonl", open = "wb")
+  con <- file(file.path(SCRIPT_DIR, "prompts.jsonl"), open = "wb")
   
   for (p in participants) {
     df_p   <- df[df$participant_id == p, , drop = FALSE]
@@ -114,8 +121,8 @@ main <- function() {
   }
   
   close(con) # manually because it omitted the last participant when done like in guenther script
-  zip("prompts.jsonl.zip", "prompts.jsonl")
-  file.remove("prompts.jsonl")
+  zip(file.path(SCRIPT_DIR, "prompts.jsonl.zip"), file.path(SCRIPT_DIR, "prompts.jsonl"), flags = "-j9X")
+  file.remove(file.path(SCRIPT_DIR, "prompts.jsonl"))
   cat("Done. Written", length(participants), "prompts to prompts.jsonl.zip\n")
 }
 

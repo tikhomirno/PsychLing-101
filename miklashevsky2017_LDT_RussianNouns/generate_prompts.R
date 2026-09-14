@@ -2,8 +2,15 @@ library(dplyr)
 library(readr)
 library(jsonlite)
 
+# Resolve paths from this script's location so it runs from any working
+# directory and always writes inside its own study folder.
+.args <- commandArgs(trailingOnly = FALSE)
+SCRIPT_DIR <- dirname(sub("^--file=", "", .args[grep("^--file=", .args)]))
+if (length(SCRIPT_DIR) == 0 || !nzchar(SCRIPT_DIR)) SCRIPT_DIR <- getwd()
+
+
 ## read data
-data = read_csv("processed_data/exp1.csv", show_col_types = FALSE)
+data = read_csv(file.path(SCRIPT_DIR, "processed_data", "exp1.csv"), show_col_types = FALSE)
 
 all_prompts = list()
 
@@ -135,7 +142,7 @@ for (ppt in participants_list) {
 }
 
 # Save all prompts to JSONL file
-con = file("prompts.jsonl", open = "w", encoding = "UTF-8")
+con = file(file.path(SCRIPT_DIR, "prompts.jsonl"), open = "w", encoding = "UTF-8")
 for (i in seq_along(all_prompts)) {
   writeLines(toJSON(all_prompts[[i]], auto_unbox = TRUE, null = "null"), con)
 }
