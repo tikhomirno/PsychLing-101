@@ -4,8 +4,11 @@ from typing import Optional, Any
 import pandas as pd
 
 ## --- Configuration ---
-INPATH = Path("/Users/tikhomirova/PsychLing-101/connel2022_naming/processed_data/exp1.csv")
-OUTPATH = Path("prompts.jsonl")
+# Resolve paths from this script's location so it runs from any working
+# directory and always writes inside its own study folder.
+SCRIPT_DIR = Path(__file__).resolve().parent
+INPATH = SCRIPT_DIR / "processed_data" / "exp1.csv"
+OUTPATH = SCRIPT_DIR / "prompts.jsonl"
 
 ## --- Data Loading and Initial Preparation ---
 print(f"Loading data from: {INPATH}")

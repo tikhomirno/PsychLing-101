@@ -4,17 +4,22 @@ import random
 import string
 import zipfile
 import chardet
+from pathlib import Path
+
+# Resolve paths from this script's location so it runs from any working
+# directory and always writes inside its own study folder.
+SCRIPT_DIR = Path(__file__).resolve().parent
 
 def random_letters(n):
     return ''.join(random.sample(string.ascii_uppercase, n))
 
-with open('processed_data/exp1.csv', 'rb') as f:
+with open(SCRIPT_DIR / "processed_data" / "exp1.csv", 'rb') as f:
     result = chardet.detect(f.read())
 print(result)
 
 
 # Load data
-df = pd.read_csv('processed_data/exp1.csv', encoding='utf-8')
+df = pd.read_csv(SCRIPT_DIR / "processed_data" / "exp1.csv", encoding='utf-8')
 df['response'] = df['response'].astype(str)
 
 # Sort dataframe by participant ID, phase_id, and trial order
@@ -126,8 +131,8 @@ for participant_id in participants:
     })
 
 # Save to JSONL and zip
-with jsonlines.open('prompts.jsonl', 'w') as writer:
+with jsonlines.open(SCRIPT_DIR / "prompts.jsonl", 'w') as writer:
     writer.write_all(all_prompts)
 
-with zipfile.ZipFile('prompts.jsonl.zip', 'w', zipfile.ZIP_DEFLATED) as zipf:
-    zipf.write('prompts.jsonl')
+with zipfile.ZipFile(SCRIPT_DIR / "prompts.jsonl.zip", 'w', zipfile.ZIP_DEFLATED) as zipf:
+    zipf.write(SCRIPT_DIR / "prompts.jsonl", "prompts.jsonl")

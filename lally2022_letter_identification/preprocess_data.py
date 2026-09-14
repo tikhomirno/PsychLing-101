@@ -44,8 +44,12 @@ import pandas as pd
 
 # All paths are relative: the script is meant to be run from this contribution
 # folder, so that it works unchanged from a fresh clone of the repository.
-ORIGINAL_DATA_DIR = Path("original_data")
-PROCESSED_DATA_DIR = Path("processed_data")
+# Resolve paths from this script's location so it runs from any working
+# directory and always writes inside its own study folder.
+SCRIPT_DIR = Path(__file__).resolve().parent
+
+ORIGINAL_DATA_DIR = SCRIPT_DIR / "original_data"
+PROCESSED_DATA_DIR = SCRIPT_DIR / "processed_data"
 
 RESULTS_FILE = ORIGINAL_DATA_DIR / "Data & Analyses" / "FeatureCuesResults.csv"
 STIMULI_FILE = ORIGINAL_DATA_DIR / "Stimuli & Experiments" / "FeatureCuesStimuli.xlsx"

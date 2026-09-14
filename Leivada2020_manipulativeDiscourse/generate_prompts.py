@@ -1,8 +1,13 @@
 import pandas as pd
 import json
+from pathlib import Path
 
-df1 = pd.read_csv("processed_data/exp1.csv", quotechar='"', dtype=str)
-df2 = pd.read_csv("processed_data/exp2.csv", quotechar='"', dtype=str)
+# Resolve paths from this script's location so it runs from any working
+# directory and always writes inside its own study folder.
+SCRIPT_DIR = Path(__file__).resolve().parent
+
+df1 = pd.read_csv(SCRIPT_DIR / "processed_data" / "exp1.csv", quotechar='"', dtype=str)
+df2 = pd.read_csv(SCRIPT_DIR / "processed_data" / "exp2.csv", quotechar='"', dtype=str)
 
 # Assign experiment labels
 df1['experiment'] = 'exp1'
@@ -47,7 +52,7 @@ for participant_id, group in grouped:
     jsonl_lines.append(json.dumps(json_obj, ensure_ascii=False))
 
 # Write to JSONL file
-with open("prompts.jsonl", "w", encoding="utf-8") as f:
+with open(SCRIPT_DIR / "prompts.jsonl", "w", encoding="utf-8") as f:
     for line in jsonl_lines:
         f.write(line + "\n")
 

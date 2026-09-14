@@ -54,10 +54,14 @@ from pathlib import Path
 
 import pandas as pd
 
-PROCESSED_DATA_DIR = Path("processed_data")
+# Resolve paths from this script's location so it runs from any working
+# directory and always writes inside its own study folder.
+SCRIPT_DIR = Path(__file__).resolve().parent
+
+PROCESSED_DATA_DIR = SCRIPT_DIR / "processed_data"
 TRIALS_FILE = PROCESSED_DATA_DIR / "exp1.csv"
-PROMPTS_FILE = Path("prompts.jsonl")
-ARCHIVE_FILE = Path("prompts.jsonl.zip")
+PROMPTS_FILE = SCRIPT_DIR / "prompts.jsonl"
+ARCHIVE_FILE = SCRIPT_DIR / "prompts.jsonl.zip"
 
 EXPERIMENT = "lally2022_letter_identification/exp1"
 

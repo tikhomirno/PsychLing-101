@@ -1,14 +1,19 @@
 import pandas as pd
 import jsonlines
+from pathlib import Path
+
+# Resolve paths from this script's location so it runs from any working
+# directory and always writes inside its own study folder.
+SCRIPT_DIR = Path(__file__).resolve().parent
 
 # --------------------------
 # Load CSV files
 # --------------------------
 
-exp1 = pd.read_csv("processed_data/exp1.csv", encoding="utf-8", engine="python", on_bad_lines="skip")
-exp2 = pd.read_csv("processed_data/exp2.csv", encoding="utf-8", engine="python", on_bad_lines="skip")
-exp3 = pd.read_csv("processed_data/exp3.csv", encoding="utf-8", engine="python", on_bad_lines="skip")
-exp4 = pd.read_csv("processed_data/exp4.csv", encoding="utf-8", engine="python", on_bad_lines="skip")
+exp1 = pd.read_csv(SCRIPT_DIR / "processed_data" / "exp1.csv", encoding="utf-8", engine="python", on_bad_lines="skip")
+exp2 = pd.read_csv(SCRIPT_DIR / "processed_data" / "exp2.csv", encoding="utf-8", engine="python", on_bad_lines="skip")
+exp3 = pd.read_csv(SCRIPT_DIR / "processed_data" / "exp3.csv", encoding="utf-8", engine="python", on_bad_lines="skip")
+exp4 = pd.read_csv(SCRIPT_DIR / "processed_data" / "exp4.csv", encoding="utf-8", engine="python", on_bad_lines="skip")
 
 # --------------------------
 # Instruction blocks
@@ -172,7 +177,7 @@ generate_prompts(exp4, instruction_block1_exp4, instruction_block2_exp4, "experi
 # Save JSONL
 # --------------------------
 
-with jsonlines.open("prompts.jsonl", "w") as writer:
+with jsonlines.open(SCRIPT_DIR / "prompts.jsonl", "w") as writer:
     writer.write_all(all_prompts)
 
 print("Saved prompts.jsonl with", len(all_prompts), "participants.")

@@ -3,6 +3,11 @@ import jsonlines
 import random
 import string
 import zipfile
+from pathlib import Path
+
+# Resolve paths from this script's location so it runs from any working
+# directory and always writes inside its own study folder.
+SCRIPT_DIR = Path(__file__).resolve().parent
 
 
 # Randomize choice options: function to draw n random letters from the alphabet without replacement
@@ -11,7 +16,7 @@ def random_letters(n):
 
 
 # load data
-df = pd.read_csv('processed_data/exp1.csv')
+df = pd.read_csv(SCRIPT_DIR / "processed_data" / "exp1.csv")
 df['response'] = df['response'].astype(str)
 
 # Sort dataframe by participant ID and trial order
@@ -82,9 +87,9 @@ for participant_id in participants:
     })
 
 # Save all prompts to JSONL file
-with jsonlines.open('prompts.jsonl', 'w') as writer:
+with jsonlines.open(SCRIPT_DIR / "prompts.jsonl", 'w') as writer:
     writer.write_all(all_prompts)
 
 
-with zipfile.ZipFile('prompts.jsonl.zip', 'w', zipfile.ZIP_DEFLATED) as zipf:
-    zipf.write('prompts.jsonl')
+with zipfile.ZipFile(SCRIPT_DIR / "prompts.jsonl.zip", 'w', zipfile.ZIP_DEFLATED) as zipf:
+    zipf.write(SCRIPT_DIR / "prompts.jsonl", "prompts.jsonl")
