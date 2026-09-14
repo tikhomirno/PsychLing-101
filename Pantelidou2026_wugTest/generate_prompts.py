@@ -156,7 +156,7 @@ def generate_prompts(exp_df, instruction_block1, instruction_block2, experiment_
                     break
 
         all_prompts.append({
-            "participant": int(participant),
+            "participant_id": int(participant),
             "text": individual_prompt,
             "accuracy": trial_accuracies,  # new field
             "experiment": experiment_name,

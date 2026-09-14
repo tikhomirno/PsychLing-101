@@ -53,7 +53,7 @@ for (pid in participants) {
   entry <- list(
     text = full_text,
     experiment = "guasch2023_prevalence",
-    participant = pid,
+    participant_id = pid,
     device = unique(data_p$device),
     age = unique(data_p$age),
     sex = unique(data_p$sex),

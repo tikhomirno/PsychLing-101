@@ -111,7 +111,7 @@ def main():
             first_row = sub_df.iloc[0]
             
             result = {
-                "participant": str(pid),
+                "participant_id": str(pid),
                 "experiment": "devardaetal2024_cloze",
                 "text": text_body
             }
