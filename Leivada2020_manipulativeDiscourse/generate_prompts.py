@@ -41,19 +41,35 @@ for participant_id, group in grouped:
 
     # Build JSON object
     json_obj = {
-        "participant": participant_id,
+        # "participant_id" is the field name the repository requires; this wrote
+        # "participant", which silently breaks anything reading the standard key.
+        "participant_id": participant_id,
         "text": text_field,
         "experiment": group['experiment'].iloc[0],  # automatically pick exp1 or exp2
         "age": int(group['age'].iloc[0]),          # convert numpy int to Python int
-
+        # Per-trial reaction times in ms, in the same order as the trials above.
+        "rt": group['rt'].tolist(),
     }
+    # Carry through whatever participant metadata this experiment recorded.
+    for _col in ("gender", "education", "handedness", "country_of_residence"):
+        if _col in group.columns and pd.notna(group[_col].iloc[0]):
+            json_obj[_col] = group[_col].iloc[0]
 
     # Convert to JSON string (single line)
     jsonl_lines.append(json.dumps(json_obj, ensure_ascii=False))
 
 # Write to JSONL file
-with open(SCRIPT_DIR / "prompts.jsonl", "w", encoding="utf-8") as f:
+jsonl_path = SCRIPT_DIR / "prompts.jsonl"
+with open(jsonl_path, "w", encoding="utf-8") as f:
     for line in jsonl_lines:
         f.write(line + "\n")
+
+# Package the deliverable: the layout requires <study>/prompts.jsonl.zip with a
+# single entry named prompts.jsonl. This script previously wrote only the loose
+# .jsonl, so the committed archive had to be built by hand.
+import zipfile
+with zipfile.ZipFile(SCRIPT_DIR / "prompts.jsonl.zip", "w", zipfile.ZIP_DEFLATED) as zf:
+    zf.write(jsonl_path, "prompts.jsonl")
+jsonl_path.unlink()
 
 print("JSONL file created successfully from both CSVs!")

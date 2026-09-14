@@ -140,11 +140,20 @@ with OUTPATH.open("w", encoding="utf8") as fo:
         text_body = INSTRUCTION_TEXT + "\n\n".join(trials) + "\n"
 
         result = {
-            "participant": str(pid),
+            # "participant_id" is the field name the repository requires.
+            "participant_id": str(pid),
             "experiment": "connel2022_naming_exp1",
-            "text": text_body
+            "text": text_body,
+            # Per-trial recognition latency in ms, trial order as above.
+            "rt": sub_df["rt"].tolist(),
         }
 
         fo.write(json.dumps(result, ensure_ascii=False) + "\n")
 
-print(f" Successfully wrote {len(participants)} participant records to: {OUTPATH}")
+# Package the deliverable (see note in Leivada2020's generator).
+import zipfile
+with zipfile.ZipFile(SCRIPT_DIR / "prompts.jsonl.zip", "w", zipfile.ZIP_DEFLATED) as zf:
+    zf.write(OUTPATH, "prompts.jsonl")
+OUTPATH.unlink()
+
+print(f" Successfully wrote {len(participants)} participant records to: {SCRIPT_DIR / 'prompts.jsonl.zip'}")
