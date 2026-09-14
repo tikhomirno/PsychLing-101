@@ -3,14 +3,19 @@ library(readr)
 library(jsonlite)
 library(purrr)
 library(stringr)
-library(zip)
 
 # -----------------------------
 # Paths
 # -----------------------------
-input_file <- "processed_data/exp1.csv"
-output_jsonl <- "prompts.jsonl"
-output_zip <- "prompts.jsonl.zip"
+# Resolve paths from this script's location so it runs from any working
+# directory and always writes inside its own study folder.
+.args <- commandArgs(trailingOnly = FALSE)
+SCRIPT_DIR <- dirname(sub("^--file=", "", .args[grep("^--file=", .args)]))
+if (length(SCRIPT_DIR) == 0 || !nzchar(SCRIPT_DIR)) SCRIPT_DIR <- getwd()
+
+input_file <- file.path(SCRIPT_DIR, "processed_data", "exp1.csv")
+output_jsonl <- file.path(SCRIPT_DIR, "prompts.jsonl")
+output_zip <- file.path(SCRIPT_DIR, "prompts.jsonl.zip")
 
 # -----------------------------
 # Read processed data
@@ -327,7 +332,15 @@ make_participant_prompt <- function(dat) {
     experiment = "tsaregorodtseva2026_mousetracking",
     age = unique(dat$age),
     gender = unique(dat$gender),
-    text = full_text
+    handedness = unique(dat$handedness),
+    device_type = unique(dat$device_type),
+    text = full_text,
+    # Two genuine per-trial latencies: when the mouse started moving and when it
+    # arrived. Named rather than collapsed into a single "rt", because neither is
+    # "the" reaction time. I() keeps them as JSON arrays even for a participant
+    # with a single trial, which auto_unbox would otherwise turn into a scalar.
+    start_rt = I(dat$start_rt),
+    end_rt = I(dat$end_rt)
   )
 }
 
@@ -354,7 +367,9 @@ close(con)
 if (file.exists(output_zip)) {
   file.remove(output_zip)
 }
-zip::zipr(zipfile = output_zip, files = output_jsonl)
+Sys.setenv(COPYFILE_DISABLE = "1")  # stop macOS zip adding __MACOSX/._* entries
+zip(output_zip, output_jsonl, flags = "-j9X")
+file.remove(output_jsonl)
 file.remove(output_jsonl)
 
 # -----------------------------
