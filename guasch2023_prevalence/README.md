@@ -11,7 +11,7 @@ https://doi.org/10.6084/m9.figshare.16622536.v3
 
 # CODEBOOK Deviations
 This dataset includes variables that differ from the standard PsychLing-101 CODEBOOK in naming or definition:
-- session_id,Unique identifier assigned to each experimental session.
+- participant_id,Unique identifier for the participant. The source distributes only a session identifier (one session per participant), renumbered sequentially here and used as the participant key.
 - device,Type of input device used (e.g., touch device or keyboard).
 - sex,Biological sex of the participant.
 - raising,Place where the participant spent their early childhood.

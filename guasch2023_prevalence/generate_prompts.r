@@ -10,7 +10,7 @@ if (length(SCRIPT_DIR) == 0 || !nzchar(SCRIPT_DIR)) SCRIPT_DIR <- getwd()
 
 
 df <- fread(file.path(SCRIPT_DIR, "processed_data", "exp1.csv"))
-setorder(df, session_id, trial_order)
+setorder(df, participant_id, trial_order)
 
 randomized_choice_options <- function(num_choices = 2) {
   possible_keys <- c("q", "w", "e", "r", "t", "y", "u", "i", "o", "p")
@@ -19,11 +19,11 @@ randomized_choice_options <- function(num_choices = 2) {
 
 jsonl_path <- file.path(SCRIPT_DIR, "prompts.jsonl")
 con <- file(jsonl_path, open = "w")
-participants <- unique(df$session_id)
+participants <- unique(df$participant_id)
 
 for (pid in participants) {
   
-  data_p <- df[session_id == pid]
+  data_p <- df[participant_id == pid]
   choice_options <- randomized_choice_options(num_choices = 2)
   yes_key <- choice_options[1]
   no_key  <- choice_options[2]

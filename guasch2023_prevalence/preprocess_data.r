@@ -1,8 +1,15 @@
 
 library(data.table)
 
-responses  <- fread("original_data/responses.csv")
-sessions   <- fread("original_data/sessions.csv")
+# Resolve paths from this script's location so it runs from any working
+# directory and always writes inside its own study folder.
+.args <- commandArgs(trailingOnly = FALSE)
+SCRIPT_DIR <- dirname(sub("^--file=", "", .args[grep("^--file=", .args)]))
+if (length(SCRIPT_DIR) == 0 || !nzchar(SCRIPT_DIR)) SCRIPT_DIR <- getwd()
+SCRIPT_DIR <- normalizePath(SCRIPT_DIR)
+
+responses  <- fread(file.path(SCRIPT_DIR, "original_data", "responses.csv"))
+sessions   <- fread(file.path(SCRIPT_DIR, "original_data", "sessions.csv"))
 
 responses[, String := as.character(String)]
 
@@ -24,12 +31,12 @@ setnames(df, old = c(
   "Proficiency","First_Contact","Mother","Father","Exposure",
   "Languages","Trial_Order","String","Is_Word","Correct"
 ), new = c(
-  "session_id","device","age","sex","raising","education",
+  "participant_id","device","age","sex","raising","education",
   "proficiency","age_first_contact","mother_language","father_language",
   "exposure","n_languages","trial_order","stimulus", "is_word","accuracy"
 ))
 
-df[, session_id := as.integer(factor(session_id))]
+df[, participant_id := as.integer(factor(participant_id))]
 
 df[, sex := fcase(sex=="Home","male", sex=="Dona","female", default=NA_character_)]
 df[, device := fcase(device=="PC","keyboard", device=="MB","touch", default=NA_character_)]
@@ -88,8 +95,8 @@ df[, age := as.integer(age)]
 df[, sex := factor(sex)]
 df[, device := factor(device)]
 
-dir.create("processed_data", showWarnings = FALSE)
-fwrite(df, "processed_data/exp1.csv")
+dir.create(file.path(SCRIPT_DIR, "processed_data"), showWarnings = FALSE)
+fwrite(df, file.path(SCRIPT_DIR, "processed_data", "exp1.csv"))
 
 rm(responses, sessions, lang_map, raising_map, cols_keep)
 gc()
