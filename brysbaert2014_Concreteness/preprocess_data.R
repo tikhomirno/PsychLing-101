@@ -13,12 +13,19 @@ library(readr)
 library(tibble)
 library(stringr)
 
+# Resolve paths from this script's location so it runs from any working
+# directory and always writes inside its own study folder.
+.args <- commandArgs(trailingOnly = FALSE)
+SCRIPT_DIR <- dirname(sub("^--file=", "", .args[grep("^--file=", .args)]))
+if (length(SCRIPT_DIR) == 0 || !nzchar(SCRIPT_DIR)) SCRIPT_DIR <- getwd()
+
+
 ## read data 
 
 # original data must be in same dir
-stopifnot("original_data" %in% list.files())
+stopifnot("original_data" %in% list.files(SCRIPT_DIR))
 
-load("original_data/concreteness_trial.rda")
+load(file.path(SCRIPT_DIR, "original_data", "concreteness_trial.rda"))
 
 
 df_raw <- concreteness.participant
@@ -130,7 +137,7 @@ message("Unique stimuli  : ", n_distinct(df$stimulus))
 
 ## write df to processed_data
 
-write_csv(df, file = "processed_data/exp1.csv")
+write_csv(df, file = file.path(SCRIPT_DIR, "processed_data", "exp1.csv"))
 
 
 # write codebook as csv for this study
@@ -162,4 +169,4 @@ write_codebook <- function(base_dir) {
 }
 
 # Usage:
-write_codebook("F:/PsychLing/PsychLing-101/brysbaert2014_Concreteness")
+write_codebook(SCRIPT_DIR)

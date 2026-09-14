@@ -174,6 +174,11 @@ def main(input_csv: Path) -> None:
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser(description="Create processed_data/exp1.csv with numeric participant IDs (no backup column).")
-    ap.add_argument("input_csv", help="Path to trial_level_data.csv")
+    # Defaults to this study's own raw file so the script runs with no
+    # arguments from a clean clone; still overridable for ad-hoc use.
+    default_input = Path(__file__).resolve().parent / "original_data" / "trial_level_data.csv"
+    ap.add_argument("input_csv", nargs="?", default=str(default_input),
+                    help="Path to trial_level_data.csv "
+                         "(default: this study's original_data/trial_level_data.csv)")
     args = ap.parse_args()
     main(Path(args.input_csv).expanduser().resolve())
