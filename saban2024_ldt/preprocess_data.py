@@ -3,11 +3,16 @@ import random
 import string
 import numpy as np
 import csv
+from pathlib import Path
+
+# Resolve paths from this script's location so it runs from any working
+# directory and always writes inside its own study folder.
+SCRIPT_DIR = Path(__file__).resolve().parent
 
 ### Experiment 1 - colour associates-looking pseudowords
 
 #Load the original dataset
-df = pd.read_csv("C:/Users/ivasa/Documents/PsyLing101/My contribution - Italian LDT with colour words/Exp1 - original.csv", sep=';', header=None)
+df = pd.read_csv(SCRIPT_DIR / "original_data" / "Exp1 - original.csv", sep=';', header=None)
 
 #Remove training trials
 df = df[df.iloc[:, 0] != "training"]
@@ -38,13 +43,13 @@ columns_to_int = ['response', 'accuracy', 'rt']
 df_final = df_final.astype({col:'int' for col in columns_to_int})
 
 #Export to csv
-df_final.to_csv("exp1.csv")
+df_final.to_csv(SCRIPT_DIR / "processed_data" / "exp1.csv", index=False)
 
 
 ### Experiment 2 - colour words-looking pseudowords
 
 #Load the original dataset
-df = pd.read_csv("C:/Users/ivasa/Documents/PsyLing101/My contribution - Italian LDT with colour words/Exp2 - original.csv", sep=';', header=0)
+df = pd.read_csv(SCRIPT_DIR / "original_data" / "Exp2 - original.csv", sep=';', header=0)
 
 #Remove columns irrelevant for this project (e.g., stem frequency, affix, colour)
 columns_to_drop = ["task", "stem", "affix", "fs", "length", "zipf", "r", "g", "b", "ld", "congruency", "correct", "type"]
@@ -62,8 +67,8 @@ df_cleaned["trial_id"] = df_cleaned.groupby("participant_id").cumcount() + 1
 #"Age" taken from the survey files from psytoolkit
 
 #Export to csv
-df_cleaned.to_csv("exp2.csv")
+df_cleaned.to_csv(SCRIPT_DIR / "processed_data" / "exp2.csv", index=False)
 
-#Adjust the NOTEBOOK (to save it with comma delimiter)
-note=pd.read_csv("C:/Users/ivasa/Documents/PsyLing101/My contribution - Italian LDT with colour words/Fixing the errors/CODEBOOK.csv", sep=";")
-note.to_csv("C:/Users/ivasa/Documents/PsyLing101/My contribution - Italian LDT with colour words/Fixing the errors/CODEBOOK.csv", sep=",", index=False)
+# (removed: a one-off step that rewrote a personal copy of CODEBOOK.csv from
+#  semicolon to comma delimiters. The CODEBOOK.csv in this repo is already
+#  comma-delimited, so re-running it would misparse and corrupt the file.)
