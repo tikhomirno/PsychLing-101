@@ -59,7 +59,10 @@ for participant in participant_list:
     #############################
     batch_text = instruction
     batch_num = 1
-    last_rt = None
+    # Accumulate every trial's rt for the current batch. Previously a single
+    # scalar was kept, so each record carried only the final trial's reaction
+    # time instead of the whole batch.
+    batch_rts = []
     for trial in trial_num:
         exp_trial = exp_participant.loc[
             exp_participant['trial_id'] == trial
@@ -95,14 +98,18 @@ for participant in participant_list:
                     'experiment': 'wang2025_lexicaldecision',
                     'participant_id': participant,
                     'batch': batch_num,
-                    'rt': last_rt
+                    'rt': batch_rts,
                 })
                 batch_num += 1
                 # New batch keeps same participant instruction
+                # The trial that triggered the flush starts this batch, so its
+                # rt belongs here rather than in the record just written.
                 batch_text = instruction + datapoint
+                batch_rts = [float(rt)]
             else:
                 batch_text += datapoint
-            last_rt = rt
+                batch_rts.append(float(rt))
+
     # Save final batch
     if batch_text != instruction:
         all_prompts.append({
@@ -110,7 +117,7 @@ for participant in participant_list:
             'experiment': 'wang2025_lexicaldecision',
             'participant_id': participant,
             'batch': batch_num,
-            'rt': last_rt
+            'rt': batch_rts,
         })
 
 # Save all prompts to JSONL file
