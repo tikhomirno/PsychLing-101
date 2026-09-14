@@ -1,4 +1,4 @@
-experiment,participant_id,trial_id,trial_order,phase_id,stimulus,target_word,response,response_correct,accuracy,emotion,rt,age,gender
+experiment,participant_id,trial_id,trial_order,phase_id,stimulus,target_word,response,correct_response,accuracy,emotion,rt,age,gender
 martineztomas2026_discrete_emotionality_exp3,exp3_1,exp3_t0,0,emotion_decoding,desabete,censura,sadness,disgust,0,disgust,3032.6,18,female
 martineztomas2026_discrete_emotionality_exp3,exp3_1,exp3_t1,1,emotion_decoding,puntiaguja,espada,fear,fear,1,fear,3347.3,18,female
 martineztomas2026_discrete_emotionality_exp3,exp3_1,exp3_t2,2,emotion_decoding,queranza,añoranza,anger,sadness,0,sadness,3730.1,18,female

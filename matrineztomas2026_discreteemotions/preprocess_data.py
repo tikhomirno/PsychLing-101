@@ -178,7 +178,7 @@ def preprocess_exp3(raw: pd.DataFrame) -> pd.DataFrame:
             "stimulus": data["Palabra"],
             "target_word": data["target_word"],
             "response": data["emotion_selected"],
-            "response_correct": data["emotion"],
+            "correct_response": data["emotion"],
             "accuracy": numeric(data["accuracy"], "exp3 accuracy").astype("Int64"),
             "emotion": data["emotion"],
             "rt": (numeric(data["RTs"], "exp3 RTs") * 1000).round(3),

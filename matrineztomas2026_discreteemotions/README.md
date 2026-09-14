@@ -63,7 +63,7 @@ The source tables already reflect the participant- and trial-level exclusions re
 - `stimulus` <- `Palabra`
 - `target_word` <- `target_word`
 - `response` <- `emotion_selected`
-- `response_correct` <- `emotion`
+- `correct_response` <- `emotion`
 - `accuracy` <- `accuracy`
 - `emotion` <- `emotion`
 - `rt` <- `RTs` converted from seconds to milliseconds
