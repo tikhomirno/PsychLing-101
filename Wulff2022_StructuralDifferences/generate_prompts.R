@@ -75,7 +75,10 @@ for (p in exp1 |> pull(participant_id) |> unique()) {
   prompt_participant <- paste(c(instructions, prompts_stimuli), collapse = "\n\n")
   
   exp1_tbl$text[exp1_tbl$participant_id == p] <- prompt_participant
-  exp1_tbl$rt[exp1_tbl$participant_id == p] <- list(rt_stimuli)
+  # unlist(): rt_stimuli collects one vector per stimulus, so assigning it
+  # directly produced a nested array of arrays instead of the flat list of
+  # numbers the field is meant to hold.
+  exp1_tbl$rt[exp1_tbl$participant_id == p] <- list(unlist(rt_stimuli))
   
 }
 

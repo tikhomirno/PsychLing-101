@@ -7,7 +7,7 @@ phase_id,"Identifier for the experimental phase or block a trial belongs to (e.g
 stimulus,The linguistic or visual stimulus presented to the participant in a given trial.
 response,Participant's response
 response_corrected,Cleaned / corrected response (spelling normalized).
-rt,"Time taken by the participant to respond, in milliseconds."
+rt,"Milliseconds elapsed, taken from the raw `time` column. In exp1 and exp2 this is cumulative time since the start of the session -- it increases monotonically within a participant -- NOT the latency of an individual response. Per-response latencies would have to be derived by differencing consecutive values. In exp3 the values are not monotonic and do look like per-trial latencies."
 participant_age_group,Age group label: younger or older
 stimulus_pair_id,Unique id of the stimulus pair.
 stimulus_left,Word (animal) presented on the left side of the rating screen.
