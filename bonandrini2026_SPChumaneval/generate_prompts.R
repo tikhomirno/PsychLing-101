@@ -6,7 +6,15 @@
 
 #Exp1
 library(readr)
-E1 <- read_csv("processed_data/exp1.csv")
+library(jsonlite)  # stream_out(); the script used it but never loaded it
+
+# Resolve paths from this script's location so it runs from any working
+# directory and always writes inside its own study folder.
+.args <- commandArgs(trailingOnly = FALSE)
+SCRIPT_DIR <- dirname(sub("^--file=", "", .args[grep("^--file=", .args)]))
+if (length(SCRIPT_DIR) == 0 || !nzchar(SCRIPT_DIR)) SCRIPT_DIR <- getwd()
+
+E1 <- read_csv(file.path(SCRIPT_DIR, "processed_data", "exp1.csv"))
 E1[E1$accuracy=="Incorrect", "accuracy"] <- "Incorretto"
 E1[E1$accuracy=="Correct", "accuracy"] <- "Corretto"
 
@@ -16,6 +24,9 @@ experiment <- rep(NA, length(unique(E1$participant_id)))
 participant_id <- rep(NA, length(unique(E1$participant_id)))
 
 D <- data.frame(text, experiment, participant_id)
+# rt is a per-participant list of trial reaction times in ms, so it has to be
+# a list-column; stream_out() then emits it as a JSON array.
+D$rt <- vector("list", nrow(D))
 
 
 #loop 
@@ -34,15 +45,16 @@ text <- paste(text, P)
 }
 D$text[id] <- text
 D$participant_id[id] <- (unique(E1$participant_id)[id])
+D$rt[[id]] <- as.numeric(this_participant$rt)
 }
 D$experiment <- "bonandrini2026_SPChumaneval_Exp1"
 D1 <- D
 
-rm(list = setdiff(ls(), "D1")) #clean and keep only final
+rm(list = setdiff(ls(), c("D1", "SCRIPT_DIR"))) #clean and keep only final
 ################################################################################
 #Exp2
 library(readr)
-E2 <- read_csv("processed_data/exp2.csv")
+E2 <- read_csv(file.path(SCRIPT_DIR, "processed_data", "exp2.csv"))
 E2[E2$accuracy=="Incorrect", "accuracy"] <- "Incorretto"
 E2[E2$accuracy=="Correct", "accuracy"] <- "Corretto"
 
@@ -52,6 +64,9 @@ experiment <- rep(NA, length(unique(E2$participant_id)))
 participant_id <- rep(NA, length(unique(E2$participant_id)))
 
 D <- data.frame(text, experiment, participant_id)
+# rt is a per-participant list of trial reaction times in ms, so it has to be
+# a list-column; stream_out() then emits it as a JSON array.
+D$rt <- vector("list", nrow(D))
 
 
 #loop 
@@ -70,15 +85,16 @@ for (i in 1:(dim(this_participant)[1])){
 }
 D$text[id] <- text
 D$participant_id[id] <- (unique(E2$participant_id)[id])
+D$rt[[id]] <- as.numeric(this_participant$rt)
 }
 D$experiment <- "bonandrini2026_SPChumaneval_Exp2"
 D2 <- D
-rm(list = setdiff(ls(), c("D1","D2"))) #clean and keep only final
+rm(list = setdiff(ls(), c("D1", "D2", "SCRIPT_DIR"))) #clean and keep only final
 
 ################################################################################
 #Exp3
 library(readr)
-E3 <- read_csv("processed_data/exp3.csv")
+E3 <- read_csv(file.path(SCRIPT_DIR, "processed_data", "exp3.csv"))
 E3[E3$accuracy=="Incorrect", "accuracy"] <- "Incorretto"
 E3[E3$accuracy=="Correct", "accuracy"] <- "Corretto"
 
@@ -88,6 +104,9 @@ experiment <- rep(NA, length(unique(E3$participant_id)))
 participant_id <- rep(NA, length(unique(E3$participant_id)))
 
 D <- data.frame(text, experiment, participant_id)
+# rt is a per-participant list of trial reaction times in ms, so it has to be
+# a list-column; stream_out() then emits it as a JSON array.
+D$rt <- vector("list", nrow(D))
 
 
 #loop 
@@ -107,22 +126,23 @@ text <- paste(text, P)
 }
 D$text[id] <- text
 D$participant_id[id] <- (unique(E3$participant_id)[id])
+D$rt[[id]] <- as.numeric(this_participant$rt)
 }
 
 D$experiment <- "bonandrini2026_SPChumaneval_Exp3"
 D3 <- D
-rm(list = setdiff(ls(), c("D1","D2", "D3"))) #clean and keep only final
+rm(list = setdiff(ls(), c("D1", "D2", "D3", "SCRIPT_DIR"))) #clean and keep only final
 
 
 D <- rbind(D1,D2,D3)
 
 ################################################################################
 #write
-filename <- "prompts.jsonl"
-filenamezip <- "prompts.jsonl.zip"
+filename <- file.path(SCRIPT_DIR, "prompts.jsonl")
+filenamezip <- file.path(SCRIPT_DIR, "prompts.jsonl.zip")
 
 stream_out(D, file(filename))
-zip(filenamezip, files = filename)
+zip(filenamezip, files = filename, flags = "-j9X")
 file.remove(filename)
 
 

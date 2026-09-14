@@ -26,6 +26,7 @@ stimulus <- NA
 response_option_1 <- NA
 response_option_2 <- NA
 response <- E1$KEY
+rt <- E1$RT  # reaction time in ms; present in the raw file but previously dropped
 accuracy <- NA
 
 for (i in 1:(dim(E1)[1])){
@@ -45,7 +46,7 @@ for (i in 1:(dim(E1)[1])){
 }
 
 #create dataframe
-E1_clean <- data.frame(participant_id, trial_id, stimulus, response_option_1, response_option_2, response, accuracy)
+E1_clean <- data.frame(participant_id, trial_id, stimulus, response_option_1, response_option_2, response, accuracy, rt)
 #write
 write.csv(E1_clean, file.path(SCRIPT_DIR, "processed_data", "exp1.csv"), row.names = FALSE, fileEncoding = "UTF-8")
 #clear
@@ -64,6 +65,7 @@ stimulus <- NA
 response_option_1 <- NA
 response_option_2 <- NA
 response <- E2$KEY
+rt <- E2$RT  # reaction time in ms; present in the raw file but previously dropped
 accuracy <- NA
 
 for (i in 1:(dim(E2)[1])){
@@ -81,7 +83,7 @@ for (i in 1:(dim(E2)[1])){
     accuracy[i] <- "Incorrect"
   }
 }
-E2_clean <- data.frame(participant_id, trial_id, stimulus, response_option_1, response_option_2, response, accuracy)
+E2_clean <- data.frame(participant_id, trial_id, stimulus, response_option_1, response_option_2, response, accuracy, rt)
 #write
 write.csv(E2_clean, file.path(SCRIPT_DIR, "processed_data", "exp2.csv"), row.names = FALSE, fileEncoding = "UTF-8")
 #clear
@@ -101,6 +103,7 @@ stimulus <- NA
 response_option_1 <- NA
 response_option_2 <- NA
 response <- E3$KEY
+rt <- E3$RT  # reaction time in ms; present in the raw file but previously dropped
 accuracy <- NA
 
 for (i in 1:(dim(E3)[1])){
@@ -119,7 +122,7 @@ for (i in 1:(dim(E3)[1])){
   }
 }
 
-E3_clean <- data.frame(participant_id, trial_id, stimulus, response_option_1, response_option_2, response, accuracy)
+E3_clean <- data.frame(participant_id, trial_id, stimulus, response_option_1, response_option_2, response, accuracy, rt)
 #write
 write.csv(E3_clean, file.path(SCRIPT_DIR, "processed_data", "exp3.csv"), row.names = FALSE, fileEncoding = "UTF-8")
 #clear
