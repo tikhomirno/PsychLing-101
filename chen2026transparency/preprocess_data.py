@@ -100,7 +100,7 @@ exp1 = exp1[[
 # trial_id: 1-indexed sequential number for each row (one participant × stimulus observation)
 exp1.insert(1, "trial_id", range(1, len(exp1) + 1))
 
-exp1.to_csv(PROC_DIR / "exp1.csv", index=False, encoding="utf-8-sig")
+exp1.to_csv(PROC_DIR / "exp1.csv", index=False, encoding="utf-8")
 print(f"\nexp1.csv: {len(exp1)} rows, {exp1['participant_id'].nunique()} participants, "
       f"{exp1['stimulus'].nunique()} unique stimuli")
 print("\nDone.")
