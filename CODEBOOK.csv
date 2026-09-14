@@ -110,6 +110,12 @@ is_fixated,Binary indicator of whether a word received any fixation at all (eye-
 is_first_pass_skipped,Binary indicator of whether a word was skipped during first-pass reading. A first-pass skipped word may still be fixated later during a regression.
 is_regressed_into,Binary indicator of whether a regression entered a word (eye-tracking).
 is_regressed_out_of,Binary indicator of whether a regression left a word (eye-tracking).
+lab,Data collection site or laboratory where the session was run (multi-site studies).
+prime,"Prime stimulus presented before the target, typically briefly and masked in priming paradigms."
+prime_code,"Positional code describing how a prime was derived from its target (e.g. 123d56 = a random letter substituted at position 4 of a six-letter target)."
+is_timeout,Binary indicator of whether the response deadline elapsed without a response.
+vocabulary_score,Participant's score on a vocabulary test administered alongside the main task.
+spelling_score,Participant's score on a spelling test administered alongside the main task.
 text_id,Identifier of the text or passage presented on a trial.
 sentence_number,Index of the sentence containing a word within its text or passage.
 word_in_sentence_number,Position of a word within its sentence.
