@@ -19,7 +19,6 @@ aguasvivas2018_spalex/prompts.jsonl.zip filter=lfs diff=lfs merge=lfs -text
 brysbaert2014_Concreteness/processed_data/exp1.csv filter=lfs diff=lfs merge=lfs -text
 balota2007_LDT/processed_data/exp1.csv filter=lfs diff=lfs merge=lfs -text
 balota2007_naming/processed_data/exp1.csv filter=lfs diff=lfs merge=lfs -text
-brysbaert2014_Concreteness/processed_data/exp1.csv filter=lfs diff=lfs merge=lfs -text
 hutchison2013_semantic/processed_data/exp1.csv filter=lfs diff=lfs merge=lfs -text
 hutchison2013_semantic/processed_data/exp2.csv filter=lfs diff=lfs merge=lfs -text
 hutchison2013_semantic/original_data/*.xlsx filter=lfs diff=lfs merge=lfs -text
@@ -41,3 +40,22 @@ adelman2014_formpriming/prompts.jsonl.zip filter=lfs diff=lfs merge=lfs -text
 luke2018_provo/original_data/*.csv filter=lfs diff=lfs merge=lfs -text
 luke2018_provo/processed_data/*.csv filter=lfs diff=lfs merge=lfs -text
 luke2018_provo/prompts.jsonl.zip filter=lfs diff=lfs merge=lfs -text
+
+# ---------------------------------------------------------------------------
+# Missing LFS rules. Each path below is committed as an LFS pointer but had no
+# tracking rule, so checkout wrote literal pointer text and the next `git add`
+# of a regenerated file committed raw bytes instead. That is what produced the
+# >100 MB plain blobs in ed07722 (archived as archive/ed07722-delfs).
+# ---------------------------------------------------------------------------
+guasch2023_prevalence/original_data/*.csv filter=lfs diff=lfs merge=lfs -text
+guasch2023_prevalence/processed_data/*.csv filter=lfs diff=lfs merge=lfs -text
+guasch2023_prevalence/prompts.jsonl.zip filter=lfs diff=lfs merge=lfs -text
+aguasvivas2018_spalex/CODEBOOK.csv filter=lfs diff=lfs merge=lfs -text
+
+# Case-exact. The existing lowercase `images.zip` rule matches these only on a
+# case-insensitive filesystem (APFS); on Linux it does not match at all.
+connel2022_naming/Images.zip filter=lfs diff=lfs merge=lfs -text
+
+# Needed before regenerated prompts are committed (both exceed 100 MB raw).
+brysbaert2014_Concreteness/prompts.jsonl.zip filter=lfs diff=lfs merge=lfs -text
+balota2007_naming/prompts.jsonl.zip filter=lfs diff=lfs merge=lfs -text
