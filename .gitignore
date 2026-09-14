@@ -1,3 +1,51 @@
 .DS_Store
 aguasvivas2018_spalex/original_data/merged.csv
 aguasvivas2018_spalex_es/original_data/merged.csv
+
+# ---------------------------------------------------------------------------
+# Analysis material. This branch is the corpus only: data, per-study scripts,
+# and the harmonization tooling. Analysis notebooks, derived results and
+# working audit notes live on the analysis branch, never here.
+# ---------------------------------------------------------------------------
+analysis/
+results/
+brain_data/
+centaur_replication/
+cluster_bundle/
+norms_cache/
+experiment_metadata.csv
+ANALYSIS_PLAN*.md
+DATA_OVERVIEW*.md
+FINETUNING_PLAN*.md
+BRAIN_DATASETS_SHORTLIST.md
+PROMPT_CLEANING_FIXES.md
+RESPONSE_BOUNDARY_FIXES.md
+PARADIGM_AUDIT.md
+documentation.md
+
+# Intermediate cleaning artifacts. Fixes are folded into each study's own
+# generate_prompts script and committed as <study>/prompts.jsonl.zip; the raw
+# .jsonl (838 MB across 22 folders, 3 of them >100 MB) is never committed.
+**/prompts_fixed.jsonl
+
+# Editor and tooling debris found in-tree
+.idea/
+.Rhistory
+.git_backup/
+*.pyc
+
+# Local-only leftovers from the superseded prompt-splitting experiment. These
+# folders split one submission across several top-level directories, which the
+# "one study = one folder, one prompts file" convention disallows; the fixes
+# they contain are being folded back into their parent studies instead. Kept on
+# disk as reference, never committed.
+frank2013_reading_eyetracking/
+hutchison2013_semantic_naming/
+stella2026_formamentis_data_valence/
+vanHoef2022_naming/
+
+# Unzipped build artifact (124 MB); the committed form is prompts.jsonl.zip
+keuleers2011_britishlexiconproject/prompts.jsonl
+
+# Personal documents that are not part of the corpus
+MPIB_DissertationProposalInstructions.pdf
