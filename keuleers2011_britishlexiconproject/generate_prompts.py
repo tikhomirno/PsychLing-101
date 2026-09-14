@@ -6,6 +6,12 @@ import os
 import zipfile
 import string
 
+from pathlib import Path
+
+# Resolve paths from this script's location so it runs from any working
+# directory and always writes inside its own study folder.
+SCRIPT_DIR = Path(__file__).resolve().parent
+
 def generate_prompts():
     print("Loading preprocessed dataset")
     df = pd.read_csv('processed_data/exp1.csv', low_memory=False)
@@ -72,8 +78,8 @@ def generate_prompts():
         if prompt_count % 500 == 0:
             print(f"Generated {prompt_count} block prompts")
 
-    output_file = "prompts.jsonl"
-    zip_file = "prompts.jsonl.zip"
+    output_file = SCRIPT_DIR / "prompts.jsonl"
+    zip_file = SCRIPT_DIR / "prompts.jsonl.zip"
     
     print(f"Writing all {len(all_prompts)} prompts to {output_file}")
     with jsonlines.open(output_file, "w") as writer:
@@ -81,7 +87,7 @@ def generate_prompts():
 
     print(f"Compressing to {zip_file}")
     with zipfile.ZipFile(zip_file, 'w', zipfile.ZIP_DEFLATED) as zf:
-        zf.write(output_file, arcname=output_file)
+        zf.write(output_file, arcname="prompts.jsonl")
 
     print(f"Removing uncompressed {output_file}")
     os.remove(output_file)

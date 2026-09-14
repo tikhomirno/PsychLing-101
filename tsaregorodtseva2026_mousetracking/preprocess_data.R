@@ -2,11 +2,18 @@ library(dplyr)
 library(readr)
 library(stringr)
 
+# Resolve paths from this script's location so it runs from any working
+# directory and always writes inside its own study folder.
+.args <- commandArgs(trailingOnly = FALSE)
+SCRIPT_DIR <- dirname(sub("^--file=", "", .args[grep("^--file=", .args)]))
+if (length(SCRIPT_DIR) == 0 || !nzchar(SCRIPT_DIR)) SCRIPT_DIR <- getwd()
+
+
 # -----------------------------
 # Paths
 # -----------------------------
-input_file <- "original_data/mousetracking.csv"
-output_dir <- "processed_data"
+input_file <- file.path(SCRIPT_DIR, "original_data", "mousetracking.csv")
+output_dir <- file.path(SCRIPT_DIR, "processed_data")
 output_file <- file.path(output_dir, "exp1.csv")
 
 if (!dir.exists(output_dir)) {

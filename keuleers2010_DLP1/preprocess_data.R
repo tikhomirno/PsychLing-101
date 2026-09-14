@@ -27,7 +27,7 @@ if (length(SCRIPT_DIR) == 0 || !nzchar(SCRIPT_DIR)) SCRIPT_DIR <- getwd()
 script_dir <- SCRIPT_DIR
 
 raw_dir <- file.path(script_dir, "original_data")
-out_dir <- "processed_data"
+out_dir <- file.path(script_dir, "processed_data")
 dir.create(out_dir, showWarnings = FALSE)
 
 # ---- Read raw data ---------------------------------------------------------

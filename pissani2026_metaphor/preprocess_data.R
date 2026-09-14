@@ -1,6 +1,13 @@
 
-input_folder <- "original_data"
-output_folder <- "processed_data"
+# Resolve paths from this script's location so it runs from any working
+# directory and always writes inside its own study folder.
+.args <- commandArgs(trailingOnly = FALSE)
+SCRIPT_DIR <- dirname(sub("^--file=", "", .args[grep("^--file=", .args)]))
+if (length(SCRIPT_DIR) == 0 || !nzchar(SCRIPT_DIR)) SCRIPT_DIR <- getwd()
+
+
+input_folder <- file.path(SCRIPT_DIR, "original_data")
+output_folder <- file.path(SCRIPT_DIR, "processed_data")
 
 dir.create(output_folder, showWarnings = FALSE)
 

@@ -51,7 +51,7 @@ SCRIPT_DIR <- dirname(sub("^--file=", "", .args[grep("^--file=", .args)]))
 if (length(SCRIPT_DIR) == 0 || !nzchar(SCRIPT_DIR)) SCRIPT_DIR <- getwd()
 script_dir <- SCRIPT_DIR
 
-processed_dir <- "processed_data"
+processed_dir <- file.path(script_dir, "processed_data")
 out_jsonl     <- file.path(script_dir, "prompts.jsonl")
 out_zip       <- file.path(script_dir, "prompts.jsonl.zip")
 
