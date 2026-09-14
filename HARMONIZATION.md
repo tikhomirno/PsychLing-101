@@ -324,6 +324,66 @@ authorship rather than inferred from her handle.
 appears nowhere readable — not in the profile, the pull requests, or the commits. Since
 contributors are promised co-authorship, this is worth an email rather than a guess.
 
+### trial_id split into three names
+
+`trial_id` carried three incompatible meanings. It now keeps its name only where it
+identifies one trial for one participant; position within a participant is
+`trial_order`, and the stimulus is `item_id`. Corpus-wide: **48 `trial_order`,
+24 `trial_id`, 11 `item_id`**.
+
+Classification was done from each column's **derivation**, not from its values or its
+codebook description, because neither separates the cases. Where presentation order is
+fixed, an item id and a position index are indistinguishable by inspection — both run
+1..N per participant and both map one-to-one onto the stimulus. Two studies show why
+that matters:
+
+| Study | Looks like | Actually is |
+|---|---|---|
+| `wang2025_lexicaldecision` | position (1..N per participant) | `factorize(df["item"])` — the item |
+| `gatti2022_false_semantic_memory_pr` | an item (one stimulus per value) | `"recognition_t" + trial_order` — position |
+
+A first, value-shaped heuristic put both in the wrong bucket: it tested only numeric
+columns for per-participant consecutiveness, so string-valued order columns fell
+through it.
+
+**Three studies regenerated to no column at all.** `guenther2022relational`,
+`guenther2023ViSpa` and `guenther2023grammaticality` derive the output inside
+`if "trial_id" in df.columns:`, reading a raw source column of that name. Renaming the
+read made the guard false, the column vanished from the output, and the script still
+exited 0. Only diffing the headers caught it — the same silent-success shape as the
+earlier `pissani2026` regression.
+
+### Two studies that had never been runnable
+
+Both identical on `upstream/main`, so neither is a consequence of this branch.
+
+**`hutchison2013_semantic`** asked for `all ldt subs_all trials3.xlsx` and three
+siblings, but the committed files use underscores, so it could not open any of its
+inputs. With the four names corrected it runs — and reproduces its committed `exp1.csv`
+byte for byte across all 847,469 data rows. The filenames were the only thing wrong
+with it.
+
+**`hilton2021_comprehension`** calls `capitalize_every_n_string()`, which is defined
+nowhere in the repository and appears in no commit, so it cannot have produced its
+committed CSV. The script now says so at the point of failure. It also used `here()`,
+which resolves against a project-root marker and fails outside the repository; that is
+replaced with the script-relative form used everywhere else.
+
+### Studies renamed at the header only
+
+Five studies cannot be regenerated from this repository, so their committed data is
+left untouched and only the column name changes: `hilton2021_comprehension`,
+`saban2024_ldt`, `devardaetal2024_cloze`, `devardaetal2024_rating` and
+`Prekovicetal2016` — joined by `wang2025_lexicaldecision` and `Pantelidou2026_wugTest`,
+which were briefly regenerated before that was caught. `wang2025` drifted on 4,780 rows
+(`rt` as `708.0` rather than `708`, and `""` where the committed file has the literal
+string `nan`); `Pantelidou2026` replaces the full `clinical_diagnoses` text with `"No."`.
+Every processed CSV in this pass differs from its predecessor by the header line alone.
+
+Also resolved paths in all six Filipović-family preprocess scripts, which only ran with
+the study folder as the working directory. The four not otherwise touched regenerate
+byte-identically, which is what confirms the change altered nothing else.
+
 ---
 
 ## Planned, not yet applied
