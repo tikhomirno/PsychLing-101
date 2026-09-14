@@ -212,5 +212,10 @@ if (any(too_long)) {
 if (file.exists(zip_file)) {
   unlink(zip_file)
 }
-utils::zip(zipfile = zip_file, files = prompt_file, flags = "-q")
+# -j junks directory names so the entry is a plain "prompts.jsonl". Without it
+# the absolute path was stored, and unzipping produced a nested directory tree
+# instead of the file. COPYFILE_DISABLE stops macOS zip adding __MACOSX/._*.
+Sys.setenv(COPYFILE_DISABLE = "1")
+utils::zip(zipfile = zip_file, files = prompt_file, flags = "-j9Xq")
+file.remove(prompt_file)
 

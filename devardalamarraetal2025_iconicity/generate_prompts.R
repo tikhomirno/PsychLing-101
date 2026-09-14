@@ -17,8 +17,16 @@
 library(dplyr)
 library(jsonlite)
 
+# Resolve paths from this script's location so it runs from any working
+# directory and always writes inside its own study folder. Previously the
+# script used bare relative paths and only worked with the study folder as CWD.
+.args <- commandArgs(trailingOnly = FALSE)
+SCRIPT_DIR <- dirname(sub("^--file=", "", .args[grep("^--file=", .args)]))
+if (length(SCRIPT_DIR) == 0 || !nzchar(SCRIPT_DIR)) SCRIPT_DIR <- getwd()
+SCRIPT_DIR <- normalizePath(SCRIPT_DIR)
+
 ## import data
-data <- read.csv("processed_data/exp1.csv", stringsAsFactors = FALSE)
+data <- read.csv(file.path(SCRIPT_DIR, "processed_data", "exp1.csv"), stringsAsFactors = FALSE)
 data$response <- round(data$response) #to shorten answers with decimals
 
 # quick check: print column names and number of rows to verify correct loading
@@ -50,8 +58,8 @@ cat("Number of participants:", length(participant_ids), "\n\n")
 
 ## define output paths
 
-output_file <- "prompts.jsonl"      # temporary unzipped file 
-zip_file    <- "prompts.jsonl.zip"  # final output
+output_file <- file.path(SCRIPT_DIR, "prompts.jsonl")      # temporary unzipped file
+zip_file    <- file.path(SCRIPT_DIR, "prompts.jsonl.zip")  # final output
 
 
 ## format trial  
@@ -59,8 +67,8 @@ zip_file    <- "prompts.jsonl.zip"  # final output
 format_trial <- function(trial_idx, stimulus, response) {
   paste0(
     "Trial ", trial_idx, ". ",
-    "La parola italiana è: '", stimulus, "'. ",
-    "Quanto è iconica questa parola? ",
+    "La parola italiana Ã¨: '", stimulus, "'. ",
+    "Quanto Ã¨ iconica questa parola? ",
     "1 (Per niente iconica) 2 3 4 5 6 7 (Moltissimo iconica). ",
     "Hai valutato: <<", response, ">>"
   )
@@ -200,7 +208,8 @@ close(con)
 
 ## zip the JSONL file
 
-zip::zip(zip_file, files = output_file)
+zip::zip(zip_file, files = basename(output_file), root = SCRIPT_DIR)
+file.remove(output_file)
 cat("Created zip archive:", zip_file, "\n")
 
 ## summary report

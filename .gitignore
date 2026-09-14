@@ -45,8 +45,10 @@ hutchison2013_semantic_naming/
 stella2026_formamentis_data_valence/
 vanHoef2022_naming/
 
-# Unzipped build artifact (124 MB); the committed form is prompts.jsonl.zip
-keuleers2011_britishlexiconproject/prompts.jsonl
+# Unzipped build artifact. Every generate_prompts script now writes
+# prompts.jsonl.zip itself and removes the plain file, so the committed form is
+# always the archive. Two studies used to track both.
+*/prompts.jsonl
 
 # Personal documents that are not part of the corpus
 MPIB_DissertationProposalInstructions.pdf

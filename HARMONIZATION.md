@@ -172,10 +172,77 @@ Several scripts could not have produced the outputs committed beside them:
 | `lynott2020lancaster` | emitted `participant` while its committed archive carried `participant_id` |
 | `Dymarska2025_associations` | concatenated an unsorted glob, making row order filesystem-dependent |
 
-**22 of 66 generate scripts still do not build their own `prompts.jsonl.zip`.** Those
-archives were produced by hand and cannot be verified against the scripts beside
-them. Eight studies therefore have a fixed generator but a stale committed archive;
-they are regenerated when the prompt-layer work lands.
+### Every study now builds its own archive
+
+`prompts.jsonl.zip` is the form the repo tracks, but 21 of the 66 generate scripts
+did not produce one — the archives beside them had been zipped by hand, so nothing
+tied an archive to the script that supposedly made it. All 21 now build their own,
+and the plain `.jsonl` is removed afterwards, so the tracked artifact is always the
+one the script just wrote. `schiekiera2026_pwi_de` and `_en` had even documented the
+manual step in their own docstrings (`Then zip the results for the PR:: zip
+prompts.jsonl.zip prompts.jsonl`); that instruction is gone because the script does it.
+
+Hand-zipping had left visible traces. Nine of the 66 committed archives were
+malformed:
+
+| Archive defect | Studies |
+|---|---|
+| `__MACOSX/._prompts.jsonl` resource-fork entries | `Dymarska2025_associations`, `guenther2020LDT`, `guenther2020TS`, `guenther2023associations_individual`, `guenther2023grammaticality`, `guenther2024comprehension`, `guenther2024substitutions`, `hsieh2025_rating` |
+| no `prompts.jsonl` entry at all — the only member was `Users/tikhomirova/PsychLing-101/pissani2026_metaphor/prompts.jsonl`, so unzipping produced a four-deep directory tree instead of the file | `pissani2026_metaphor` |
+
+All 66 archives now contain exactly one entry, named `prompts.jsonl`.
+
+`pissani2026_metaphor`'s was self-inflicted: the earlier path-resolution pass gave it
+`utils::zip(..., flags = "-q")`, and without `-j` the absolute path was stored.
+`keuleers2010_DLP1` had the same latent fault — its committed archive predated the
+change, so the defect would have appeared the next time anyone ran the script. Both
+now use `flags = "-j9X"`, as every other R study does.
+
+### Two encoding bugs, found by running the scripts
+
+Neither is visible by reading the code.
+
+**`devardalamarraetal2025_iconicity` shipped mojibake.** Its committed archive renders
+`VANITÀ` as `VANITÃ€` and `VIRTÙ` as `VIRTÃ™` — the signature of UTF-8 bytes decoded as
+Latin-1 — in 109 of its 111 records. The cause is that `generate_prompts.R` was itself
+stored as Latin-1, the only non-UTF-8 file in the corpus. Read under a UTF-8 locale its
+own prompt text breaks; read under a Latin-1 one, as the contributor evidently did, the
+prompt text is right and every accented stimulus from the (correctly UTF-8) CSV is
+corrupted instead. The script is now UTF-8 and the regenerated archive matches the
+source data.
+
+That same file had been invisible to the earlier path-resolution sweep: BSD `grep`
+silently reports no matches on a file containing invalid UTF-8, so a search for bare
+relative paths simply skipped it. It was still reading `processed_data/exp1.csv` from
+the working directory. It now resolves from the script, like the rest.
+
+**R's locale escapes non-ASCII output.** Run under `LC_CTYPE=C`,
+`miklashevsky2017_LDT_RussianNouns` writes 60,986 `<U+0431>`-style escapes and not one
+Cyrillic character; under `LC_ALL=en_US.UTF-8` the same script writes 81,164 Cyrillic
+characters and zero escapes. `keuleers2010_DLP1` degrades the same way (`café` →
+`caf<U+00E9>`). The README already warns about this; it is recorded here because it
+silently produces a file that looks fine until you open it.
+
+### Verifying the regenerations
+
+All 21 were re-run from `/tmp` against a virtualenv built from `requirements.txt`, which
+installs cleanly and supplies `jsonlines` — a package no interpreter on the development
+machine had, and which 27 scripts import. Each result was compared to the pre-run archive
+with `scripts/harmonization/compare_prompts.py`.
+
+Every study came back either byte-identical (for the seeded ones) or structurally
+equivalent, except where a change was the point: the archives that were stale with
+respect to the reaction-time work (`Dymarska2025_associations`,
+`miklashevsky2017_LDT_RussianNouns`, `wang2025_lexicaldecision`,
+`Pantelidou2026_wugTest`) and `devardalamarraetal2025_iconicity`'s mojibake repair.
+
+Where content came back byte-identical and the archive was already well-formed, the
+committed archive is kept rather than replaced, so Git LFS is not churned to store a file
+with the same contents and a new timestamp.
+
+`marson2026_eplep` verifies as equivalent, which is the expected result and not a good
+one: its 634-of-1,416 participant coverage gap is untouched by this pass and is still
+open.
 
 ---
 
@@ -190,14 +257,6 @@ finished one.
   in circulation. Several root entries carry text copied from one specific study and are
   simply wrong elsewhere. Six studies shipped a near-verbatim copy of the root codebook
   instead of their own, producing 315 entries describing columns that do not exist in their data.
-- **Reaction-time recovery.** Three studies drop an RT column that exists in their raw data
-  (`bonandrini2026_SPChumaneval`, `guenther2023ViSpa`, `guenther2022relational`). Seven more
-  carry RT in `processed_data/` but omit it from the prompts. One
-  (`wang2025_lexicaldecision`) emits `rt` as a single number rather than a per-trial list, so
-  only the last trial of each batch survives.
-- **Field-name and unit standardization.** `rt` appears as `rt_all` and `trial_rt_ms` in some
-  studies; `hilton2021_comprehension` stores it in seconds while everything else uses
-  milliseconds; eight studies emit `participant` instead of the required `participant_id`.
 - **Reproducibility.** Five studies cannot be re-run from a clean clone because their scripts
   contain absolute paths from a contributor's machine, and one reads a different study's data.
 - **Naming consistency.** Nine READMEs are mis-cased (`Readme.md`, `README.MD`), which passes

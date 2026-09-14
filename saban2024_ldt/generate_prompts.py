@@ -3,6 +3,7 @@ import jsonlines
 import random
 import string
 from pathlib import Path
+import zipfile
 
 # Resolve paths from this script's location so it runs from any working
 # directory and always writes inside its own study folder.
@@ -77,3 +78,13 @@ Ignorate il colore dello stimolo e concentratevi sull'esistenza o meno della par
 #Save all prompts to JSONL file
 with jsonlines.open(path, mode='w') as writer:
     writer.write_all(all_prompts)
+
+# Build the archive the repo tracks, so it is reproducible from this script
+# rather than zipped by hand -- which is where the stray __MACOSX/ entries in
+# several committed archives came from.
+_jsonl_path = Path(path)
+_zip_path = _jsonl_path.with_name('prompts.jsonl.zip')
+with zipfile.ZipFile(_zip_path, 'w', zipfile.ZIP_DEFLATED) as zf:
+    zf.write(_jsonl_path, 'prompts.jsonl')
+_jsonl_path.unlink()
+print('Wrote', _zip_path)

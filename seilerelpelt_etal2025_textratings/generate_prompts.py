@@ -1,9 +1,16 @@
 import pandas as pd
 import jsonlines
 import os
+import zipfile
+from pathlib import Path
 
 
-def generate_prompts(csv_path, output_path='prompts.jsonl'):
+SCRIPT_DIR = Path(__file__).resolve().parent
+
+
+def generate_prompts(csv_path, output_path=None):
+    if output_path is None:
+        output_path = SCRIPT_DIR / 'prompts.jsonl'
     # Load the dataset
     df = pd.read_csv(csv_path)
 
@@ -85,12 +92,23 @@ def generate_prompts(csv_path, output_path='prompts.jsonl'):
     with jsonlines.open(output_path, mode='w') as writer:
         writer.write_all(all_participant_data)
 
-    print(f"Successfully generated {len(all_participant_data)} participant prompts in {output_path}")
+
+    # Build the archive the repo tracks, so it is reproducible from this script
+    # rather than zipped by hand -- which is where the stray __MACOSX/ entries in
+    # several committed archives came from.
+    _jsonl_path = Path(output_path)
+    _zip_path = _jsonl_path.with_name('prompts.jsonl.zip')
+    with zipfile.ZipFile(_zip_path, 'w', zipfile.ZIP_DEFLATED) as zf:
+        zf.write(_jsonl_path, 'prompts.jsonl')
+    _jsonl_path.unlink()
+    print('Wrote', _zip_path)
+    print(f"Successfully generated {len(all_participant_data)} participant prompts in {_zip_path}")
 
 
 if __name__ == "__main__":
     # Ensure your file is named 'data.csv' or change the string below
-    if os.path.exists('processed_data/exp1.csv'):
-        generate_prompts('processed_data/exp1.csv')
+    csv_path = SCRIPT_DIR / 'processed_data' / 'exp1.csv'
+    if csv_path.exists():
+        generate_prompts(csv_path)
     else:
-        print("File not found.")
+        print(f"File not found: {csv_path}")

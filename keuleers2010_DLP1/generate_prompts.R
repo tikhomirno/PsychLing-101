@@ -198,7 +198,11 @@ close(con)
 
 cat("Zipping...\n")
 if (file.exists(out_zip)) file.remove(out_zip)
-zip_status <- utils::zip(out_zip, files = out_jsonl)
+# -j junks directory names. out_jsonl is absolute, so without it the archive
+# would store the full path rather than a plain "prompts.jsonl" entry.
+Sys.setenv(COPYFILE_DISABLE = "1")
+zip_status <- utils::zip(out_zip, files = out_jsonl, flags = "-j9X")
+if (zip_status == 0) file.remove(out_jsonl)  # the repo tracks the archive, not the plain file
 if (zip_status != 0) {
   warning("zip() returned non-zero status; you may need to zip manually.")
 }

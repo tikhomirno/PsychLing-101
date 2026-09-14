@@ -123,3 +123,13 @@ for (participant in participants) {
 }
 }
 close(con)
+
+# Build the archive the repo tracks, so it is reproducible from this script
+# rather than zipped by hand. flags="-j9X" junks directory names so the entry is
+# a plain "prompts.jsonl"; COPYFILE_DISABLE stops macOS zip adding __MACOSX/._*.
+zip_path <- file.path(base_dir, "prompts.jsonl.zip")
+if (file.exists(zip_path)) file.remove(zip_path)
+Sys.setenv(COPYFILE_DISABLE = "1")
+utils::zip(zip_path, files = out_path, flags = "-j9X")
+file.remove(out_path)
+cat("Wrote:", zip_path, "\n")

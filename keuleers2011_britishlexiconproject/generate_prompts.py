@@ -14,7 +14,7 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 
 def generate_prompts():
     print("Loading preprocessed dataset")
-    df = pd.read_csv('processed_data/exp1.csv', low_memory=False)
+    df = pd.read_csv(SCRIPT_DIR / "processed_data" / "exp1.csv", low_memory=False)
 
     all_prompts = []
 

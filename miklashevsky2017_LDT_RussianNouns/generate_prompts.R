@@ -152,8 +152,19 @@ for (ppt in participants_list) {
 }
 
 # Save all prompts to JSONL file
-con = file(file.path(SCRIPT_DIR, "prompts.jsonl"), open = "w", encoding = "UTF-8")
+jsonl_path <- file.path(SCRIPT_DIR, "prompts.jsonl")
+con = file(jsonl_path, open = "w", encoding = "UTF-8")
 for (i in seq_along(all_prompts)) {
   writeLines(toJSON(all_prompts[[i]], auto_unbox = TRUE, null = "null"), con)
 }
 close(con)
+
+# Build the archive the repo tracks, so it is reproducible from this script
+# rather than zipped by hand. flags="-j9X" junks directory names so the entry is
+# a plain "prompts.jsonl"; COPYFILE_DISABLE stops macOS zip adding __MACOSX/._*.
+zip_path <- file.path(SCRIPT_DIR, "prompts.jsonl.zip")
+if (file.exists(zip_path)) file.remove(zip_path)
+Sys.setenv(COPYFILE_DISABLE = "1")
+utils::zip(zip_path, files = jsonl_path, flags = "-j9X")
+file.remove(jsonl_path)
+cat("Wrote:", zip_path, "\n")

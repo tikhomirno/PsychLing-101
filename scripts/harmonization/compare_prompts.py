@@ -57,6 +57,16 @@ def load_records(path: Path) -> list[dict]:
         return [json.loads(l) for l in fh if l.strip()]
 
 
+def load_bytes(path: Path) -> bytes:
+    """Raw bytes of the JSONL, whether it is loose or inside a zip."""
+    if path.suffix == ".zip":
+        with zipfile.ZipFile(path) as zf:
+            name = next(n for n in zf.namelist()
+                        if n.endswith(".jsonl") and not n.startswith("__MACOSX"))
+            return zf.read(name)
+    return path.read_bytes()
+
+
 def profile(records: list[dict]) -> dict:
     """Reduce a prompts file to the properties that must not change."""
     pid_key = "participant_id" if records and "participant_id" in records[0] else "participant"
@@ -119,9 +129,19 @@ def compare(study: str, old_path: Path, new_path: Path) -> int:
 
     if study in DETERMINISTIC:
         identical = old == new
-        print(f"  [{'ok  ' if identical else 'DIFF'}] byte-identical (seeded study)")
+        print(f"  [{'ok  ' if identical else 'DIFF'}] records identical (seeded study)")
         if not identical:
             problems.append("seeded study is not reproducing its committed output")
+
+    # Line endings are invisible to the record comparison above, because parsing
+    # discards them. They still differ across the corpus: several archives were
+    # generated on Windows and carry CRLF. Report it, but do not fail on it --
+    # it changes no value a consumer reads.
+    old_crlf = b"\r\n" in load_bytes(old_path)
+    new_crlf = b"\r\n" in load_bytes(new_path)
+    if old_crlf != new_crlf:
+        was, now = ("CRLF", "LF") if old_crlf else ("LF", "CRLF")
+        print(f"  [note] line endings          {was}  ->  {now}")
 
     print()
     if problems:

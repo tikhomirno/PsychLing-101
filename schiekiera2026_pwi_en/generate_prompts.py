@@ -39,19 +39,20 @@ Conventions in ``text`` (see also ``pwi_prompt_examples.md``):
 * Participants whose session exceeds the 32K-token limit are automatically
   split into two records (_part1 / _part2) by trial order.
 
-Run from the experiment folder::
+Run from anywhere; paths resolve from this file's location::
 
     python generate_prompts.py
 
-Then zip the results for the PR::
-
-    zip prompts.jsonl.zip prompts.jsonl
+The script writes ``prompts.jsonl.zip`` itself -- zipping used to be a manual
+step documented here, which is why the committed archive could drift from
+what the script produces.
 """
 
 from __future__ import annotations
 
 import json
 import sys
+import zipfile
 from pathlib import Path
 from typing import Any
 
@@ -65,6 +66,7 @@ PROCESSED_DIR = ROOT / "processed_data"
 
 INPUT_FILE = "exp1.csv"
 OUTPUT_PATH = ROOT / "prompts.jsonl"
+ZIP_PATH = ROOT / "prompts.jsonl.zip"
 
 
 # ---------- limits ---------------------------------------------------------
@@ -411,6 +413,11 @@ def main() -> None:
     print(f"Reading processed data from {PROCESSED_DIR} …")
 
     n_records, n_splits = _process_language()
+
+    with zipfile.ZipFile(ZIP_PATH, "w", zipfile.ZIP_DEFLATED) as zf:
+        zf.write(OUTPUT_PATH, "prompts.jsonl")
+    OUTPUT_PATH.unlink()
+    print(f"Wrote {ZIP_PATH}")
 
     print(f"\nTotal: {n_records:,} prompts")
     if n_splits:

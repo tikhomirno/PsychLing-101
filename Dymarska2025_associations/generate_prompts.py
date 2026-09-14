@@ -1,5 +1,6 @@
 import pandas as pd
 import json
+import zipfile
 from pathlib import Path
 
 def generate_prompts():
@@ -66,7 +67,15 @@ def generate_prompts():
         for p in prompts:
             f.write(json.dumps(p) + '\n')
 
-    print(f"Successfully generated {len(prompts)} participant prompts in {output_file}")
+    # Build the archive the repo tracks, so it is reproducible from this script
+    # rather than zipped by hand -- which is where the stray __MACOSX/ entries in
+    # several committed archives came from.
+    zip_file = base_dir / "prompts.jsonl.zip"
+    with zipfile.ZipFile(zip_file, "w", zipfile.ZIP_DEFLATED) as zf:
+        zf.write(output_file, "prompts.jsonl")
+    output_file.unlink()
+
+    print(f"Successfully generated {len(prompts)} participant prompts in {zip_file}")
 
 if __name__ == "__main__":
     generate_prompts()

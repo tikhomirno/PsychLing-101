@@ -2,6 +2,8 @@ import jsonlines
 import pandas as pd
 import numpy as np
 import os
+import zipfile
+from pathlib import Path
 
 SEED = 42
 _rng = np.random.RandomState(SEED)
@@ -183,4 +185,14 @@ output_file = os.path.join(script_dir, "prompts.jsonl")
 with jsonlines.open(output_file, mode='w') as writer:
     writer.write_all(all_prompts)
 
-print(f"Created {len(all_prompts)} prompt(s) in {output_file}.")
+
+# Build the archive the repo tracks, so it is reproducible from this script
+# rather than zipped by hand -- which is where the stray __MACOSX/ entries in
+# several committed archives came from.
+_jsonl_path = Path(output_file)
+_zip_path = _jsonl_path.with_name('prompts.jsonl.zip')
+with zipfile.ZipFile(_zip_path, 'w', zipfile.ZIP_DEFLATED) as zf:
+    zf.write(_jsonl_path, 'prompts.jsonl')
+_jsonl_path.unlink()
+print('Wrote', _zip_path)
+print(f"Created {len(all_prompts)} prompt(s) in {_zip_path}.")

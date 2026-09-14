@@ -17,7 +17,8 @@ randomized_choice_options <- function(num_choices = 2) {
   sample(possible_keys, num_choices)
 }
 
-con <- file(file.path(SCRIPT_DIR, "prompts.jsonl"), open = "w")
+jsonl_path <- file.path(SCRIPT_DIR, "prompts.jsonl")
+con <- file(jsonl_path, open = "w")
 participants <- unique(df$session_id)
 
 for (pid in participants) {
@@ -71,3 +72,13 @@ for (pid in participants) {
 }
 
 close(con)
+
+# Build the archive the repo tracks, so it is reproducible from this script
+# rather than zipped by hand. flags="-j9X" junks directory names so the entry is
+# a plain "prompts.jsonl"; COPYFILE_DISABLE stops macOS zip adding __MACOSX/._*.
+zip_path <- file.path(SCRIPT_DIR, "prompts.jsonl.zip")
+if (file.exists(zip_path)) file.remove(zip_path)
+Sys.setenv(COPYFILE_DISABLE = "1")
+utils::zip(zip_path, files = jsonl_path, flags = "-j9X")
+file.remove(jsonl_path)
+cat("Wrote:", zip_path, "\n")

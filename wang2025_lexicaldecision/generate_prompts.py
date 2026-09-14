@@ -6,6 +6,7 @@ import jsonlines
 import numpy as np
 
 from pathlib import Path
+import zipfile
 
 # Resolve paths from this script's location so the script runs from any
 # working directory, on any machine.
@@ -123,3 +124,13 @@ for participant in participant_list:
 # Save all prompts to JSONL file
 with jsonlines.open(SCRIPT_DIR / "prompts.jsonl", "w") as writer:
     writer.write_all(all_prompts)
+
+# Build the archive the repo tracks, so it is reproducible from this script
+# rather than zipped by hand -- which is where the stray __MACOSX/ entries in
+# several committed archives came from.
+_jsonl_path = Path(SCRIPT_DIR / "prompts.jsonl")
+_zip_path = _jsonl_path.with_name('prompts.jsonl.zip')
+with zipfile.ZipFile(_zip_path, 'w', zipfile.ZIP_DEFLATED) as zf:
+    zf.write(_jsonl_path, 'prompts.jsonl')
+_jsonl_path.unlink()
+print('Wrote', _zip_path)
