@@ -62,8 +62,16 @@ item_set = (
     .sort_values(["list_id", "stimulus"])
     .reset_index(drop=True)
 )
-item_set.to_csv(ORIG_DIR / "item-set.csv", index=False, encoding="utf-8-sig")
-print(f"item-set.csv: {len(item_set)} unique stimuli")
+# item-set.csv is a stimulus catalogue committed as part of the submission and
+# documented in this study's README. It lives in original_data/, which every
+# other script treats as read-only, so regenerate it only when it is absent
+# rather than rewriting a tracked input on every run.
+_item_set_path = ORIG_DIR / "item-set.csv"
+if _item_set_path.exists():
+    print(f"item-set.csv: already present ({len(item_set)} unique stimuli derived) - not rewriting")
+else:
+    item_set.to_csv(_item_set_path, index=False, encoding="utf-8-sig")
+    print(f"item-set.csv: {len(item_set)} unique stimuli")
 
 # ── Step 6: build exp1.csv ────────────────────────────────────────────────────
 exp1 = all_data.rename(columns={

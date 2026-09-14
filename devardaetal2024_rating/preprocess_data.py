@@ -9,6 +9,16 @@ target word, and rated (1-5) how much they expected to see that word following
 the sentence fragment.
 
 NOTE: All identifying information (Prolific IDs) is anonymized with random uppercase strings.
+
+IMPORTANT -- the anonymization steps below are irreversible and were applied once,
+at submission time. They delete the identifying .xls exports after converting them
+and strip identifying columns from the Prolific files in place. That destructiveness
+is the point: the raw identifying data must not persist in the repository.
+
+Both steps have already run -- no .xls files remain and the Prolific exports carry
+none of the identifying columns -- so they are now no-ops. They are kept, guarded so
+they cannot rewrite already-clean files, both as a record of what was done and so
+the script still anonymizes correctly if ever re-run against fresh raw data.
 """
 
 import pandas as pd
@@ -112,10 +122,28 @@ def load_prolific_data(list_num: int) -> pd.DataFrame:
     return pd.DataFrame()
 
 
+def _read_list_file(list_num: int) -> pd.DataFrame:
+    """Load one list, preferring the anonymized CSV over the original Excel.
+
+    The anonymization step converts each list{n}.xlsx to list{n}.csv and deletes
+    the Excel original, so on a clean clone only the CSV exists. Reading Excel
+    unconditionally made this script unrunnable against its own repository data.
+    """
+    csv_path = ORIGINAL_DATA_DIR / f"list{list_num}.csv"
+    if csv_path.exists():
+        return pd.read_csv(csv_path)
+    excel_path = ORIGINAL_DATA_DIR / f"list{list_num}.xlsx"
+    if excel_path.exists():
+        return pd.read_excel(excel_path)
+    raise SystemExit(
+        f"Missing input for list {list_num}: expected {csv_path.name} "
+        f"or {excel_path.name} in original_data/."
+    )
+
+
 def process_list(list_num: int, item_set: pd.DataFrame) -> pd.DataFrame:
     """Process a single list file and return trial-level data."""
-    file_path = ORIGINAL_DATA_DIR / f"list{list_num}.xlsx"
-    df = pd.read_excel(file_path)
+    df = _read_list_file(list_num)
     
     # Extract questions from first row (in presentation order)
     questions = df.iloc[0, 28:].tolist()
@@ -215,14 +243,44 @@ def anonymize_prolific_files():
                       'started_datetime', 'completed_date_time', 'IPAddress']
             
             cols_to_drop = [c for c in id_cols if c in df.columns]
+            if not cols_to_drop:
+                # Already anonymized. Rewriting the file would mutate original_data
+                # on every run for no benefit, so skip it.
+                print(f"  prolific_list{list_num}.csv already anonymized - skipping")
+                continue
+
             df_anon = df.drop(columns=cols_to_drop, errors='ignore')
-            
+
             df_anon.to_csv(prolific_file, index=False)
             print(f"  Anonymized prolific_list{list_num}.csv (removed: {len(cols_to_drop)} columns)")
 
 
+def _check_demographics_recoverable() -> None:
+    """Fail early and explain if the demographics join key is gone.
+
+    The anonymization step strips 'participant_id' from the Prolific exports.
+    That key is what links a participant's demographics to their trials, so once
+    it is removed the age/gender/education/language columns in the committed
+    processed_data/exp1.csv can no longer be reconstructed from original_data.
+    Without this check the script dies much later with an opaque KeyError.
+    """
+    probe = ORIGINAL_DATA_DIR / "prolific_list1.csv"
+    if probe.exists():
+        cols = pd.read_csv(probe, nrows=0).columns
+        if 'participant_id' not in cols and 'prolific_id' not in cols:
+            raise SystemExit(
+                "Cannot regenerate processed_data/exp1.csv.\n"
+                "The Prolific exports in original_data/ have been anonymized, which\n"
+                "removed 'participant_id' -- the key joining demographics to trials.\n"
+                "The committed exp1.csv contains demographic columns that can no\n"
+                "longer be derived from the data in this repository. Recovering them\n"
+                "needs the original contributor."
+            )
+
+
 def main():
     """Main preprocessing function."""
+    _check_demographics_recoverable()
     # Set random seed for reproducibility
     random.seed(42)
     
