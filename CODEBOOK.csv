@@ -116,3 +116,11 @@ prime_code,"Positional code describing how a prime was derived from its target (
 is_timeout,Binary indicator of whether the response deadline elapsed without a response.
 vocabulary_score,Participant's score on a vocabulary test administered alongside the main task.
 spelling_score,Participant's score on a spelling test administered alongside the main task.
+text_id,Identifier of the text or passage presented on a trial.
+sentence_number,Index of the sentence containing a word within its text or passage.
+word_in_sentence_number,Position of a word within its sentence.
+word_length,Number of characters in the presented word.
+word_class,Whether a word is a content word or a function word.
+cloze_predictability,Proportion of norming participants who produced this exact word form in a cloze task (0-1).
+pos_predictability,Proportion of cloze responses matching the word's part of speech (0-1).
+cloze_certainty,Certainty of the cloze response distribution for a word (0-1).
