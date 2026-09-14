@@ -13,7 +13,7 @@ base_dir <- if (length(script_arg) > 0) {
   normalizePath(".")
 }
 
-processed_filenames <- list.files(path = "processed_data/",
+processed_filenames <- list.files(path = file.path(base_dir, "processed_data"),
                             recursive = TRUE)
 
 
@@ -26,7 +26,11 @@ on.exit(close(con), add = TRUE)
 
 for(exp_n in 1:length(processed_filenames)) {
 df <- read_csv(file.path(base_dir, "processed_data", processed_filenames[exp_n]), show_col_types = FALSE, progress = FALSE)
-df[,1]<- NULL
+# Drop a leading unnamed row-index column only if one is actually present.
+# This used to drop the first column unconditionally, which removed
+# participant_id from the committed CSVs (they carry no index column) and
+# made the sort below fail with "argument 1 is not a vector".
+if (grepl("^(\\.\\.\\.[0-9]+|X|)$", names(df)[1])) df[, 1] <- NULL
 
 df <- df[order(df$participant_id, df$trial_order), , drop = FALSE]
 
@@ -103,12 +107,15 @@ for (participant in participants) {
   prompt <- paste0(prompt, "\n")
   
   rts <- as.integer(rts)
-  rts_merged<-paste("[",paste0(rts, collapse = ","),"]",sep='')
+  # This JSON is assembled by hand, so an NA would be written as the literal
+  # token NA and make the whole line unparseable. JSON's missing value is null.
+  rts_json <- ifelse(is.na(rts), "null", as.character(rts))
+  rts_merged <- paste("[", paste0(rts_json, collapse = ","), "]", sep = '')
   line <- paste0(
     '{"text": ', toJSON(prompt, auto_unbox = TRUE),
     ', "experiment": ', toJSON(paste("marson2026_eplep_exp",exp_n,sep=''), auto_unbox = TRUE),
-    ', "participant_id": ', as.integer(participant),
-    ', "age": ', as.integer(as.integer(row$age[1])),
+    ', "participant_id": ', ifelse(is.na(participant), "null", as.character(as.integer(participant))),
+    ', "age": ', ifelse(is.na(row$age[1]), "null", as.character(as.integer(row$age[1]))),
     ', "rt": ', rts_merged,
     '}'
     )

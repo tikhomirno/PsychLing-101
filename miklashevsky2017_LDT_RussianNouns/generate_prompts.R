@@ -133,11 +133,21 @@ for (ppt in participants_list) {
   
   all_prompts[[length(all_prompts) + 1]] = list(
     text = individual_prompt,
-    experiment = "myexperiment2017_LDT",
+    # Was "myexperiment2017_LDT", a placeholder that matched neither the folder
+    # nor the study.
+    experiment = "miklashevsky2017_LDT_RussianNouns",
     participant_id = ppt,
-    participant_info = as.list(info),
-    trial_accuracy = unname(as.list(trial_accuracy)),
-    trial_rt_ms = unname(as.list(trial_rt_ms))
+    # Demographics were nested inside a participant_info object, which hides them
+    # from any flat key scan. Promoted to top-level fields like every other study.
+    age = info$age[1],
+    gender = info$gender[1],
+    first_language = info$first_language[1],
+    education_subject = info$education_subject[1],
+    response_mapping = info$response_mapping[1],
+    list = info$list[1],
+    accuracy = unname(as.list(trial_accuracy)),
+    # Renamed from trial_rt_ms: "rt" is the field name the rest of the corpus uses.
+    rt = unname(as.list(trial_rt_ms))
   )
 }
 

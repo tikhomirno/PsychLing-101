@@ -3,7 +3,8 @@ import json
 from pathlib import Path
 
 def generate_prompts():
-    base_dir = Path(".")
+    # Resolve from this script's location, not the working directory.
+    base_dir = Path(__file__).resolve().parent
     processed_file = base_dir / "processed_data" / "exp1.csv"
     output_file = base_dir / "prompts.jsonl"
 
@@ -56,7 +57,7 @@ def generate_prompts():
             "text": prompt_text.strip(),
             "experiment": "word_association_exp1",
             "participant_id": str(p_id),
-            "rt_all": rt_list
+            "rt": rt_list  # renamed from "rt_all": "rt" is the corpus-wide field name
         }
         prompts.append(entry)
 

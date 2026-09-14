@@ -2,13 +2,16 @@ import pandas as pd
 from pathlib import Path
 
 def preprocess():
-    base_dir = Path(".")
+    # Resolve from this script's location, not the working directory.
+    base_dir = Path(__file__).resolve().parent
     original_dir = base_dir / "original_data"
     processed_dir = base_dir / "processed_data"
     processed_dir.mkdir(exist_ok=True)
 
     # 1. Read all CSVs in original_data/
-    csv_files = list(original_dir.glob("*.csv"))
+    # sorted(): glob order is filesystem-dependent, so concatenating the
+    # result made the output row order vary between machines.
+    csv_files = sorted(original_dir.glob("*.csv"))
     if not csv_files:
         print("Error: No CSV files found in original_data/")
         return
