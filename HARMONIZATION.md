@@ -64,6 +64,60 @@ Verified: `git lfs fsck --pointers` reports OK, no blob in this branch's history
 |---|---|
 | `guenther2020TS` | `README.md` described a 16-way semantic-relation choice task with 22,000 data points. That is a different study — `guenther2022relational`. This one is a binary sensible/not-sensible judgment on compound words, with a per-participant randomized key mapping. Corrected. |
 
+### Reproducibility
+
+Every dataset script is now runnable from a clean clone, from any working directory.
+Before this, 44 of 66 studies could not be.
+
+| Problem | Studies | What was wrong |
+|---|---|---|
+| Hardcoded absolute paths | 7 | `/Users/cyhsieh/...`, `C:/Users/ivasa/...`, `D:\PsychLing-101\...`, `F:/PsychLing/...` — each worked only on one contributor's machine |
+| Output written to the working directory | 16 | `generate_prompts` wrote `prompts.jsonl` wherever it was invoked from. Running one from `/tmp` deposited a 39 MB file there |
+| Working-directory assumptions | 8 | `setwd()` requiring the repo root, `rstudioapi::getActiveDocumentContext()` (cannot work outside RStudio), `here::i_am()` and `sys.frame(1)$ofile` (both silently fall back to the working directory under `Rscript`) |
+| Output in the wrong folder | 3 | `exp*.csv` written to the study root instead of `processed_data/` — which broke `bonandrini2026`'s own preprocess → generate chain — and `jap2025_erp`'s archive written inside `processed_data/` |
+| Required CLI argument | 1 | `connel2022_naming` exited with an argparse error when run with no arguments |
+| Missing script | 1 | `Pantelidou2026_wugTest`'s preprocess script was named `preprocessed_data.py` |
+| Package self-installation | 3 | `Wulff2022`'s two scripts called `install.packages("tidyverse")` unconditionally on every run |
+| Writes into `original_data/` | 3 | derived files written back into the inputs, so a second run behaved differently from the first |
+
+Dependencies are now declared in [`requirements.txt`](requirements.txt) and
+[`requirements-R.txt`](requirements-R.txt); previously there was no dependency list of
+any kind, and one undeclared package (`jsonlines`, imported by 27 scripts) blocked prompt
+generation for 15 studies on its own. [README](README.md) states the rules a script must
+follow, and records that R scripts need a UTF-8 locale — under `LC_CTYPE=C`, R escapes
+non-ASCII on output and `É` is written as `<U+00C9>`.
+
+Verification used [`scripts/harmonization/compare_prompts.py`](scripts/harmonization/compare_prompts.py),
+which compares structure rather than bytes. 22 studies randomize their choice-letter
+mapping without a seed, so re-running them legitimately changes almost every line; a byte
+diff would hide a real regression in that noise.
+
+### Anonymization left intact
+
+`devardaetal2024_cloze` and `_rating` delete their identifying Excel exports after
+converting them and strip identifying columns from the Prolific files in place. That is
+deliberate and was preserved, not "fixed" — only guarded so it cannot rewrite already-clean
+files on every run.
+
+### Studies whose committed data cannot be regenerated
+
+Found while verifying, and **not** worked around by guessing. In each case the committed
+`processed_data` came from a different version of the script than the one in the repository,
+or from inputs that are no longer present:
+
+| Study | Why |
+|---|---|
+| `wang2025_lexicaldecision` | committed CSV has a different column order, and `phase_id` is `"0"` where the script necessarily produces `"0.0"` (`block` is float64 with NaN) |
+| `saban2024_ldt` | committed CSVs are semicolon-delimited and carry an `age` column the script never produces |
+| `Pantelidou2026_wugTest` | committed CSV holds the full `clinical_diagnoses` response text where the script produces `"No."` |
+| `devardaetal2024_cloze`, `_rating` | anonymization removed `participant_id`, the key joining demographics to trials, so the demographic columns in the committed CSV can no longer be derived |
+| `jap2025_erp` | needs `merged-list-1.txt` and `merged-list-2.txt`, which are in no commit |
+| `Prekovicetal2016` | `preprocess_data.R` reads `VLD_stimuli_list.csv`, which is not in the repository |
+| `seilerelpelt_etal2025_textratings` | `preprocess_data.py` is 0 bytes |
+
+Each now fails with an explanation naming what is missing, instead of an opaque error.
+Resolving them needs the original contributors.
+
 ---
 
 ## Planned, not yet applied
