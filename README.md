@@ -82,6 +82,59 @@ git checkout -b <authorYEAR_title>
 
 In Steps 3.1 – 3.4 you transform the raw files of the original_data into standardized CSVs and then generate participant-level LLM prompts.
 
+### Environment
+
+Install the dependencies before running any dataset script:
+
+```bash
+pip install -r requirements.txt
+
+# For R-based contributions
+Rscript -e 'pkgs <- grep("^#", readLines("requirements-R.txt"), value = TRUE, invert = TRUE); \
+            pkgs <- trimws(sub("#.*", "", pkgs)); pkgs <- pkgs[nzchar(pkgs)]; \
+            install.packages(pkgs, repos = "https://cloud.r-project.org")'
+```
+
+If you add a dependency, add it to `requirements.txt` (or `requirements-R.txt`) in the same
+pull request. **Scripts must not install packages themselves** — a dataset script that writes
+to the user's library is a side effect, not a conversion step.
+
+### Rules for both scripts
+
+Your `preprocess_data.*` and `generate_prompts.*` must each run from a clean clone of the
+repository, with no editing and no arguments:
+
+1. **Resolve paths relative to the script, not the working directory.** Someone will run your
+   script from somewhere you did not anticipate. Never hardcode an absolute path
+   (`/Users/you/...`, `C:/...`), and do not rely on `setwd()`, `os.chdir()`, or
+   `rstudioapi::getActiveDocumentContext()` — the last cannot work outside RStudio.
+
+   ```python
+   from pathlib import Path
+   SCRIPT_DIR = Path(__file__).resolve().parent
+   df = pd.read_csv(SCRIPT_DIR / "original_data" / "trials.csv")
+   df.to_csv(SCRIPT_DIR / "processed_data" / "exp1.csv", index=False)
+   ```
+
+   ```r
+   args <- commandArgs(trailingOnly = FALSE)
+   script_dir <- dirname(sub("^--file=", "", args[grep("^--file=", args)]))
+   df <- read.csv(file.path(script_dir, "original_data", "trials.csv"))
+   ```
+
+2. **Treat `original_data/` as read-only.** Never write to it, never delete from it. Every
+   derived file belongs in `processed_data/`. A script that consumes its own input produces
+   different results the second time it runs.
+
+3. **Write only inside your own study folder** — not the repository root, not another study.
+
+4. **Sort anything you glob.** `Path(...).glob("*.csv")` returns files in filesystem order, so
+   concatenating the result makes your row order machine-dependent. Use `sorted(...)`.
+
+5. **Take no required arguments.** `python preprocess_data.py` must work on its own. Options
+   are fine if they have defaults.
+
+
 ### 3.1. Organise raw data 
 
 1. Inside the PsychLing-101 folder you just cloned, create the new experiment folder using the format `authorYEAR_title` (e.g., `smith2000_priming`). This is where all your dataset files will reside.

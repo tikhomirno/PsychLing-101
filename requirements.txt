@@ -1,0 +1,23 @@
+# Python dependencies for the dataset scripts (preprocess_data.py / generate_prompts.py).
+#
+#     pip install -r requirements.txt
+#
+# Counts below are the number of study scripts importing each package, measured
+# across the corpus. Versions are lower bounds: the scripts use long-stable APIs,
+# so pinning exact versions would create more breakage than it prevents.
+
+pandas>=1.5        # 89 scripts -- read/write every processed_data CSV
+jsonlines>=3.0     # 27 scripts -- writing prompts.jsonl
+numpy>=1.23        # 19 scripts -- randomized choice-option assignment, numeric recoding
+chardet>=5.0       #  3 scripts -- encoding detection for non-UTF-8 source files
+                   #    (Leivada2020_manipulativeDiscourse, Pantelidou2026_wugTest,
+                   #     FilipovicDurdevicFeldman2024_bialphabticVLD)
+tiktoken>=0.5      #  2 scripts -- token counting against the 32K-per-participant limit
+                   #    (jap2025_erp requires it; zemla2020_semantic_fluency degrades
+                   #     gracefully to a heuristic if it is absent)
+
+# Required indirectly by pandas.read_excel -- no script imports these by name, but
+# the reads fail without them.
+openpyxl>=3.1      # .xlsx  -- gatti2022_false_semantic_memory, hutchison2013_semantic,
+                   #           lally2022_letter_identification, stella2026_formamentis_data
+xlrd>=2.0          # .xls   -- gatti2022_false_semantic_memory_pr, hutchison2013_semantic

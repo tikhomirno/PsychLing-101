@@ -33,9 +33,8 @@
 
 # ---- Setup -----------------------------------------------------------------
 
-required_pkgs <- c("readr", "dplyr", "jsonlite")
-to_install <- setdiff(required_pkgs, rownames(installed.packages()))
-if (length(to_install) > 0) install.packages(to_install, repos = "https://cloud.r-project.org")
+# Dependencies are declared in requirements-R.txt at the repository root and
+# installed by the reader. A dataset script must not write to the user's R library.
 
 suppressPackageStartupMessages({
   library(readr)

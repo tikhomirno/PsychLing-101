@@ -1,0 +1,24 @@
+# R dependencies for the dataset scripts (preprocess_data.R / generate_prompts.R).
+#
+#     Rscript -e 'install.packages(readLines("requirements-R.txt")[!startsWith(readLines("requirements-R.txt"), "#")], repos="https://cloud.r-project.org")'
+#
+# Counts are the number of studies calling library()/require() on each package.
+# Scripts must not install packages themselves -- a dataset script that writes to
+# the user's R library is a side effect, not a conversion step.
+
+dplyr          # 11 studies
+jsonlite       # 10 studies
+readr          #  8 studies
+tidyverse      #  6 studies
+stringr        #  3 studies
+here           #  3 studies -- hilton2021_comprehension, schiekiera2026_pwi_de/_en
+zip            #  3 studies -- devardalamarraetal2025_iconicity,
+               #               petrenco2024_associations_images,
+               #               tsaregorodtseva2026_mousetracking
+purrr          #  2 studies
+data.table     #  2 studies -- guasch2023_prevalence (both scripts)
+tibble         #  1 study
+readxl         #  1 study
+openxlsx       #  1 study  -- pexman2016_calgary
+textutils      #  1 study  -- guenther2026_crosslingcommunication
+reshape2       #  1 study  -- guenther2026_crosslingcommunication

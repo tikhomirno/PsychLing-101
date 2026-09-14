@@ -1,6 +1,7 @@
 # Dependencies -----------------------------------------------------------------
 
-install.packages(c("tidyverse", "jsonlite"))
+# Dependencies are declared in requirements-R.txt at the repository root and
+# installed by the reader. A dataset script must not write to the user's R library.
 library(tidyverse)
 library(jsonlite)
 
