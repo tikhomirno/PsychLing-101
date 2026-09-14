@@ -113,10 +113,13 @@ or from inputs that are no longer present:
 | `devardaetal2024_cloze`, `_rating` | anonymization removed `participant_id`, the key joining demographics to trials, so the demographic columns in the committed CSV can no longer be derived |
 | `jap2025_erp` | needs `merged-list-1.txt` and `merged-list-2.txt`, which are in no commit |
 | `Prekovicetal2016` | `preprocess_data.R` reads `VLD_stimuli_list.csv`, which is not in the repository |
-| `seilerelpelt_etal2025_textratings` | `preprocess_data.py` is 0 bytes |
 
 Each now fails with an explanation naming what is missing, instead of an opaque error.
 Resolving them needs the original contributors.
+
+`seilerelpelt_etal2025_textratings` was on this list because its `preprocess_data.py` was
+committed as a 0-byte file. It has been written and reproduces the committed `exp1.csv`
+exactly, so it is resolved.
 
 ### Reaction time
 
