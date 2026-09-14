@@ -1,4 +1,4 @@
-participant_id,list,trial_id,trial_order,stimulus,target_word,response,age,gender,education,first_language,nationality,country_of_birth,country_of_residence
+participant_id,list,item_id,trial_order,stimulus,target_word,response,age,gender,education,first_language,nationality,country_of_birth,country_of_residence
 QAHFTR,1,577,0,Arthur placed,the,4,,,,,,,
 QAHFTR,1,1093,1,Finally Maria sat down with a,cup,4,,,,,,,
 QAHFTR,1,1440,2,He smiled again and felt like a,man,1,,,,,,,

@@ -1,4 +1,4 @@
-participant_id,trial_id,dmdx_item_code,trial_order,exposure_duration_ms,list,stimulus_type,condition,stimulus,stimulus_length,letter_position,position_type,target_letter,distractor_letter,letter_similarity_human,letter_similarity_hmax,response,accuracy,rt
+participant_id,item_id,dmdx_item_code,trial_order,exposure_duration_ms,list,stimulus_type,condition,stimulus,stimulus_length,letter_position,position_type,target_letter,distractor_letter,letter_similarity_human,letter_similarity_hmax,response,accuracy,rt
 801,3241,13241,100,33,1,consonant_string,high,pqlt,4,3,internal,l,r,3.2580645161290325,0.56415,r,0,700.56
 801,1213,11213,111,33,1,word,high,slab,4,4,external,b,p,5.066666666666666,0.70362,b,1,959.43
 801,2243,12243,89,33,1,pseudoword,high,plur,4,4,external,r,n,3.1333333333333333,0.62334,r,1,986.0

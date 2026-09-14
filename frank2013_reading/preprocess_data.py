@@ -58,7 +58,7 @@ def preprocess_spr(base_dir: Path, processed_dir: Path, stimuli: pd.DataFrame) -
     df["age"] = df["age"].astype(float)
     df["gender"] = code_gender(df["sex"])
     df["first_language"] = code_first_language(df["age_en"])
-    df["trial_id"] = df["sent_nr"].astype(int)
+    df["item_id"] = df["sent_nr"].astype(int)
     df["trial_order"] = df["sent_pos"].astype(int)
     df["stimulus"] = df["sentence"]
     df["word"] = df["word"]
@@ -70,7 +70,7 @@ def preprocess_spr(base_dir: Path, processed_dir: Path, stimuli: pd.DataFrame) -
 
     cols = [
         "participant_id", "age", "gender", "first_language",
-        "trial_id", "trial_order", "stimulus", "word", "word_position",
+        "item_id", "trial_order", "stimulus", "word", "word_position",
         "question", "response", "rt", "accuracy",
     ]
     df_out = df[cols].copy()
@@ -92,7 +92,7 @@ def preprocess_et(base_dir: Path, processed_dir: Path, stimuli: pd.DataFrame) ->
     df["gender"] = code_gender(df["sex"])
     df["first_language"] = code_first_language(df["age_en"])
     df["monolingual"] = df["monoling"].astype(int)
-    df["trial_id"] = df["sent_nr"].astype(int)
+    df["item_id"] = df["sent_nr"].astype(int)
     df["trial_order"] = df["sent_pos"].astype(int)
     df["stimulus"] = df["sentence"]
     df["word"] = df["word"]
@@ -112,7 +112,7 @@ def preprocess_et(base_dir: Path, processed_dir: Path, stimuli: pd.DataFrame) ->
 
     cols = [
         "participant_id", "age", "gender", "first_language", "monolingual",
-        "trial_id", "trial_order", "stimulus", "word", "word_position",
+        "item_id", "trial_order", "stimulus", "word", "word_position",
         "question", "response", "rt", "first_pass_duration", "right_bounded_duration",
         "go_past_duration", "accuracy",
     ]

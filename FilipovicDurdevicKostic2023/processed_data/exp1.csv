@@ -1,4 +1,4 @@
-"participant_id","trial_id","stimulus","trial_order","lexicality","response","accuracy","rt"
+"participant_id","item_id","stimulus","trial_order","lexicality","response","accuracy","rt"
 "as1.dat","v10","ZLATO","1","rec","1","1","781"
 "as1.dat","v19","NAVON","2","pseudorec","3","1","991"
 "as1.dat","v14","TOGAR","3","pseudorec","3","1","901"

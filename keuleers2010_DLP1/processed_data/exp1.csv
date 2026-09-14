@@ -1,4 +1,4 @@
-participant_id,trial_id,trial_order,phase_id,stimulus,condition,response,accuracy,rt
+participant_id,item_id,trial_order,phase_id,stimulus,condition,response,accuracy,rt
 1,19302,24701,50,schoden,nonword,nonword,1,756
 1,24496,24702,50,verboor,nonword,nonword,1,603
 1,20676,24703,50,snerven,nonword,nonword,1,553

@@ -165,14 +165,14 @@ def process_list(list_num: int, item_set: pd.DataFrame) -> pd.DataFrame:
             else:
                 response_clean = ""
             
-            # Get trial_id from item_id (same item = same trial_id across participants)
-            trial_id = sentence_to_item_id.get(sentence_frag, -1)
+            # Get item_id from item_id (same item = same item_id across participants)
+            item_id = sentence_to_item_id.get(sentence_frag, -1)
             target_word = sentence_to_target.get(sentence_frag, "")
             
             trial_data = {
                 'participant_id': anon_participant_id,
                 'list': list_num,
-                'trial_id': trial_id,  # Item-based ID (same for all participants seeing this item)
+                'item_id': item_id,  # Item-based ID (same for all participants seeing this item)
                 'trial_order': trial_order,  # Presentation order (0-indexed)
                 'stimulus': sentence_frag,
                 'target_word': target_word,
@@ -277,7 +277,7 @@ def main():
     
     full_df = pd.concat(all_data, ignore_index=True)
     
-    cols = ['participant_id', 'list', 'trial_id', 'trial_order', 'stimulus', 
+    cols = ['participant_id', 'list', 'item_id', 'trial_order', 'stimulus', 
             'target_word', 'response', 'age', 'gender', 'education', 
             'first_language', 'nationality', 'country_of_birth', 'country_of_residence']
     full_df = full_df[cols]
@@ -286,7 +286,7 @@ def main():
     full_df.to_csv(output_path, index=False)
     
     unique_participants = full_df['participant_id'].nunique()
-    unique_trials = full_df['trial_id'].nunique()
+    unique_trials = full_df['item_id'].nunique()
     
     print(f"\nWrote processed CSV: {output_path}")
     print(f"Total rows: {len(full_df)}")
@@ -302,11 +302,11 @@ def main():
     print("="*80)
     print(full_df.head().to_string())
     print("\n" + "="*80)
-    print("VERIFICATION: Same item -> same trial_id across participants:")
+    print("VERIFICATION: Same item -> same item_id across participants:")
     print("="*80)
-    # Show that same stimulus has same trial_id
+    # Show that same stimulus has same item_id
     sample_stimulus = full_df['stimulus'].iloc[0]
-    same_item = full_df[full_df['stimulus'] == sample_stimulus][['participant_id', 'trial_id', 'stimulus', 'response']].head(3)
+    same_item = full_df[full_df['stimulus'] == sample_stimulus][['participant_id', 'item_id', 'stimulus', 'response']].head(3)
     print(same_item.to_string())
     print("="*80)
 

@@ -50,7 +50,7 @@ cat("Tidying trial-level data...\n")
 trials_tidy <- trials_raw |>
   transmute(
     participant_id = participant,
-    trial_id       = trial,
+    item_id       = trial,
     trial_order    = order,
     phase_id       = block,
     stimulus       = spelling,

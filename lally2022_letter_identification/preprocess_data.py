@@ -124,7 +124,7 @@ HMAX_RANGE = (0.0, 1.0)  # the HMAX model reports a correlation-like similarity
 SPEAKER_RATING_RANGE = (1.0, 7.0)  # the human ratings use a seven-point scale
 
 COLUMN_ORDER = [
-    "participant_id", "trial_id", "dmdx_item_code", "trial_order",
+    "participant_id", "item_id", "dmdx_item_code", "trial_order",
     "exposure_duration_ms", "list",
     "stimulus_type", "condition", "stimulus", "stimulus_length",
     "letter_position", "position_type", "target_letter", "distractor_letter",
@@ -273,9 +273,9 @@ def build_trials(results, stimuli):
     trials["dmdx_item_code"] = trials["DMDX"]
     # The leading digit of the DMDX code is the counterbalancing list, so keeping it
     # would give the same trial two identifiers depending on which list a participant
-    # was in. trial_id drops it and names the trial itself: orthographic status,
+    # was in. item_id drops it and names the trial itself: orthographic status,
     # visual overlap and item.
-    trials["trial_id"] = trials["DMDX"].str[1:5]
+    trials["item_id"] = trials["DMDX"].str[1:5]
     # Presentation order is recorded from one in the source; the codebook wants 0-indexing.
     trials["trial_order"] = trials["Trial"] - 1
     trials["exposure_duration_ms"] = trials["Exposure"]
@@ -437,22 +437,22 @@ def check_output(output, results):
     require((output["response"] == output["target_letter"]).equals(output["accuracy"] == 1),
             "the reconstructed response does not follow the accuracy column")
 
-    # trial_id has to name the trial and nothing else: the same item in the same two
+    # item_id has to name the trial and nothing else: the same item in the same two
     # conditions must carry the same identifier for every participant who saw it,
     # whichever counterbalancing list they were in.
     require((output["dmdx_item_code"].str.len() == 5).all()
-            and (output["trial_id"].str.len() == 4).all()
-            and (output["trial_id"] == output["dmdx_item_code"].str[1:5]).all(),
-            "trial_id is not the DMDX code without its leading list digit")
+            and (output["item_id"].str.len() == 4).all()
+            and (output["item_id"] == output["dmdx_item_code"].str[1:5]).all(),
+            "item_id is not the DMDX code without its leading list digit")
     trial = output[["stimulus_type", "condition", "stimulus"]].agg("|".join, axis=1)
-    require(trial.groupby(output["trial_id"]).nunique().eq(1).all(),
-            "one trial_id covers more than one distinct trial")
-    require(trial.nunique() == output["trial_id"].nunique(),
-            "%d distinct trials share only %d trial_id values"
-            % (trial.nunique(), output["trial_id"].nunique()))
-    require((output.groupby("participant_id")["trial_id"].nunique()
+    require(trial.groupby(output["item_id"]).nunique().eq(1).all(),
+            "one item_id covers more than one distinct trial")
+    require(trial.nunique() == output["item_id"].nunique(),
+            "%d distinct trials share only %d item_id values"
+            % (trial.nunique(), output["item_id"].nunique()))
+    require((output.groupby("participant_id")["item_id"].nunique()
              == N_TRIALS_PER_PARTICIPANT).all(),
-            "trial_id is not unique within every participant's session")
+            "item_id is not unique within every participant's session")
 
     cells = pd.crosstab(output["stimulus_type"], output["condition"])
     require(cells.shape == (3, 2) and (cells.to_numpy() == N_PER_DESIGN_CELL).all(),

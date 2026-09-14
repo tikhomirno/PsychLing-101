@@ -1,4 +1,4 @@
-"participant_id","trial_id","stimulus","trial_order","lexicality","letter_order","response","accuracy","rt"
+"participant_id","item_id","stimulus","trial_order","lexicality","letter_order","response","accuracy","rt"
 "s1.dat","t167","KARBOZ",1,"pseudorec","backw","3",1,892
 "s1.dat","t96","ELITA",2,"rec","forw","1",1,711
 "s1.dat","t134","LOTOG",3,"pseudorec","backw","None",0,NA

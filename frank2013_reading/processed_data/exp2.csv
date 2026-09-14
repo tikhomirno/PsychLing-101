@@ -1,4 +1,4 @@
-participant_id,age,gender,first_language,monolingual,trial_id,trial_order,stimulus,word,word_position,question,response,rt,first_pass_duration,right_bounded_duration,go_past_duration,accuracy
+participant_id,age,gender,first_language,monolingual,item_id,trial_order,stimulus,word,word_position,question,response,rt,first_pass_duration,right_bounded_duration,go_past_duration,accuracy
 1,33.0,female,English,1,56,1,The prison guard walked along the row.,The,1,,,288.0,288.0,288.0,288.0,
 1,33.0,female,English,1,56,1,The prison guard walked along the row.,prison,2,,,208.0,208.0,208.0,208.0,
 1,33.0,female,English,1,56,1,The prison guard walked along the row.,guard,3,,,228.0,356.0,356.0,356.0,

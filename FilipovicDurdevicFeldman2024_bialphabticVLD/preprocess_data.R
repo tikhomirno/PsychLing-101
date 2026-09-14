@@ -1,4 +1,11 @@
-dat1=read.csv("original_data/FilipovicDurdevicFeldman2024_bialphabeticVLD_block1.csv",T)
+# Resolve paths from this script's location so it runs from any working
+# directory and always writes inside its own study folder.
+.args <- commandArgs(trailingOnly = FALSE)
+SCRIPT_DIR <- dirname(sub("^--file=", "", .args[grep("^--file=", .args)]))
+if (length(SCRIPT_DIR) == 0 || !nzchar(SCRIPT_DIR)) SCRIPT_DIR <- getwd()
+SCRIPT_DIR <- normalizePath(SCRIPT_DIR)
+
+dat1=read.csv(file.path(SCRIPT_DIR, "original_data", "FilipovicDurdevicFeldman2024_bialphabeticVLD_block1.csv"),T)
 
 dim(dat1)
 colnames(dat1)
@@ -26,7 +33,7 @@ dat1$rt = dat1$response_time
 block1 <- dat1[, c("phase_id", "list", "participant_id", "trial_id", "stimulus", "trial_order", "lexicality", "target_alphabet",  "phonological_ambiguity", "response", "accuracy", "rt")]
 
 
-dat2=read.csv("original_data/FilipovicDurdevicFeldman2024_bialphabeticVLD_block2.csv",T)
+dat2=read.csv(file.path(SCRIPT_DIR, "original_data", "FilipovicDurdevicFeldman2024_bialphabeticVLD_block2.csv"),T)
 
 dim(dat2)
 colnames(dat2)
@@ -52,5 +59,5 @@ dat2$rt = dat2$response_time
 block2 <- dat2[, c("phase_id", "list", "participant_id", "trial_id", "stimulus", "trial_order", "lexicality", "target_alphabet",  "phonological_ambiguity", "response", "accuracy", "rt")]
 
 block1_block2 = rbind(block1, block2)
-write.csv(block1_block2, "processed_data/exp1.csv", row.names = FALSE)
+write.csv(block1_block2, file.path(SCRIPT_DIR, "processed_data", "exp1.csv"), row.names = FALSE)
 

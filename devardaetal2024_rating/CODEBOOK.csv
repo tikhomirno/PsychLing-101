@@ -5,11 +5,11 @@ country_of_residence,Participant's current country of residence.
 education,Highest completed education level of the participant.
 first_language,Participant's native or first-acquired language.
 gender,Self-reported gender identity of the participant (Male/Female).
+item_id,"Identifier of the stimulus item, shared by every participant who saw it. Position within a participant is trial_order."
 list,Experimental list number (1-8). Items were distributed across 8 lists.
 nationality,Participant's self-reported nationality.
 participant_id,Anonymous identifier for each participant (6 uppercase letters).
 response,The rating given by the participant (1-5 scale; 1=Not at all expected to 5=Very much expected).
 stimulus,The sentence fragment presented to the participant (rating context).
 target_word,The target word that participants rated for expectedness.
-trial_id,Unique identifier for the item/stimulus. Same item has the same trial_id across all participants who saw it.
 trial_order,Presentation order within the session (0-indexed). The order in which the participant saw this trial.
