@@ -118,6 +118,65 @@ or from inputs that are no longer present:
 Each now fails with an explanation naming what is missing, instead of an opaque error.
 Resolving them needs the original contributors.
 
+### Reaction time
+
+Reaction time is now carried end to end wherever it genuinely exists.
+
+**Recovered from the raw data.** Three studies read an RT column and then dropped
+it when building `processed_data`, so the latencies existed in the source files and
+nowhere else: `bonandrini2026_SPChumaneval` (8,149 trials), `guenther2022relational`
+(22,000), `guenther2023ViSpa` (33,055).
+
+**Recovered at the prompts layer.** Five more carried RT in `processed_data` but
+omitted it from the JSONL: `tsaregorodtseva2026_mousetracking` (111,520 values
+across two measures), `connel2022_naming` (25,850), `Leivada2020_manipulativeDiscourse`
+(8,280), `hilton2021_comprehension` (2,920), and `wang2025_lexicaldecision`, which
+emitted a single scalar per record and so discarded 376,100 of its 376,101 values.
+
+**Standardized.** `rt` is the field name everywhere (`rt_all` and `trial_rt_ms` are
+gone), it is always a flat list of numbers in milliseconds, and
+`hilton2021_comprehension`'s seconds are converted. `Wulff2022_StructuralDifferences`'
+nested array of arrays is flattened. Seven studies emitted `participant` rather than
+the required `participant_id`. `miklashevsky2017_LDT_RussianNouns` buried its
+demographics inside a `participant_info` object; they are now top-level fields.
+
+Also restored along the way: gender, education and handedness in
+`Leivada2020_manipulativeDiscourse`; handedness and device type in
+`tsaregorodtseva2026_mousetracking`.
+
+### Two things deliberately not done
+
+`devardalamarraetal2025_iconicity` looks like it has reaction times — `ldt_rt` and
+`nt_rt`. It does not. Each has exactly one distinct value per stimulus: they are
+published item-level norms borrowed from other megastudies, not latencies this
+study's participants produced. Its own measure is an iconicity rating. Emitting
+them as `rt` would make a rating study look like a timed one.
+
+`Wulff2022_StructuralDifferences`' `rt` column is **not reaction time in exp1 and
+exp2**. `preprocess_data.R` renames the raw `time` column to `rt`, and within a
+participant the values rise monotonically (863, 1454, 2305, 3679, …) — they are
+cumulative time since the session began. Per-response latencies would have to be
+derived by differencing. The column is not renamed here, because that is a
+vocabulary decision, but its CODEBOOK description now says precisely what the
+numbers are.
+
+### Defects found while verifying
+
+Several scripts could not have produced the outputs committed beside them:
+
+| Study | Defect |
+|---|---|
+| `bonandrini2026_SPChumaneval` | called `stream_out()` without ever loading `jsonlite`; the write step failed outright |
+| `marson2026_eplep` | assembled JSON by hand, writing `NA` as a literal token and leaving 97 unparseable lines; also dropped its first column unconditionally, deleting `participant_id` |
+| `aguasvivas2018_spalex` | grouped by `participant`, sorted by `trial`, read `correct` — none of which exist in its own `processed_data` |
+| `lynott2020lancaster` | emitted `participant` while its committed archive carried `participant_id` |
+| `Dymarska2025_associations` | concatenated an unsorted glob, making row order filesystem-dependent |
+
+**22 of 66 generate scripts still do not build their own `prompts.jsonl.zip`.** Those
+archives were produced by hand and cannot be verified against the scripts beside
+them. Eight studies therefore have a fixed generator but a stale committed archive;
+they are regenerated when the prompt-layer work lands.
+
 ---
 
 ## Planned, not yet applied
