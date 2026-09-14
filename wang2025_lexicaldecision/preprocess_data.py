@@ -49,8 +49,17 @@ rename_map = {
 
 df_cleaned = df.rename(columns=rename_map)
 
-# Make "phase_id" a string variable
-df_cleaned["phase_id"] = df_cleaned["phase_id"].astype("string")
+# Make "phase_id" a string variable.
+# Cast through the nullable Int64 first: the raw `block` column is float64
+# (29 rows are blank), so going straight to "string" renders 0 as "0.0".
+df_cleaned["phase_id"] = df_cleaned["phase_id"].astype("Int64").astype("string")
+
+# Column order as committed: the derived trial_id and response sit before
+# image_filename rather than being appended after it.
+df_cleaned = df_cleaned[[
+    "participant_id", "phase_id", "stimulus", "condition", "accuracy",
+    "rt", "trial_id", "response", "image_filename",
+]]
 
 # Export the cleaned file
 df_cleaned.to_csv(SCRIPT_DIR / "processed_data" / "exp1.csv", index=False)
