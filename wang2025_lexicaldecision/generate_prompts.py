@@ -5,8 +5,14 @@ import pandas as pd
 import jsonlines
 import numpy as np
 
+from pathlib import Path
+
+# Resolve paths from this script's location so the script runs from any
+# working directory, on any machine.
+SCRIPT_DIR = Path(__file__).resolve().parent
+
 # Load data
-df = pd.read_csv("/Users/cyhsieh/PsychLing-101/wang2025_lexicaldecision/processed_data/exp1.csv")
+df = pd.read_csv(SCRIPT_DIR / "processed_data" / "exp1.csv")
 
 # create empty list to store all prompts
 all_prompts = []
@@ -108,5 +114,5 @@ for participant in participant_list:
         })
 
 # Save all prompts to JSONL file
-with jsonlines.open("prompts.jsonl", "w") as writer:
+with jsonlines.open(SCRIPT_DIR / "prompts.jsonl", "w") as writer:
     writer.write_all(all_prompts)

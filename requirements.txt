@@ -6,9 +6,12 @@
 # across the corpus. Versions are lower bounds: the scripts use long-stable APIs,
 # so pinning exact versions would create more breakage than it prevents.
 
-pandas>=1.5        # 89 scripts -- read/write every processed_data CSV
+pandas>=1.5,<3     # 89 scripts -- read/write every processed_data CSV
+                   #    Upper bound is deliberate: pandas 3 changes string-dtype
+                   #    inference, which silently alters written values (e.g.
+                   #    wang2025's phase_id becomes "0.0" instead of "0").
 jsonlines>=3.0     # 27 scripts -- writing prompts.jsonl
-numpy>=1.23        # 19 scripts -- randomized choice-option assignment, numeric recoding
+numpy>=1.23,<3     # 19 scripts -- randomized choice-option assignment, numeric recoding
 chardet>=5.0       #  3 scripts -- encoding detection for non-UTF-8 source files
                    #    (Leivada2020_manipulativeDiscourse, Pantelidou2026_wugTest,
                    #     FilipovicDurdevicFeldman2024_bialphabticVLD)

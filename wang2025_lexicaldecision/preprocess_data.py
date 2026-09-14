@@ -4,8 +4,14 @@
 import pandas as pd
 import numpy as np
 
+from pathlib import Path
+
+# Resolve paths from this script's location so the script runs from any
+# working directory, on any machine.
+SCRIPT_DIR = Path(__file__).resolve().parent
+
 # Read the raw data
-df = pd.read_csv("/Users/cyhsieh/PsychLing-101/wang2025_lexicaldecision/original_data/fullresult.csv", encoding="utf-8", index_col=0)
+df = pd.read_csv(SCRIPT_DIR / "original_data" / "fullresult.csv", encoding="utf-8", index_col=0)
 
 # Create variable "trial_id"
 df["trial_id"] = pd.factorize(df["item"])[0] + 1
@@ -23,7 +29,11 @@ conditions = [
 
 choices = ["j", "j", "f", "f"]
 
-df["response"] = np.select(conditions, choices, default=np.nan)
+# default is an empty string rather than np.nan: numpy >= 2 refuses to find a
+# common dtype for string choices and a float default. Blanks are converted
+# back to NaN below, so the written CSV is unchanged.
+df["response"] = np.select(conditions, choices, default="")
+df["response"] = df["response"].replace("", np.nan)
 
 # Rename varaibles based on the codebook
 rename_map = {
@@ -43,4 +53,4 @@ df_cleaned = df.rename(columns=rename_map)
 df_cleaned["phase_id"] = df_cleaned["phase_id"].astype("string")
 
 # Export the cleaned file
-df_cleaned.to_csv("/Users/cyhsieh/PsychLing-101/wang2025_lexicaldecision/processed_data/exp1.csv", index=False)
+df_cleaned.to_csv(SCRIPT_DIR / "processed_data" / "exp1.csv", index=False)
