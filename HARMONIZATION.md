@@ -247,6 +247,83 @@ with the same contents and a new timestamp.
 one: its 634-of-1,416 participant coverage gap is untouched by this pass and is still
 open.
 
+### Codebooks now describe their own data
+
+Ten studies shipped a `CODEBOOK.csv` that disagreed with their data, between them
+documenting **309 columns that exist in no dataset**. Five were near-verbatim copies of
+the root codebook; `devardalamarraetal2025_iconicity` listed 99 entries for 44 columns.
+
+This follows from the validator's shape rather than from carelessness. Its one
+ERROR-level codebook check asks that every data column appear in the local codebook —
+which copying the root satisfies for free — and nothing checks the other direction, so
+entries for columns that do not exist accumulate unnoticed.
+
+Every study codebook now lists exactly the columns in its own `processed_data`, in the
+canonical `Recommended Column Name,Description` form. Eleven header spellings were in
+use (`column_name,description`, `Variable,Description`, tab- and semicolon-separated);
+studies carrying a useful third column (`experiment`, `file`, `type`) keep it.
+`guasch2023_prevalence`'s eleven missing descriptions came from its own README, which
+had documented them all along.
+
+In the root codebook: 7 entries dropped that `chen2026transparency` left behind when it
+renamed its columns, and 7 promoted that three or more studies share (`lexicality`,
+`experiment`, `word`, `soa`, `session_no`, `correct_response`, `response_correct`).
+`responseX` is relabelled as what it is — a naming pattern for `response1`,
+`response2`, … — rather than a column anything has.
+
+After this, no study produces a header-format or delimiter warning, and the only
+codebook warnings left are the benign "column not in the main CODEBOOK", which is
+expected for genuinely study-specific columns.
+
+**One collision is documented but not yet resolved.** `correct_response` holds the
+answer that would have been right; `response_correct` says whether the participant gave
+it. The names are one word-order apart, and the corpus already mixes them:
+`matrineztomas2026_discreteemotions` uses `response_correct` for the correct emotion
+category — the opposite of its sense in the two `gatti` studies. The descriptions now
+say which is which; the rename is still open.
+
+### guasch2023_prevalence had no participant_id
+
+It was the only study in the corpus missing the one column the validator requires at
+ERROR level. Its `exp1.csv` identified rows by `session_id` alone, while
+`generate_prompts.r` already grouped by that column and emitted it as `participant_id` —
+so the prompts named a key the data did not contain, and the two could not be joined.
+The source distributes no person-level identifier (`sessions.csv` is the
+participant-level table, one row per session), so `session_id` is now named
+`participant_id` throughout, with the codebook and README saying why. Regenerated end to
+end: 204,645 participants and 25,171,335 bracketed responses, unchanged.
+
+### Attribution rebuilt from the merge history
+
+`gh` is not installed, which had blocked this; the GitHub REST API turns out to be
+readable without authentication for a public repository. All 85 pull requests and 20
+issues were read and cross-checked against the 64 merge commits, mapping every one of
+the 66 dataset folders to the pull request that introduced it.
+
+`CONTRIBUTING.md` is now keyed to dataset folders, one row per folder, matching the
+"one submitted folder = one study" convention — so it can be checked against the
+repository rather than taken on trust. What was wrong:
+
+| Problem | Count |
+|---|---|
+| merged datasets still listed as "In Progress" | 17 |
+| merged datasets still listed as "Open" | 3 |
+| datasets with no row at all | 4 |
+| the file's own heading, printed twice | 1 |
+| a row citing another study's paper (Provo carried the CELER link) | 1 |
+
+The four with no row were `lally2022_letter_identification`,
+`zemla2020_semantic_fluency`, `aguasvivas2018_spalex_es` and
+`matrineztomas2026_discreteemotions`. Two contributors were missing entirely: **Valmik
+Nahata** (`luke2018_provo`, `adelman2014_formpriming`, `berzak2025_onestop`) and
+**Raluca Rilla** (`aguasvivas2018_spalex_es`), the latter confirmed from her commit
+authorship rather than inferred from her handle.
+
+**One contributor still needs asking.** `lally2022_letter_identification` and
+`zemla2020_semantic_fluency` are credited to `@dieselpunk-brazilia`, whose real name
+appears nowhere readable — not in the profile, the pull requests, or the commits. Since
+contributors are promised co-authorship, this is worth an email rather than a guess.
+
 ---
 
 ## Planned, not yet applied
@@ -255,11 +332,6 @@ The review behind this branch found more than the items above. The following are
 but **not yet implemented**; they are listed here so the current state is not mistaken for a
 finished one.
 
-- **Codebook unification.** 235 of the 302 column names in use across `processed_data/` are
-  absent from the root `CODEBOOK.csv`, and 13 different per-study codebook header formats are
-  in circulation. Several root entries carry text copied from one specific study and are
-  simply wrong elsewhere. Six studies shipped a near-verbatim copy of the root codebook
-  instead of their own, producing 315 entries describing columns that do not exist in their data.
 - **Reproducibility.** Five studies cannot be re-run from a clean clone because their scripts
   contain absolute paths from a contributor's machine, and one reads a different study's data.
 - **Naming consistency.** Nine READMEs are mis-cased (`Readme.md`, `README.MD`), which passes
