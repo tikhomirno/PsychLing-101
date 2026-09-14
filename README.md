@@ -95,6 +95,14 @@ Rscript -e 'pkgs <- grep("^#", readLines("requirements-R.txt"), value = TRUE, in
             install.packages(pkgs, repos = "https://cloud.r-project.org")'
 ```
 
+Run R scripts under a UTF-8 locale. With `LC_CTYPE=C` — the default for `Rscript` on
+some systems — R escapes non-ASCII characters on output, so `É` is written as
+`<U+00C9>` and the resulting CSV no longer matches the committed one:
+
+```bash
+LC_ALL=en_US.UTF-8 Rscript preprocess_data.R
+```
+
 If you add a dependency, add it to `requirements.txt` (or `requirements-R.txt`) in the same
 pull request. **Scripts must not install packages themselves** — a dataset script that writes
 to the user's library is a side effect, not a conversion step.

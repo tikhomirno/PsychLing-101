@@ -7,7 +7,15 @@
 ############################# Experiment 1 #####################################
 #load data
 library(readr)
-E1 <- read_csv("original_data/Exp1.csv")
+
+# Resolve paths from this script's location so it runs from any working
+# directory and always writes inside its own study folder.
+.args <- commandArgs(trailingOnly = FALSE)
+SCRIPT_DIR <- dirname(sub("^--file=", "", .args[grep("^--file=", .args)]))
+if (length(SCRIPT_DIR) == 0 || !nzchar(SCRIPT_DIR)) SCRIPT_DIR <- getwd()
+dir.create(file.path(SCRIPT_DIR, "processed_data"), showWarnings = FALSE)
+
+E1 <- read_csv(file.path(SCRIPT_DIR, "original_data", "Exp1.csv"))
 
 #remove timeout
 E1 <- E1[E1$Accuracy!=99,]
@@ -39,13 +47,13 @@ for (i in 1:(dim(E1)[1])){
 #create dataframe
 E1_clean <- data.frame(participant_id, trial_id, stimulus, response_option_1, response_option_2, response, accuracy)
 #write
-write.csv(E1_clean, "exp1.csv", row.names = FALSE)
+write.csv(E1_clean, file.path(SCRIPT_DIR, "processed_data", "exp1.csv"), row.names = FALSE, fileEncoding = "UTF-8")
 #clear
-rm(list=ls())#clear all
+rm(list = setdiff(ls(), "SCRIPT_DIR"))  # clear all except the resolved script path
 ############################# Experiment 2 #####################################
 #load data
 library(readr)
-E2 <- read_csv("original_data/Exp2.csv")
+E2 <- read_csv(file.path(SCRIPT_DIR, "original_data", "Exp2.csv"))
 
 #remove timeout
 E2 <- E2[E2$Accuracy!=99,]
@@ -75,14 +83,14 @@ for (i in 1:(dim(E2)[1])){
 }
 E2_clean <- data.frame(participant_id, trial_id, stimulus, response_option_1, response_option_2, response, accuracy)
 #write
-write.csv(E2_clean, "exp2.csv", row.names = FALSE)
+write.csv(E2_clean, file.path(SCRIPT_DIR, "processed_data", "exp2.csv"), row.names = FALSE, fileEncoding = "UTF-8")
 #clear
-rm(list=ls())#clear all
+rm(list = setdiff(ls(), "SCRIPT_DIR"))  # clear all except the resolved script path
 
 ############################# Experiment 3 #####################################
 #load data
 library(readr)
-E3 <- read_csv("original_data/Exp3.csv")
+E3 <- read_csv(file.path(SCRIPT_DIR, "original_data", "Exp3.csv"))
 
 #remove timeout
 E3 <- E3[E3$Accuracy!=99,]
@@ -113,6 +121,6 @@ for (i in 1:(dim(E3)[1])){
 
 E3_clean <- data.frame(participant_id, trial_id, stimulus, response_option_1, response_option_2, response, accuracy)
 #write
-write.csv(E3_clean, "exp3.csv", row.names = FALSE)
+write.csv(E3_clean, file.path(SCRIPT_DIR, "processed_data", "exp3.csv"), row.names = FALSE, fileEncoding = "UTF-8")
 #clear
-rm(list=ls())#clear all
+rm(list = setdiff(ls(), "SCRIPT_DIR"))  # clear all except the resolved script path

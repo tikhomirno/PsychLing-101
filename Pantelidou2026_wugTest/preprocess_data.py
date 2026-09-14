@@ -1,6 +1,11 @@
 import pandas as pd
 import chardet
 import csv
+from pathlib import Path
+
+# Resolve paths from this script's location so it runs from any working
+# directory and always writes inside its own study folder.
+SCRIPT_DIR = Path(__file__).resolve().parent
 
 def detect_encoding(file_path):
     """Try to detect encoding, with fallbacks for common European encodings."""
@@ -99,16 +104,12 @@ mapping = {
     'Accuracy': 'accuracy',
 }
 
-input_files = [
-    "original_data/input1.csv",
-    "original_data/input2.csv",
-    "original_data/input3.csv",
-    "original_data/input4.csv",
-]
+input_files = [SCRIPT_DIR / "original_data" / f"input{i}.csv" for i in range(1, 5)]
 
 for i, file in enumerate(input_files, start=1):
     df_out = transform_to_target(file, target_columns, mapping, drop_columns)
-    output_name = f"exp{i}.csv"
+    output_name = SCRIPT_DIR / "processed_data" / f"exp{i}.csv"
+    output_name.parent.mkdir(parents=True, exist_ok=True)
 
     df_out.to_csv(
         output_name,

@@ -1,7 +1,10 @@
 from pathlib import Path
 import pandas as pd
 
-DATASET_DIR = Path("gatti2024_concreteness_judgments")
+# Resolve paths from this script's location rather than assuming the working
+# directory is the repository root. The sibling generate_prompts.py already
+# uses __file__, so previously no single working directory ran both.
+DATASET_DIR = Path(__file__).resolve().parent
 RAW_EXP1 = DATASET_DIR / "original_data" / "data_EXP1_fin.csv"
 RAW_EXP2 = DATASET_DIR / "original_data" / "data_EXP2_full.csv"
 OUT_DIR = DATASET_DIR / "processed_data"

@@ -6,10 +6,16 @@ rm(list=ls())
 library(tidyverse)
 library(jsonlite)
 
-setwd("guenther2026_crosslingcommunication")
+# Resolve paths from this script's location so it runs from any working
+# directory and always writes inside its own study folder. Replaces a
+# hardcoded working-directory change that required the repository root as
+# the working directory and broke on a second run.
+.args <- commandArgs(trailingOnly = FALSE)
+SCRIPT_DIR <- dirname(sub("^--file=", "", .args[grep("^--file=", .args)]))
+if (length(SCRIPT_DIR) == 0 || !nzchar(SCRIPT_DIR)) SCRIPT_DIR <- getwd()
 
-df_phase1 <- read_csv2("processed_data/exp1.csv")
-df_phase2 <- read_csv2("processed_data/exp2.csv")
+df_phase1 <- read_csv2(file.path(SCRIPT_DIR, "processed_data", "exp1.csv"))
+df_phase2 <- read_csv2(file.path(SCRIPT_DIR, "processed_data", "exp2.csv"))
 
 ita_instruction <- paste0("In questo esperimento ti verranno presentate 12 parole Italiane. Il tuo compito consisterà nello scrivere quale potrebbe essere la traduzione tedesca per ciascuna parola. Ti preghiamo di fornire risposte che potrebbero sembrare realmente parole tedesche; in particolare, ti chiediamo di non rispondere con altre parole italiane (ad es. sinonimi o parole ortograficamente troppo simili a quella italiana di partenza) o con altre parole tedesche esistenti (o provenienti da altre lingue) che potresti casualmente conoscere. Allo stesso tempo è importante che ogni tua risposta sia leggibile, e che quindi non sia una serie casuale di caratteri.")
 de_instruction  <- paste0("In einem anderen Experiment haben wir anderen Personen einzelne Wörter wie ,Apfel' gezeigt. Wir haben sie gebeten, diese Wörter durch jeweils ein anderes einzelnes Wort zu ersetzen, das die ursprüngliche Bedeutung so genau wie möglich wiedergibt, damit Sie als ratender Spieler die besten Chancen haben, sie richtig zu erraten. In diesem Experiment werden Ihnen also verschiedene einzelne Wörter vorgelegt, und Sie sollen erraten, welches Originalwort diese ersetzen könnten. Für jedes Wort müssen Sie 3 mögliche Originalwörter vorschlagen.")
@@ -112,4 +118,4 @@ df_prompts_ph2 <- generate_prompts(
 # --- combine and write ---
 df_prompts_all <- rbind(df_prompts_ph1, df_prompts_ph2)
 
-writeLines(df_prompts_all$result, "prompts.jsonl", useBytes = TRUE)
+writeLines(df_prompts_all$result, file.path(SCRIPT_DIR, "prompts.jsonl"), useBytes = TRUE)

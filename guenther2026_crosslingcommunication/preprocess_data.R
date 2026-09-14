@@ -12,11 +12,16 @@ library(reshape2)
 ##### Preprocessing data for experiment 1 #####
 ###############################################
 
-### set the folder 
-setwd("guenther2026_crosslingcommunication")
+# Resolve paths from this script's location so it runs from any working
+# directory and always writes inside its own study folder. Replaces a
+# hardcoded working-directory change that required the repository root as
+# the working directory and broke on a second run.
+.args <- commandArgs(trailingOnly = FALSE)
+SCRIPT_DIR <- dirname(sub("^--file=", "", .args[grep("^--file=", .args)]))
+if (length(SCRIPT_DIR) == 0 || !nzchar(SCRIPT_DIR)) SCRIPT_DIR <- getwd()
 
 ### list all the .csv files in the data folder
-folder <- "original_data"
+folder <- file.path(SCRIPT_DIR, "original_data")
 
 # only the production data
 files <- unique(dir(folder)[grep(dir(folder), pattern = ".csv$")])
@@ -375,7 +380,7 @@ df_selected$trial_order <- df_selected$trial_order - 5
 df_selected <- df_selected %>% distinct(participant_id, trial_order, response_order, .keep_all = TRUE)
 
 # Save preprocessed data as .csv
-write_csv2(df_selected, "processed_data/exp1.csv")
+write_csv2(df_selected, file.path(SCRIPT_DIR, "processed_data", "exp1.csv"))
 
 
 
@@ -388,7 +393,7 @@ write_csv2(df_selected, "processed_data/exp1.csv")
 rm(list = ls())
 
 ### list all the .csv files in the folder
-folder <- "original_data"
+folder <- file.path(SCRIPT_DIR, "original_data")
 
 files <- unique(dir(folder)[grep(dir(folder), pattern = ".csv$")])
 files <- files[grep(files,pattern="reception")]
@@ -649,4 +654,4 @@ df_selected <- df_selected %>% rename(word = target)
 df_selected <- df_selected %>% distinct(participant_id, trial_order, response_order, .keep_all = TRUE)
 
 ### Export
-write_csv2(df_selected, "processed_data/exp2.csv")
+write_csv2(df_selected, file.path(SCRIPT_DIR, "processed_data", "exp2.csv"))
