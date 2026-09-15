@@ -1,4 +1,4 @@
-experiment,participant_id,trial_id,trial_order,phase_id,stimulus,probe_type,condition,response,accuracy,rt,age,gender,rt_measure
+experiment,participant_id,trial_label,trial_order,phase_id,stimulus,probe_type,condition,response,accuracy,rt,age,gender,rt_measure
 data_DRM,1,recognition_t0,0,recognition,pipa,studied,studied,1,1,1734,31,F,keypress
 data_DRM,1,recognition_t1,1,recognition,tabacco,studied,studied,0,0,1804,31,F,keypress
 data_DRM,1,recognition_t2,2,recognition,nicotina,studied,studied,0,0,3145,31,F,keypress

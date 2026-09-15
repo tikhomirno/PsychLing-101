@@ -1,4 +1,4 @@
-participant_id,session_no,trial_id,rt,stimulus,response,gender,childhood_location,current_location,first_language,education,age,country_of_birth,country_of_residence,rt_measure
+participant_id,session_no,trial_order,rt,stimulus,response,gender,childhood_location,current_location,first_language,education,age,country_of_birth,country_of_residence,rt_measure
 1,0,0,1712.0,sneaky,2,female,kent,kent,english,high_school_graduate,68,uk,uk,keypress
 1,0,1,1747.0,sting,2,female,kent,kent,english,high_school_graduate,68,uk,uk,keypress
 1,0,2,3016.0,stupendous,5,female,kent,kent,english,high_school_graduate,68,uk,uk,keypress

@@ -1,4 +1,4 @@
-"phase_id","list","participant_id","trial_id","stimulus","trial_order","lexicality","target_alphabet","phonological_ambiguity","response","accuracy","rt","rt_measure"
+"phase_id","list","participant_id","item_id","stimulus","trial_order","lexicality","target_alphabet","phonological_ambiguity","response","accuracy","rt","rt_measure"
 "block_1_single_alph","ALFA-3_C_b","BGdecembar2019_Cb_subject-65.csv","807","ОЧИЈУ",1,"Word","Cyrillic",NA,"1",1,838,"keypress"
 "block_1_single_alph","ALFA-3_C_b","BGdecembar2019_Cb_subject-65.csv","855","ЗАПУМАЧКОГ",2,"Pseudoword","Cyrillic",NA,"3",1,1503,"keypress"
 "block_1_single_alph","ALFA-3_C_b","BGdecembar2019_Cb_subject-65.csv","837","ИШНИЈУ",3,"Pseudoword","Cyrillic",NA,"3",1,843,"keypress"

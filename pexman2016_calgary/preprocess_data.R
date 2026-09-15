@@ -39,7 +39,9 @@ trials_clean <- trials %>%
   mutate(Word = str_to_lower(Word)) %>%
   # Make trial id for each participant
   group_by(Participant) %>%
-  mutate(trial_id = row_number() - 1) %>%
+  # A derived label, not an identifier: a 0-indexed position within the
+  # participant. trial_order below is the run order from the raw export.
+  mutate(trial_label = row_number() - 1) %>%
   ungroup()
 
 ## Merge items to trials
@@ -98,12 +100,12 @@ df <- df %>%
 df <- df %>%
   select(
     participant_id, age, gender, naart_score, ehi_score, ehi_class,
-    trial_id, trial_order, list_order, list, phase_id,
+    trial_label, trial_order, list_order, list, phase_id,
     condition, stimulus, accuracy, rt, response,
     is_rt_outlier, rt_raw, rt_zscore,
     prev_rt, prev_acc, concrete_rating
   ) %>%
-  arrange(participant_id, trial_id)
+  arrange(participant_id, trial_order)
 
 ## Save as csv
 dir.create("processed_data")

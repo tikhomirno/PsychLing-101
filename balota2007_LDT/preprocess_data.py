@@ -306,7 +306,7 @@ df = df.drop(columns = [
 ## Rename and reorder variables
 df = df.rename(columns={
     "Subject": "participant_id",
-    "TrialOrder": "trial_id",
+    "TrialOrder": "trial_order",
     "ItemSerialNumber": "stimulus_id",
     "Lexicality": "lexicality",
     "Accuracy": "accuracy",
@@ -330,7 +330,7 @@ df = df.rename(columns={
 })
 
 cols = list(df.columns)
-front_cols = ["participant_id", "session_no", "trial_id"]
+front_cols = ["participant_id", "session_no", "trial_order"]
 if "rt" in cols:
     front_cols.append("rt")
 

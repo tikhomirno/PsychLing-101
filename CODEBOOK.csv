@@ -114,6 +114,7 @@ target_letter,The letter that actually occurred at the probed position of the st
 target_word,The target word that participants rated for expectedness (from https://doi.org/10.3758/s13428-024-02379-9)
 text_id,Identifier of the text or passage presented on a trial.
 trial_id,"Identifier of one trial for one participant. Use trial_order for the position within a participant, and item_id for the stimulus."
+trial_label,"A readable label for the trial, such as a phase prefix plus the position. Not an identifier: the same value recurs for every participant, so join on (participant_id, trial_order) instead."
 trial_order,"Position of the trial within the participant, in presentation order."
 unknown_osullivan_et_al,Count of responses coded 'unknown' per O'Sullivan coding scheme.
 unknown_word,Binary indicator of whether the participant reported not knowing the meaning of the stimulus.

@@ -1,4 +1,4 @@
-experiment,participant_id,trial_id,trial_order,phase_id,stimulus_left,stimulus_right,response,response_side,condition_raw,device,age,gender,rt_measure
+experiment,participant_id,trial_label,trial_order,phase_id,stimulus_left,stimulus_right,response,response_side,condition_raw,device,age,gender,rt_measure
 EXP2,1,exp2_t0,0,judgment,ulivo,ambizione,ambizione,right,1,trackpad,24.0,F,keypress
 EXP2,1,exp2_t1,1,judgment,orecchio,disturbare,disturbare,right,1,trackpad,24.0,F,keypress
 EXP2,1,exp2_t2,2,judgment,leggenda,scala,leggenda,left,1,trackpad,24.0,F,keypress

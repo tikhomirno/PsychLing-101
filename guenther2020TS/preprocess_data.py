@@ -16,7 +16,7 @@ def write_codebook(base_dir: Path) -> None:
     rows = [
         {"column_name": "participant_id", "description": "Anonymized participant ID"},
         {"column_name": "age", "description": "Participant age in years (from 'Age')"},
-        {"column_name": "trial_id", "description": "Trial order index (factorized from raw trial_id)"},
+        {"column_name": "trial_order", "description": "Position of the trial within the participant, factorized from the raw trial_id"},
         {"column_name": "stimulus", "description": "Compound string shown on the trial (from 'comp')"},
         {"column_name": "response", "description": "Response key recoded to 'c' or 'n' (key 67 => 'c', else 'n')"},
         {"column_name": "rt", "description": "Response time in ms (from 'rt')"},
@@ -51,14 +51,15 @@ def preprocess(base_dir: Path) -> None:
     if "key_press" in df.columns:
         df.loc[df["key_press"] == 67, "response"] = "c"
 
-    # Factorize trial_id to integers starting at 1
+    # The raw export names this column trial_id, but it restarts at 1 for every
+    # participant and many stimuli share a value -- it is a position, not an id.
     if "trial_id" in df.columns:
-        df["trial_id"] = pd.factorize(df["trial_id"])[0] + 1
+        df["trial_order"] = pd.factorize(df["trial_id"])[0] + 1
 
     # Select and sort
-    cols = ["participant_id", "age", "trial_id", "stimulus", "response", "rt"]
+    cols = ["participant_id", "age", "trial_order", "stimulus", "response", "rt"]
     df_out = df.loc[:, [c for c in cols if c in df.columns]].copy()
-    df_out = df_out.sort_values(by=[c for c in ["participant_id", "trial_id"] if c in df_out.columns])
+    df_out = df_out.sort_values(by=[c for c in ["participant_id", "trial_order"] if c in df_out.columns])
 
     # remove duplicate columns
     df_out = df_out.loc[:, ~df_out.columns.duplicated()]

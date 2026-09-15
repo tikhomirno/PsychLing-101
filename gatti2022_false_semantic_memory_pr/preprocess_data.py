@@ -40,13 +40,16 @@ def main():
     df["accuracy"] = (df["response"] == df["condition"].map(correct_map)).astype(int)
 
     df["experiment"] = "data_DRM"
-    df["trial_id"] = "recognition_t" + df["trial_order"].astype(int).astype(str)
+    # A derived label, not an identifier: a constant prefix plus trial_order,
+    # so the same value recurs for every participant. Join on
+    # (participant_id, trial_order) instead.
+    df["trial_label"] = "recognition_t" + df["trial_order"].astype(int).astype(str)
     df["phase_id"] = "recognition"
 
     df = df[[
         "experiment",
         "participant_id",
-        "trial_id",
+        "trial_label",
         "trial_order",
         "phase_id",
         "stimulus",

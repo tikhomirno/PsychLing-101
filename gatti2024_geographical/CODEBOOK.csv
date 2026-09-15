@@ -17,5 +17,5 @@ response_raw,Raw response key from the source file; a=left l=right
 response_side,Response side derived from response_raw
 rt_ms,Reaction time in milliseconds parsed from rt_raw with decimal comma converted to decimal point
 rt_raw,Raw reaction time string from the source file
-trial_id,Unique identifier for a single trial within a participant session
+trial_label,"A readable label for the trial, such as a phase prefix plus the position. Not an identifier: the same value recurs for every participant, so join on (participant_id, trial_order) instead."
 trial_order,Presentation order within the participant session (0-indexed)

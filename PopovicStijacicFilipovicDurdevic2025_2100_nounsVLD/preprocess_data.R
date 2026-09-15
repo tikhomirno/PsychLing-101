@@ -44,7 +44,9 @@ dat$count__mouse_response_corrected = as.numeric(dat$count__mouse_response) + 1
 
 dat$list = dat$title
 dat$participant_id = dat$subject_nr
-dat$trial_id = dat$trial_number
+# trial_number is fixed to the stimulus and recurs at many different
+# presentation positions, so it identifies the item, not the trial.
+dat$item_id = dat$trial_number
 dat$stimulus = dat$rec
 dat$trial_order = dat$count__mouse_response_corrected
 dat$lexicality = dat$leksikalnost
@@ -52,7 +54,7 @@ dat$response = dat$response
 dat$accuracy = dat$correct
 dat$rt = dat$response_time
 
-df <- dat[, c("list", "participant_id", "trial_id", "stimulus", "trial_order", "lexicality", "response", "accuracy", "rt")]
+df <- dat[, c("list", "participant_id", "item_id", "stimulus", "trial_order", "lexicality", "response", "accuracy", "rt")]
 df$rt_measure <- "keypress"
 write.csv(df, file.path(SCRIPT_DIR, "processed_data", "exp1.csv"), row.names = FALSE)
 

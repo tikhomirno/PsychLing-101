@@ -1,4 +1,4 @@
-"list","participant_id","trial_id","stimulus","trial_order","lexicality","response","accuracy","rt","rt_measure"
+"list","participant_id","item_id","stimulus","trial_order","lexicality","response","accuracy","rt","rt_measure"
 "PRIDEVI_B","subject-82.csv",73,"REDOVNOJ",1,"rec","1",1,977,"keypress"
 "PRIDEVI_B","subject-82.csv",210,"TILBINOJ",2,"pseudorec","3",1,807,"keypress"
 "PRIDEVI_B","subject-82.csv",144,"LOTIVOM",3,"pseudorec","3",1,1039,"keypress"

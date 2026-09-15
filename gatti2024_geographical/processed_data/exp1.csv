@@ -1,4 +1,4 @@
-experiment,participant_id,trial_id,trial_order,phase_id,age,gender,gender_raw,hand,hand_raw,city_left,city_right,response_raw,response_side,correct_response,correct_side,accuracy,response_correct,rt_raw,rt_ms
+experiment,participant_id,trial_label,trial_order,phase_id,age,gender,gender_raw,hand,hand_raw,city_left,city_right,response_raw,response_side,correct_response,correct_side,accuracy,response_correct,rt_raw,rt_ms
 geographical_judgment,  iliaria37,exp1_t0,0,judgment,21,F,FALSE,left,SX,Bolzano,Bologna,l,right,l,right,1,1,"1593,3",1593.3
 geographical_judgment,  iliaria37,exp1_t1,1,judgment,21,F,FALSE,left,SX,Foggia,Bologna,l,right,l,right,1,1,"1360,3",1360.3
 geographical_judgment,  iliaria37,exp1_t2,2,judgment,21,F,FALSE,left,SX,Grosseto,Bologna,l,right,l,right,1,1,"1590,6",1590.6

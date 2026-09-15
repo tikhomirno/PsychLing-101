@@ -1,4 +1,4 @@
-"list","participant_id","trial_id","stimulus","trial_order","lexicality","response","accuracy","rt","rt_measure"
+"list","participant_id","item_id","stimulus","trial_order","lexicality","response","accuracy","rt","rt_measure"
 "EXP_BIG_DATA1",10,312,"SLUĐA",1,"pseudorec","3",1,600,"keypress"
 "EXP_BIG_DATA1",10,311,"STRIDA",2,"pseudorec","3",1,748,"keypress"
 "EXP_BIG_DATA1",10,305,"STRUJA",3,"rec","1",1,574,"keypress"

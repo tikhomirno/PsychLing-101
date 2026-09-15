@@ -69,7 +69,10 @@ def build_exp1():
 
     # trial order reconstructed from file order within participant
     df["trial_order"] = df.groupby("participant_id").cumcount()
-    df["trial_id"] = "exp1_t" + df["trial_order"].astype(str)
+    # A derived label, not an identifier: it is a constant prefix plus trial_order,
+    # so the same value recurs for every participant. Join on
+    # (participant_id, trial_order) instead.
+    df["trial_label"] = "exp1_t" + df["trial_order"].astype(str)
     df["experiment"] = "EXP1"
     df["phase_id"] = "judgment"
 
@@ -81,7 +84,7 @@ def build_exp1():
     out = df[[
         "experiment",
         "participant_id",
-        "trial_id",
+        "trial_label",
         "trial_order",
         "phase_id",
         "stimulus_left",
@@ -117,7 +120,7 @@ def build_exp2():
     df["age"] = pd.to_numeric(df["age"], errors="coerce")
 
     df["trial_order"] = df.groupby("participant_id").cumcount()
-    df["trial_id"] = "exp2_t" + df["trial_order"].astype(str)
+    df["trial_label"] = "exp2_t" + df["trial_order"].astype(str)
     df["experiment"] = "EXP2"
     df["phase_id"] = "judgment"
 
@@ -128,7 +131,7 @@ def build_exp2():
     out = df[[
         "experiment",
         "participant_id",
-        "trial_id",
+        "trial_label",
         "trial_order",
         "phase_id",
         "stimulus_left",

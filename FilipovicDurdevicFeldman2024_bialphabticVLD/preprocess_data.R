@@ -20,7 +20,9 @@ dat1 <- dat1 %>%
 dat1$phase_id <- dat1$phase
 dat1$list = dat1$title
 dat1$participant_id = dat1$ima_fajla_sa_podacima
-dat1$trial_id = dat1$item_id
+# The source column is the item identifier: it is fixed to the stimulus and
+# recurs at many different presentation positions. trial_order is the position.
+# (dat1 already carries item_id under that name)
 dat1$stimulus = dat1$rec
 dat1$trial_order = dat1$count_new_mouse_response_corrected
 dat1$target_alphabet = dat1$alphabet
@@ -30,7 +32,7 @@ dat1$response = dat1$response
 dat1$accuracy = dat1$correct
 dat1$rt = dat1$response_time
 
-block1 <- dat1[, c("phase_id", "list", "participant_id", "trial_id", "stimulus", "trial_order", "lexicality", "target_alphabet",  "phonological_ambiguity", "response", "accuracy", "rt")]
+block1 <- dat1[, c("phase_id", "list", "participant_id", "item_id", "stimulus", "trial_order", "lexicality", "target_alphabet",  "phonological_ambiguity", "response", "accuracy", "rt")]
 
 
 dat2=read.csv(file.path(SCRIPT_DIR, "original_data", "FilipovicDurdevicFeldman2024_bialphabeticVLD_block2.csv"),T)
@@ -46,7 +48,7 @@ dat2 <- dat2 %>%
 dat2$phase_id <- dat2$phase
 dat2$list = dat2$title
 dat2$participant_id = dat2$ima_fajla_sa_podacima
-dat2$trial_id = dat2$item_code
+dat2$item_id = dat2$item_code
 dat2$stimulus = dat2$rec
 dat2$trial_order = dat2$count_new_mouse_response_corrected
 dat2$target_alphabet = dat2$alphabet
@@ -56,7 +58,7 @@ dat2$response = dat2$response
 dat2$accuracy = dat2$correct
 dat2$rt = dat2$response_time
 
-block2 <- dat2[, c("phase_id", "list", "participant_id", "trial_id", "stimulus", "trial_order", "lexicality", "target_alphabet",  "phonological_ambiguity", "response", "accuracy", "rt")]
+block2 <- dat2[, c("phase_id", "list", "participant_id", "item_id", "stimulus", "trial_order", "lexicality", "target_alphabet",  "phonological_ambiguity", "response", "accuracy", "rt")]
 
 block1_block2 = rbind(block1, block2)
 block1_block2$rt_measure <- "keypress"

@@ -8,5 +8,5 @@ participant_id,Unique identifier assigned to each participant.
 phase_id,Identifier for the experimental phase or block a trial belongs to.
 response,Participant's response; missing for study-phase rows.
 stimulus,The word presented in the current study or recognition trial.
-trial_id,Unique identifier for a single trial within a session or condition.
+trial_label,"A readable label for the trial, such as a phase prefix plus the position. Not an identifier: the same value recurs for every participant, so join on (participant_id, trial_order) instead."
 trial_order,Presentation order within the session (0-indexed).

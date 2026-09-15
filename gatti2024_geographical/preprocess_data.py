@@ -106,7 +106,10 @@ def main():
 
     # Preserve the presentation order from the raw file within each participant.
     df["trial_order"] = df.groupby("participant_id").cumcount()
-    df["trial_id"] = "exp1_t" + df["trial_order"].astype(str)
+    # A derived label, not an identifier: it is a constant prefix plus trial_order,
+    # so the same value recurs for every participant. Join on
+    # (participant_id, trial_order) instead.
+    df["trial_label"] = "exp1_t" + df["trial_order"].astype(str)
     df["experiment"] = "geographical_judgment"
     df["phase_id"] = "judgment"
 
@@ -158,7 +161,7 @@ def main():
     out_cols = [
         "experiment",
         "participant_id",
-        "trial_id",
+        "trial_label",
         "trial_order",
         "phase_id",
         "age",

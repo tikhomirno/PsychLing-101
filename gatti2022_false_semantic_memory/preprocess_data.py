@@ -60,7 +60,10 @@ def build_study_trials(study: pd.DataFrame, recog: pd.DataFrame) -> pd.DataFrame
     df["list"] = df["list_name"].map(LIST_NAME_TO_ID)
     df = df.sort_values(["participant_id", "list", "position_in_list"]).reset_index(drop=True)
     df["trial_order"] = df.groupby("participant_id").cumcount()
-    df["trial_id"] = "study_t" + df["trial_order"].astype(str)
+    # A derived label, not an identifier: it is a constant prefix plus trial_order,
+    # so the same value recurs for every participant. Join on
+    # (participant_id, trial_order) instead.
+    df["trial_label"] = "study_t" + df["trial_order"].astype(str)
     df["experiment"] = "EXP.1"
     df["condition"] = "studied_word"
     df["response"] = pd.NA
@@ -70,7 +73,7 @@ def build_study_trials(study: pd.DataFrame, recog: pd.DataFrame) -> pd.DataFrame
         [
             "experiment",
             "participant_id",
-            "trial_id",
+            "trial_label",
             "trial_order",
             "phase_id",
             "list",
@@ -107,14 +110,14 @@ def build_recognition_trials(recog: pd.DataFrame, n_study_trials_by_participant:
     df["phase_id"] = "recognition"
     df["recog_order"] = df.groupby("participant_id").cumcount()
     df["trial_order"] = df["participant_id"].map(n_study_trials_by_participant) + df["recog_order"]
-    df["trial_id"] = "recognition_t" + df["recog_order"].astype(str)
+    df["trial_label"] = "recognition_t" + df["recog_order"].astype(str)
     df["experiment"] = "EXP.1"
 
     df = df[
         [
             "experiment",
             "participant_id",
-            "trial_id",
+            "trial_label",
             "trial_order",
             "phase_id",
             "list",

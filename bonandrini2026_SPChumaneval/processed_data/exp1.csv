@@ -1,4 +1,4 @@
-"participant_id","trial_id","stimulus","response_option_1","response_option_2","response","accuracy","rt","rt_measure"
+"participant_id","trial_order","stimulus","response_option_1","response_option_2","response","accuracy","rt","rt_measure"
 1,1,"matita","TINFETIOLIA","TOPISEGNATURA",2,"Correct",2297,"keypress"
 1,2,"collera","IRIBOLENZA","MAAZELLARIA",1,"Correct",1896,"keypress"
 1,3,"attrezzo","BICCORERIANNO","PESCHETTORIO",2,"Correct",2570,"keypress"

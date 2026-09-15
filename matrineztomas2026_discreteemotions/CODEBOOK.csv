@@ -12,5 +12,5 @@ rt,Response time in milliseconds; derived from source timing fields as documente
 rt_measure,What rt measures in this dataset: keypress (stimulus-locked key or button press latency).
 stimulus,Participant-visible stimulus: an existing Spanish word in Experiment 1 and a novel Spanish letter string in Experiments 2 and 3.
 target_word,Original Spanish source word from which the novel string was derived; available in Experiments 2 and 3 and not displayed to participants.
-trial_id,Unique identifier for a trial within an experiment and participant session.
+trial_label,"A readable label for the trial, such as a phase prefix plus the position. Not an identifier: the same value recurs for every participant, so join on (participant_id, trial_order) instead."
 trial_order,Presentation order within the retained participant session (0-indexed).

@@ -20,7 +20,7 @@ start_endblock,"Timestamp when the participant started the final block of the su
 start_time,Timestamp when the participant started the survey session (YYYY-MM-DD HH:MM:SS).
 stimulus,The linguistic or visual stimulus presented to the participant in a given trial.
 stimulus_id,Unique identifier assigned to each stimulus. Note: There are two versions of each stimulus: a word and a nonword. Whether a certain stimulus is a word or a nonword is indicated by the variable 'lexicality'.
-trial_id,Unique identifier for a single trial within a session or condition.
+trial_order,"Position of the trial within the participant, in presentation order."
 university,University from whose research participant pool the participant was recruited.
 vision_score,Participant's vision score on a general health questionnaire.
 years_of_education,Participant's number of years of education.

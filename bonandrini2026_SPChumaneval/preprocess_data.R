@@ -21,7 +21,7 @@ E1 <- read_csv(file.path(SCRIPT_DIR, "original_data", "Exp1.csv"))
 E1 <- E1[E1$Accuracy!=99,]
 
 participant_id <- E1$ID
-trial_id <- E1$trial
+trial_order <- E1$trial
 stimulus <- NA
 response_option_1 <- NA
 response_option_2 <- NA
@@ -46,7 +46,7 @@ for (i in 1:(dim(E1)[1])){
 }
 
 #create dataframe
-E1_clean <- data.frame(participant_id, trial_id, stimulus, response_option_1, response_option_2, response, accuracy, rt)
+E1_clean <- data.frame(participant_id, trial_order, stimulus, response_option_1, response_option_2, response, accuracy, rt)
 #write
 E1_clean$rt_measure <- "keypress"
 write.csv(E1_clean, file.path(SCRIPT_DIR, "processed_data", "exp1.csv"), row.names = FALSE, fileEncoding = "UTF-8")
@@ -61,7 +61,7 @@ E2 <- read_csv(file.path(SCRIPT_DIR, "original_data", "Exp2.csv"))
 E2 <- E2[E2$Accuracy!=99,]
 
 participant_id <- E2$ID
-trial_id <- E2$trial
+trial_order <- E2$trial
 stimulus <- NA
 response_option_1 <- NA
 response_option_2 <- NA
@@ -84,7 +84,7 @@ for (i in 1:(dim(E2)[1])){
     accuracy[i] <- "Incorrect"
   }
 }
-E2_clean <- data.frame(participant_id, trial_id, stimulus, response_option_1, response_option_2, response, accuracy, rt)
+E2_clean <- data.frame(participant_id, trial_order, stimulus, response_option_1, response_option_2, response, accuracy, rt)
 #write
 E2_clean$rt_measure <- "keypress"
 write.csv(E2_clean, file.path(SCRIPT_DIR, "processed_data", "exp2.csv"), row.names = FALSE, fileEncoding = "UTF-8")
@@ -100,7 +100,7 @@ E3 <- read_csv(file.path(SCRIPT_DIR, "original_data", "Exp3.csv"))
 E3 <- E3[E3$Accuracy!=99,]
 
 participant_id <- E3$ID
-trial_id <- E3$trial
+trial_order <- E3$trial
 stimulus <- NA
 response_option_1 <- NA
 response_option_2 <- NA
@@ -124,7 +124,7 @@ for (i in 1:(dim(E3)[1])){
   }
 }
 
-E3_clean <- data.frame(participant_id, trial_id, stimulus, response_option_1, response_option_2, response, accuracy, rt)
+E3_clean <- data.frame(participant_id, trial_order, stimulus, response_option_1, response_option_2, response, accuracy, rt)
 #write
 E3_clean$rt_measure <- "keypress"
 write.csv(E3_clean, file.path(SCRIPT_DIR, "processed_data", "exp3.csv"), row.names = FALSE, fileEncoding = "UTF-8")

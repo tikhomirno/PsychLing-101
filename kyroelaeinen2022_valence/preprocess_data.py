@@ -29,7 +29,7 @@ df_all = df_all.rename(columns={
 df_all["rt"] = round(df_all["rt"]*1000, 1)
 
 # Add trial no (assumption: order in df is order that words were presented; 0 indexed)
-df_all["trial_id"] = df_all.groupby("participant_id").cumcount().mod(90)
+df_all["trial_order"] = df_all.groupby("participant_id").cumcount().mod(90)
 
 # Add block no. (each session 90 words; 0 indexed)
 df_all["session_no"] = df_all.groupby("participant_id").cumcount().floordiv(90)
@@ -37,7 +37,7 @@ df_all["session_no"] = df_all.groupby("participant_id").cumcount().floordiv(90)
 
 # Reorder columns to put key IDs and RT at the front
 cols = list(df_all.columns)
-front_cols = ["participant_id", "session_no", "trial_id"]
+front_cols = ["participant_id", "session_no", "trial_order"]
 if "rt" in cols:
     front_cols.append("rt")
 

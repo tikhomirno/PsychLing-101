@@ -1,4 +1,4 @@
-"participant_id","trial_id","stimulus","response_option_1","response_option_2","response","accuracy","rt","rt_measure"
+"participant_id","trial_order","stimulus","response_option_1","response_option_2","response","accuracy","rt","rt_measure"
 1,1,"violino tavolo","SUONCOLLO","SDRAIOLIO",2,"Incorrect",3675,"keypress"
 1,2,"finestra piazza","BANDINAIA","GIAPRIATOLA",1,"Incorrect",4009,"keypress"
 1,3,"prato tavolo","SDRAIARELLO","FIORICELLO",1,"Correct",3258,"keypress"

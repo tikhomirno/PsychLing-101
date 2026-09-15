@@ -1,4 +1,4 @@
-"participant_id","trial_id","stimulus","trial_order","lexicality","response","accuracy","rt","rt_measure"
+"participant_id","item_id","stimulus","trial_order","lexicality","response","accuracy","rt","rt_measure"
 "G1_subject-79.csv",141,"GREJAM",1,"pseudorec","3",1,689,"keypress"
 "G1_subject-79.csv",25,"PRIMAM",2,"rec","1",1,718,"keypress"
 "G1_subject-79.csv",76,"PROCVETAM",3,"rec","1",1,533,"keypress"

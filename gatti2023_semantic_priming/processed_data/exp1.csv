@@ -1,4 +1,4 @@
-experiment,participant_id,trial_id,trial_order,phase_id,prime,target,response,response_correct,accuracy,rt,age,gender,hand,rt_measure
+experiment,participant_id,trial_label,trial_order,phase_id,prime,target,response,response_correct,accuracy,rt,age,gender,hand,rt_measure
 semantic_priming,72,exp1_t0,0,judgment,ragno,abete,1.0,1,1.0,506.0,20,F,right,keypress
 semantic_priming,11,exp1_t0,0,judgment,ragno,abete,1.0,1,1.0,869.85,23,M,right,keypress
 semantic_priming,75,exp1_t0,0,judgment,ragno,abete,1.0,1,1.0,560.4599999999999,24,F,right,keypress

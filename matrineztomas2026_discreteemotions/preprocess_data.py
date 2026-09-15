@@ -93,7 +93,9 @@ def preprocess_exp1(raw: pd.DataFrame) -> pd.DataFrame:
         {
             "experiment": "martineztomas2026_discrete_emotionality_exp1",
             "participant_id": participant_id,
-            "trial_id": "exp1_t" + trial_order.astype(str),
+            # A derived label, not an identifier: a constant prefix plus trial_order,
+            # so the same value recurs for every participant.
+            "trial_label": "exp1_t" + trial_order.astype(str),
             "trial_order": trial_order,
             "phase_id": "production",
             "stimulus": data["Palabra"],
@@ -134,7 +136,7 @@ def preprocess_exp2(raw: pd.DataFrame) -> pd.DataFrame:
         {
             "experiment": "martineztomas2026_discrete_emotionality_exp2",
             "participant_id": participant_id,
-            "trial_id": "exp2_t" + trial_order.astype(str),
+            "trial_label": "exp2_t" + trial_order.astype(str),
             "trial_order": trial_order,
             "phase_id": "word_decoding",
             "stimulus": data["Palabra"],
@@ -172,7 +174,7 @@ def preprocess_exp3(raw: pd.DataFrame) -> pd.DataFrame:
         {
             "experiment": "martineztomas2026_discrete_emotionality_exp3",
             "participant_id": participant_id,
-            "trial_id": "exp3_t" + trial_order.astype(str),
+            "trial_label": "exp3_t" + trial_order.astype(str),
             "trial_order": trial_order,
             "phase_id": "emotion_decoding",
             "stimulus": data["Palabra"],
@@ -189,7 +191,7 @@ def preprocess_exp3(raw: pd.DataFrame) -> pd.DataFrame:
 
 
 def validate_output(data: pd.DataFrame, dataset_name: str) -> None:
-    if data.duplicated(["participant_id", "trial_id"]).any():
+    if data.duplicated(["participant_id", "trial_order"]).any():
         raise ValueError(f"{dataset_name} has duplicate participant/trial pairs")
     if data["rt"].isna().any() or data["rt"].le(0).any():
         raise ValueError(f"{dataset_name} has missing or non-positive RT values")

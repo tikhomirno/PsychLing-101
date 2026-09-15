@@ -365,12 +365,12 @@ authorship rather than inferred from her handle.
 appears nowhere readable — not in the profile, the pull requests, or the commits. Since
 contributors are promised co-authorship, this is worth an email rather than a guess.
 
-### trial_id split into three names
+### trial_id split by what it actually meant
 
 `trial_id` carried three incompatible meanings. It now keeps its name only where it
 identifies one trial for one participant; position within a participant is
-`trial_order`, and the stimulus is `item_id`. Corpus-wide: **48 `trial_order`,
-24 `trial_id`, 11 `item_id`**.
+`trial_order`, and the stimulus is `item_id`. Corpus-wide: **54 `trial_order`,
+16 `item_id`, 7 `trial_label`, 6 `trial_id`**.
 
 Classification was done from each column's **derivation**, not from its values or its
 codebook description, because neither separates the cases. Where presentation order is
@@ -393,6 +393,39 @@ through it.
 read made the guard false, the column vanished from the output, and the script still
 exited 0. Only diffing the headers caught it — the same silent-success shape as the
 earlier `pissani2026` regression.
+
+**The remaining studies, resolved.** Eighteen studies were left carrying `trial_id`
+by default rather than by decision, because the derivation-based pass could not place
+them. Reading each one settled all of them:
+
+| Became | Studies | Why |
+|---|---|---|
+| `item_id` | the four `FilipovicDurdevic`-family studies, `keuleers2011_britishlexiconproject` | the value is fixed to the stimulus and recurs at 40–200 different positions, so it cannot be a position |
+| `trial_order` | `balota2007_LDT`, `balota2007_naming`, `bonandrini2026_SPChumaneval`, `guenther2020LDT`, `guenther2020TS`, `kyroelaeinen2022_valence` | it restarts at 1 for each participant and 118–146 different stimuli share each value |
+| `trial_label` | the five `gatti` studies, `matrineztomas2026_discreteemotions`, `pexman2016_calgary` | it is a constant prefix plus `trial_order` |
+| unchanged | `aguasvivas2018_spalex_es`, `chen2026transparency`, `petilli2026_ami`, `pissani2026_metaphor`, `stella2026_formamentis_data`, `vergallito2020_ipsn` | genuinely one trial for one participant |
+
+The value heuristic and the derivation disagreed again, in the direction that would
+have done real damage. The four `FilipovicDurdevic` studies look like positions —
+the value never repeats within a participant and is reused across them — but
+`FilipovicDurdevicFeldman2024_bialphabticVLD` assigns `trial_id` straight from the raw
+`item_id`/`item_code`, and in all four each stimulus has exactly one value while each
+value spans dozens of presentation positions. They are items. The giveaway is that
+these are morphology studies: one value groups the two alphabets of a bialphabetic
+word, the three forms of an adjective, the four forms of a verb.
+
+**A fourth name, `trial_label`.** Seven studies build `trial_id` as a constant prefix
+plus the position — `"exp1_t" + trial_order`, `"recognition_t" + recog_order`. The
+result is not an identifier at all: `exp1_t5` is the same string for every
+participant, so joining on it silently merges different people's trials. It carries
+nothing `trial_order` does not. Renamed rather than dropped, so nothing is lost, and
+each codebook now says it is a label and names the real join key,
+`(participant_id, trial_order)`.
+
+`gatti2022_false_semantic_memory_pr` was already recorded above as a case the value
+heuristic mis-bucketed; it belongs to this group too, and was only caught because the
+`_pr` folder sits beside `gatti2022_false_semantic_memory` and both build the column
+the same way.
 
 ### Two studies that had never been runnable
 

@@ -37,7 +37,7 @@ def preprocess():
 
     df = df.rename(columns={
         'participant': 'participant_id',   
-        'trial': 'trial_id',               
+        'trial': 'item_id',               
         'order': 'trial_order',            
         'block': 'phase_id',               
         'lexicality': 'condition',         

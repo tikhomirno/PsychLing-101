@@ -7,4 +7,4 @@ response_option_2,Response option 2 in each trial.
 rt,"Time taken by the participant to respond, in milliseconds."
 rt_measure,What rt measures in this dataset: keypress (stimulus-locked key or button press latency).
 stimulus,The linguistic stimulus presented to the participant in a given trial.
-trial_id,Unique identifier for a single trial within a session or condition.
+trial_order,"Position of the trial within the participant, in presentation order."

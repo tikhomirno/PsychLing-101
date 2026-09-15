@@ -1,4 +1,4 @@
-"participant_id","trial_id","stimulus","response_option_1","response_option_2","response","accuracy","rt","rt_measure"
+"participant_id","trial_order","stimulus","response_option_1","response_option_2","response","accuracy","rt","rt_measure"
 1,1,"libro","specchio libro","vaso fazzoletto",1,"Correct",6971,"keypress"
 1,2,"tramonto","tavolo tramonto","tramonto vaso",2,"Correct",3193,"keypress"
 1,3,"albero","specchio libro","albero vaso",2,"Correct",2452,"keypress"
