@@ -43,6 +43,12 @@ from typing import Any, Iterable
 
 import pandas as pd
 
+# sanitize_bracket_response() strips the few characters that stop a training
+# collator finding the closing ">>"; join_consecutive() separates neighbouring
+# spans with ". " rather than ", ", which breaks the following match.
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts" / "harmonization"))
+from bracket_safety import join_consecutive, sanitize_bracket_response  # noqa: E402
+
 
 # ---------------------------------------------------------------------
 # Configuration
@@ -242,7 +248,15 @@ def marked(value: str) -> str:
     # Input has already been sanitized. This is the only place where marker
     # symbols should be introduced.
     safe = value.replace("<<", "").replace(">>", "")
-    return f"<<{safe}>>"
+    # A trailing ")" is the one character here that stops the collator finding the
+    # closing ">>". Stripping it leaves the parenthesis unbalanced, which is
+    # harmless: only what sits adjacent to ">>" affects tokenization.
+    bracketable = sanitize_bracket_response(safe)
+    if bracketable is None:
+        # Nothing safely bracketable left; keep the response visible as context
+        # rather than emitting an empty "<<>>", which is also broken.
+        return f'"{safe}" (no response recorded)'
+    return f"<<{bracketable}>>"
 
 
 def first_non_missing(series: pd.Series) -> Any:
@@ -305,8 +319,8 @@ def build_trial_text(row: pd.Series, display_trial_number: int) -> tuple[str, in
 
     trial_text = (
         f"Trial {display_trial_number}: The cue word shown is {stimulus}. "
-        f"The participant enters {', '.join(response_parts)}. "
-        f"The participant provides valence ratings: {', '.join(valence_parts)}.\n"
+        f"The participant enters {join_consecutive(response_parts)} "
+        f"The participant provides valence ratings: {join_consecutive(valence_parts)}\n"
     )
 
     return trial_text, complete_responses

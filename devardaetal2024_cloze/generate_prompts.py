@@ -14,6 +14,13 @@ from pathlib import Path
 import pandas as pd
 
 SCRIPT_DIR = Path(__file__).parent
+
+# sanitize_bracket_response() strips the few characters that stop a training
+# collator finding the closing ">>" -- a single trailing '?' or ')', or wrapping
+# quotes. The failure is silent and takes the rest of the record with it.
+import sys
+sys.path.insert(0, str(SCRIPT_DIR.parent / "scripts" / "harmonization"))
+from bracket_safety import sanitize_bracket_response  # noqa: E402
 PROCESSED_DATA_DIR = SCRIPT_DIR / "processed_data"
 INPATH = PROCESSED_DATA_DIR / "exp1.csv"
 OUTPATH = SCRIPT_DIR / "prompts.jsonl"
@@ -38,9 +45,14 @@ def format_trial_description(trial_idx: int, stimulus: str, response: str) -> st
     Returns:
         Formatted trial description string
     """
+    bracketable = sanitize_bracket_response(str(response))
+    written = (
+        f"<<{bracketable}>>" if bracketable is not None
+        else f'"{response}" (no response recorded)'
+    )
     return (
         f"Trial {trial_idx}. The sentence is: '{stimulus}'. "
-        f"What is the next word you expect to follow? You write: <<{response}>>"
+        f"What is the next word you expect to follow? You write: {written}"
     )
 
 

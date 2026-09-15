@@ -1,20 +1,30 @@
 import pandas as pd
 import jsonlines
+import sys
 from pathlib import Path
 import zipfile
+
+sys.path.insert(
+    0, str(Path(__file__).resolve().parent.parent / "scripts" / "harmonization")
+)
+from bracket_safety import join_consecutive, sanitize_bracket_response  # noqa: E402
 
 # load data
 base_dir = Path(__file__).parent.resolve()
 exp = pd.read_csv(base_dir / "processed_data" / "exp1.csv")
 
-# New code to replace the current concatenation line
 response_cols = [f"response{i}" for i in range(1, 11)]
 
-# drop missing responses
-exp["response"] = (
-    exp[response_cols]
-    .apply(lambda row: ", ".join([x for x in row if pd.notna(x)]), axis=1)
-)
+# Keep the ten associations separate rather than joining them into one string.
+# Each is its own response and needs its own <<>> span: comma-joined inside a
+# single bracket, the training collator scores all ten as one item, and the ">>"
+# before each comma is not found at all.
+# Built with a list comprehension, not .apply(axis=1), because an apply that
+# returns equal-length lists expands into a DataFrame instead of a column.
+exp["response"] = [
+    [x for x in row if pd.notna(x)]
+    for row in exp[response_cols].itertuples(index=False)
+]
 
 # Define number of participants and trials
 participants_exp = exp['participant_id'].unique()
@@ -44,8 +54,15 @@ for participant in participants_exp:
         exp_trial = exp_participant.loc[exp_participant['trial_order'] == trial]
         if not exp_trial.empty:  # Only process if trial exists for this participant
             stimulus = exp_trial['stimulus'].iloc[0]
-            response = exp_trial['response'].iloc[0]
-            datapoint = f'{stimulus}. {trial_instruction} You enter <<{response}>>.\n'
+            responses = exp_trial['response'].iloc[0]
+            spans = []
+            for item in responses:
+                safe = sanitize_bracket_response(str(item))
+                spans.append(
+                    f"<<{safe}>>" if safe is not None
+                    else f'"{item}" (no response recorded)'
+                )
+            datapoint = f'{stimulus}. {trial_instruction} You enter {join_consecutive(spans)}\n'
             individual_prompt += datapoint
     all_prompts.append({'text': individual_prompt, 'experiment': 'guenther2024associations_individual', 'participant_id': participant, 'age': age})
 

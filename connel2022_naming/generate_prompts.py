@@ -7,6 +7,13 @@ import pandas as pd
 # Resolve paths from this script's location so it runs from any working
 # directory and always writes inside its own study folder.
 SCRIPT_DIR = Path(__file__).resolve().parent
+
+# sanitize_bracket_response() strips the few characters that stop a training
+# collator finding the closing ">>" -- a single trailing '?' or ')', or wrapping
+# quotes. The failure is silent and takes the rest of the record with it.
+import sys
+sys.path.insert(0, str(SCRIPT_DIR.parent / "scripts" / "harmonization"))
+from bracket_safety import sanitize_bracket_response  # noqa: E402
 INPATH = SCRIPT_DIR / "processed_data" / "exp1.csv"
 OUTPATH = SCRIPT_DIR / "prompts.jsonl"
 
@@ -101,10 +108,13 @@ def format_trial_description_row(row: pd.Series) -> str:
     elif is_invalid or raw_str == "" or raw_str.lower() in ("na", "n/a", "null"):
         response_line = "You typed invalid answer."
     else:
-        if corr_str != "":
-            response_line = f"After pressing SPACEBAR the image was replaced by a text box. You typed <<{corr_str}>>."
-        else:
-            response_line = f"After pressing SPACEBAR the image was replaced by a text box. You typed <<{raw_str}>>."
+        typed = corr_str if corr_str != "" else raw_str
+        bracketable = sanitize_bracket_response(typed)
+        marked = (
+            f"<<{bracketable}>>" if bracketable is not None
+            else f'"{typed}" (no response recorded)'
+        )
+        response_line = f"After pressing SPACEBAR the image was replaced by a text box. You typed {marked}."
 
     # 3. Final Object Line (What the object was)
     if pd.isna(obj):

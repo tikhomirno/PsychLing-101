@@ -138,9 +138,13 @@ make_participant_prompt <- function(dat) {
       )
     }
     
-    # Response line: 3 associations marked with << >>
+    # Response line: 3 associations marked with << >>.
+    # Separated with ". " and not ", ": a ">>" followed directly by a comma is not
+    # found by the training collator, and the failure is silent -- once a span
+    # fails to close, the rest of the record collapses into one unmasked span.
+    # See scripts/harmonization/bracket_safety.py.
     response_line <- sprintf(
-      "You generate the following associations: <<%s>>, <<%s>>, <<%s>>.",
+      "You generate the following associations: <<%s>>. <<%s>>. <<%s>>.",
       row$response1, row$response2, row$response3
     )
     

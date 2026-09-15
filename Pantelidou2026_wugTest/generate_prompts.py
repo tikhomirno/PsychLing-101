@@ -7,6 +7,21 @@ import zipfile
 # directory and always writes inside its own study folder.
 SCRIPT_DIR = Path(__file__).resolve().parent
 
+# sanitize_bracket_response() strips the few characters that stop a training
+# collator finding the closing ">>" -- a single trailing '?' or ')', or wrapping
+# quotes. The failure is silent and takes the rest of the record with it.
+import sys
+sys.path.insert(0, str(SCRIPT_DIR.parent / "scripts" / "harmonization"))
+from bracket_safety import sanitize_bracket_response  # noqa: E402
+
+
+def _marked(response) -> str:
+    """Bracket one response, or state it plainly when nothing is bracketable."""
+    bracketable = sanitize_bracket_response(str(response))
+    if bracketable is None:
+        return f'"{response}" (no response recorded)'
+    return f"<<{bracketable}>>"
+
 # --------------------------
 # Load CSV files
 # --------------------------
@@ -147,9 +162,9 @@ def generate_prompts(exp_df, instruction_block1, instruction_block2, experiment_
 
                 # Build datapoint string WITHOUT accuracy
                 if trial_index == 21:
-                    datapoint = f"{instruction_block2} {stimulus} {trial_instruction} You enter <<{response}>>.\n"
+                    datapoint = f"{instruction_block2} {stimulus} {trial_instruction} You enter {_marked(response)}.\n"
                 else:
-                    datapoint = f"{stimulus} {trial_instruction} You enter <<{response}>>.\n"
+                    datapoint = f"{stimulus} {trial_instruction} You enter {_marked(response)}.\n"
                 individual_prompt += datapoint
 
                 if len(individual_prompt) > max_tokens:

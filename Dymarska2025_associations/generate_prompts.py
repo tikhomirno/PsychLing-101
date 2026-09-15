@@ -1,7 +1,14 @@
 import pandas as pd
 import json
+import sys
 import zipfile
 from pathlib import Path
+
+# join_consecutive() separates neighbouring <<>> spans with ". " rather than ", ".
+# A ">>" followed directly by a comma is not found by the training collator, and
+# the failure is silent: the rest of the record collapses into one unmasked span.
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts" / "harmonization"))
+from bracket_safety import join_consecutive  # noqa: E402
 
 def generate_prompts():
     # Resolve from this script's location, not the working directory.
@@ -49,8 +56,8 @@ def generate_prompts():
                     if pd.notna(rt_val):
                         rt_list.append(float(rt_val))
             
-            resp_string = ", ".join(responses)
-            trial_line = f"{row['stimulus']}. You enter {resp_string}.\n"
+            resp_string = join_consecutive(responses)
+            trial_line = f"{row['stimulus']}. You enter {resp_string}\n"
             prompt_text += trial_line
 
         # 5. Create JSONL entry (Indented to be inside the participant loop, but outside the trial loop)

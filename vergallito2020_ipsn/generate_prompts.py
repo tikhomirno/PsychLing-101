@@ -5,6 +5,7 @@ import hashlib
 import json
 import random
 import string
+import sys
 import zipfile
 from collections import defaultdict
 from pathlib import Path
@@ -13,6 +14,12 @@ from typing import Any
 
 BASE_DIR = Path(__file__).resolve().parent
 PROCESSED_DIR = BASE_DIR / "processed_data"
+
+# join_consecutive() separates neighbouring <<>> spans with ". " rather than ", ".
+# A ">>" followed directly by a comma is not found by the training collator, and the
+# failure is silent: the rest of the record collapses into one unmasked span.
+sys.path.insert(0, str(BASE_DIR.parent / "scripts" / "harmonization"))
+from bracket_safety import join_consecutive  # noqa: E402
 
 RATINGS_INPUT = PROCESSED_DIR / "exp1.csv"
 LEXICAL_DECISION_INPUT = PROCESSED_DIR / "exp2.csv"
@@ -138,18 +145,18 @@ def generate_perceptual_rating_prompts() -> list[dict[str, Any]]:
 
         lines.append(
             "Formato dei dati trial-by-trial: PAROLA: "
-            "<<udito>>, <<gusto>>, <<tatto>>, <<olfatto>>, <<vista>>.\n"
+            "[udito], [gusto], [tatto], [olfatto], [vista].\n"
         )
 
         for row in participant_rows:
-            lines.append(
-                f"{row['stimulus']}: "
-                f"{marked(row['auditory_rating'])},"
-                f"{marked(row['gustatory_rating'])},"
-                f"{marked(row['haptic_rating'])},"
-                f"{marked(row['olfactory_rating'])},"
-                f"{marked(row['visual_rating'])}.\n"
-            )
+            ratings = [
+                marked(row["auditory_rating"]),
+                marked(row["gustatory_rating"]),
+                marked(row["haptic_rating"]),
+                marked(row["olfactory_rating"]),
+                marked(row["visual_rating"]),
+            ]
+            lines.append(f"{row['stimulus']}: {join_consecutive(ratings)}\n")
 
         record: dict[str, Any] = {
             "text": "".join(lines),
