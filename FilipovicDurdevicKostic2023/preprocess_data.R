@@ -105,6 +105,7 @@ df1234$response = as.character(df1234$response)
 df1234$accuracy = as.character(df1234$accuracy)
 df1234$rt = as.character(df1234$rt)
 
+df1234$rt_measure <- "keypress"
 write.csv(df1234, file.path(SCRIPT_DIR, "processed_data", "exp1.csv"), row.names = FALSE)
 
 

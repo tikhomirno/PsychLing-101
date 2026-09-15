@@ -78,4 +78,5 @@ data =
   )
 
 ## save preprocessed data
+data$rt_measure <- "keypress"
 write.csv(data, "processed_data/exp1.csv", row.names = FALSE)

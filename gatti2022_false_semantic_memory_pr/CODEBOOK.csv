@@ -9,6 +9,7 @@ phase_id,Identifier for the experimental phase or block a trial belongs to.
 probe_type,Fine-grained recognition probe type from the source data (studied
 response,Participant recognition response.
 rt,Response time for the trial in milliseconds.
+rt_measure,What rt measures in this dataset: keypress (stimulus-locked key or button press latency).
 stimulus,The recognition probe word presented on the trial.
 trial_id,Unique identifier for a single trial within a session or condition.
 trial_order,Original within-session trial order from the cleaned dataset (0-indexed after preprocessing; gaps may remain for unanswered/missing trials).

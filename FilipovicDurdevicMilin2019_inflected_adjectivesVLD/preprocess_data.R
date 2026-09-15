@@ -29,6 +29,7 @@ dat$accuracy = dat$correct
 dat$rt = dat$response_time
 
 df <- dat[, c("list", "participant_id", "trial_id", "stimulus", "trial_order", "lexicality", "response", "accuracy", "rt")]
+df$rt_measure <- "keypress"
 write.csv(df, file.path(SCRIPT_DIR, "processed_data", "exp1.csv"), row.names = FALSE)
 
 

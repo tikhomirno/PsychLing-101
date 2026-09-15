@@ -8,6 +8,7 @@ prime,"The prime shown in lower case for 50 ms immediately before the target, af
 prime_code,"Positional code describing how the prime was derived from the target relative to 123456, e.g. 123d56 = a random letter substituted at position 4. 'd' denotes a random letter not present in the target."
 response,"The participant's decision (word or nonword). Empty when the response deadline elapsed without a response. The source data records only accuracy, so the response is recovered from accuracy and stimulus_type; the task had exactly two alternatives."
 rt,"Time taken by the participant to respond, in milliseconds. For timeouts this is the 2000 ms deadline."
+rt_measure,What rt measures in this dataset: keypress (stimulus-locked key or button press latency).
 spelling_score,Participant's proportion correct on the 82-item spelling lexical decision block administered after the main task. Empty where not recorded.
 stimulus,The target letter string presented in upper case for the lexical decision.
 stimulus_type,Type of the target: word or nonword.

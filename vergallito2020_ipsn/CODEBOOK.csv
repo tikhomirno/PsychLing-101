@@ -11,6 +11,7 @@ haptic_rating,Participant rating of the extent to which the word referent is exp
 olfactory_rating,Participant rating of the extent to which the word referent is experienced through smell on a scale from 0 to 5.
 participant_id,Unique identifier assigned to each participant.
 rt,Time taken by the participant to respond in milliseconds.
+rt_measure,"What rt measures on each row, which differs between files here: keypress (stimulus-locked key or button press latency); voice_onset (time from stimulus onset to speech onset, scored from the microphone)."
 session_id,Identifier for the experimental session completed by the participant.
 stimulus,Italian word or pseudoword presented to the participant.
 stimulus_translation,English translation of the Italian word when available.

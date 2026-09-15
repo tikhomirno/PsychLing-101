@@ -10,6 +10,7 @@ prime,Prime word presented on the trial.
 response,Participant's binary response.
 response_correct,Correct binary response from the source data.
 rt,Response time converted to numeric milliseconds from the source RTs column.
+rt_measure,What rt measures in this dataset: keypress (stimulus-locked key or button press latency).
 target,Target word presented on the trial.
 trial_id,Unique identifier for a single trial within a session or condition.
 trial_order,Presentation order within the session (0-indexed).

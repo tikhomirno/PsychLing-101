@@ -2,6 +2,7 @@ Recommended Column Name,Description
 best,Participant's 'best' choice string
 participant_id,Anonymized participant ID
 rt,Time taken by the participant to respond
+rt_measure,What rt measures in this dataset: keypress (stimulus-locked key or button press latency).
 stimulus,Four options concatenated as 'opt1; opt2; opt3; opt4'
 trial_order,"Position of the trial within the participant, in presentation order."
 worst,Participant's 'worst' choice string

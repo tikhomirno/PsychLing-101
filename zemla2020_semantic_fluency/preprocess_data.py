@@ -648,6 +648,7 @@ def main():
 
         check_output(out, group, spec)
         path = PROCESSED_DIR / spec["file"]
+        out["rt_measure"] = "inter_response_interval"
         out.to_csv(path, index=False, encoding="utf-8")
         written.append((group, spec, out))
         print(

@@ -3,5 +3,6 @@ comprehension_correct,Number of comprehension questions answered correctly for t
 item,Story number (1–10),exp1
 participant_id,Participant number (anonymized from MTurk WorkerId),exp1
 rt,Self-paced reading time in ms (time from word reveal until SPACE press),exp1
+rt_measure,"What rt measures in this dataset: reading_time (self-paced reading time, or eye-tracking dwell time on the word)."
 word,The word text as displayed in the self-paced reading experiment,exp1
 word_position,Position of this word within the story (1-indexed; zone in original data),exp1

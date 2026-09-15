@@ -13,6 +13,7 @@ part_of_speech,Part of speech of the presented stimulus.
 participant_id,Unique identifier assigned to each participant (original labels Sub01-Sub84 remapped to integers 1-84).
 pos_predictability,Proportion of cloze responses matching this word's part of speech (0-1). Empty for the first word of each passage.
 rt,Total reading time on the word in milliseconds (dwell time summed over all fixations). 0 means the word was never fixated.
+rt_measure,"What rt measures in this dataset: reading_time (self-paced reading time, or eye-tracking dwell time on the word)."
 run_count,Number of separate runs of fixations on the word.
 sentence_number,Index of the sentence containing this word within the passage. Empty for the first word of each passage.
 stimulus,The word as displayed on screen for this interest area.

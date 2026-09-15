@@ -98,6 +98,7 @@ responseWordLength,Number of characters in individual response.
 responseX,"Naming pattern, not a literal column: response1, response2, ... hold the 1st, 2nd, ... response in tasks that collect several responses per trial (free association, multi-dimensional ratings)."
 round_time_limit,"Time allowed for one round, in milliseconds."
 rt,"Time taken by the participant to respond, in milliseconds."
+rt_measure,"Which latency rt records, so values from different paradigms are not pooled blindly. One of: keypress (stimulus-locked key or button press latency); voice_onset (time from stimulus onset to speech onset, scored from the microphone); reading_time (self-paced reading time, or eye-tracking dwell time on the word); first_fixation (duration of the first fixation on the word); inter_response_interval (time since the participant's previous response); session_elapsed (cumulative time since the session began -- not a response latency)."
 run_count,Number of separate runs of fixations on a word (eye-tracking).
 sentence_number,Index of the sentence containing a word within its text or passage.
 session_id,Unique identifier for an experimental or survey session.

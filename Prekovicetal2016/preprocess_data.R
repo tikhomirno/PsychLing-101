@@ -34,6 +34,7 @@ df <- dat[, c("participant_id", "item_id", "stimulus",  "trial_order", "lexicali
 dim(df)
 
 
+df$rt_measure <- "keypress"
 write.csv(df, file.path(SCRIPT_DIR, "processed_data", "exp1.csv"), row.names = FALSE)
 
 

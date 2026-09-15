@@ -50,6 +50,7 @@ def preprocess():
     df['trial_order'] = df.groupby('participant_id').cumcount()
 
     print(f"Exporting preprocessed dataset to {output_file}")
+    df["rt_measure"] = "keypress"
     df.to_csv(output_file, index=False)
     print("Preprocessing complete.")
 

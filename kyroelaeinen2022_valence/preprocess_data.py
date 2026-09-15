@@ -145,4 +145,5 @@ codebook.to_csv(os.path.join(script_dir,"CODEBOOK.csv"), index=False)
 # Save processed data
 folder = os.path.join(script_dir, "processed_data")
 os.makedirs(folder, exist_ok=True)
+df_all["rt_measure"] = "keypress"
 df_all.to_csv(os.path.join(script_dir,"processed_data/exp1.csv"), index=False)

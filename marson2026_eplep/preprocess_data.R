@@ -50,7 +50,11 @@ eplep_exp4 <-
     accuracy == 3 ~ 0))
 
 # export processed data as csv
+eplep_exp1$rt_measure <- "keypress"
 write.csv(eplep_exp1, "processed_data/exp1.csv")
+eplep_exp2$rt_measure <- "keypress"
 write.csv(eplep_exp2, "processed_data/exp2.csv")
+eplep_exp3$rt_measure <- "keypress"
 write.csv(eplep_exp3, "processed_data/exp3.csv")
+eplep_exp4$rt_measure <- "keypress"
 write.csv(eplep_exp4, "processed_data/exp4.csv")

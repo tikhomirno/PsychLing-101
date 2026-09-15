@@ -167,6 +167,7 @@ def main(input_csv: Path) -> None:
 
     # Write the processed file
     outpath = outdir / "exp1.csv"
+    df["rt_measure"] = "keypress"
     df.to_csv(outpath, index=False)
     print(f"Wrote processed CSV: {outpath} (rows: {len(df)}, participants: {len(mapping)})")
 

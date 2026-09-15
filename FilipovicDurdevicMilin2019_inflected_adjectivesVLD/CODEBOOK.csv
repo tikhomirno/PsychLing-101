@@ -5,6 +5,7 @@ list,Experimental list name. Items were distributed across 3 lists.
 participant_id,Unique identifier assigned to each participant.
 response,Participant's response
 rt,Time taken by the participant to respond
+rt_measure,What rt measures in this dataset: keypress (stimulus-locked key or button press latency).
 stimulus,The linguistic stimulus presented to the participant in a given trial.
 trial_id,Unique identifier for a single trial within a session or condition.
 trial_order,Presentation order within the session (0-indexed). The order in which the participant saw this trial.

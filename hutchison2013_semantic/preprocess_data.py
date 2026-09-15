@@ -118,8 +118,9 @@ def preprocess_ldt(base_dir: Path, processed_dir: Path) -> None:
         "passage", "vocaba", "vocabb", "vocabc", "meq",
         "session", "trial_order",
         "prime", "prime_type", "soa", "relatedness",
-        "stimulus", "lexicality", "response", "rt", "accuracy",
+        "stimulus", "lexicality", "response", "rt", "accuracy", "rt_measure",
     ]
+    df["rt_measure"] = "keypress"
     df[out_cols].sort_values(["participant_id", "trial_order"]).to_csv(
         processed_dir / "exp1.csv", index=False
     )
@@ -205,8 +206,9 @@ def preprocess_naming(base_dir: Path, processed_dir: Path) -> None:
         "passage", "vocaba", "vocabb", "vocabc", "meq",
         "session", "trial_order",
         "prime", "prime_type", "soa", "relatedness",
-        "stimulus", "response", "rt", "accuracy",
+        "stimulus", "response", "rt", "accuracy", "rt_measure",
     ]
+    df["rt_measure"] = "voice_onset"
     df[out_cols].sort_values(["participant_id", "trial_order"]).to_csv(
         processed_dir / "exp2.csv", index=False
     )

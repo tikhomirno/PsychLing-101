@@ -48,6 +48,7 @@ for (i in 1:(dim(E1)[1])){
 #create dataframe
 E1_clean <- data.frame(participant_id, trial_id, stimulus, response_option_1, response_option_2, response, accuracy, rt)
 #write
+E1_clean$rt_measure <- "keypress"
 write.csv(E1_clean, file.path(SCRIPT_DIR, "processed_data", "exp1.csv"), row.names = FALSE, fileEncoding = "UTF-8")
 #clear
 rm(list = setdiff(ls(), "SCRIPT_DIR"))  # clear all except the resolved script path
@@ -85,6 +86,7 @@ for (i in 1:(dim(E2)[1])){
 }
 E2_clean <- data.frame(participant_id, trial_id, stimulus, response_option_1, response_option_2, response, accuracy, rt)
 #write
+E2_clean$rt_measure <- "keypress"
 write.csv(E2_clean, file.path(SCRIPT_DIR, "processed_data", "exp2.csv"), row.names = FALSE, fileEncoding = "UTF-8")
 #clear
 rm(list = setdiff(ls(), "SCRIPT_DIR"))  # clear all except the resolved script path
@@ -124,6 +126,7 @@ for (i in 1:(dim(E3)[1])){
 
 E3_clean <- data.frame(participant_id, trial_id, stimulus, response_option_1, response_option_2, response, accuracy, rt)
 #write
+E3_clean$rt_measure <- "keypress"
 write.csv(E3_clean, file.path(SCRIPT_DIR, "processed_data", "exp3.csv"), row.names = FALSE, fileEncoding = "UTF-8")
 #clear
 rm(list = setdiff(ls(), "SCRIPT_DIR"))  # clear all except the resolved script path

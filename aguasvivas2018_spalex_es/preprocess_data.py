@@ -240,6 +240,7 @@ def preprocess(base_dir: Path) -> None:
     df_out = df.loc[:, [c for c in cols if c in df.columns]].copy()
     df_out = df_out.loc[:, ~df_out.columns.duplicated()]
 
+    df_out["rt_measure"] = "keypress"
     df_out.to_csv(processed_dir / "exp1.csv", index=False)
 
 

@@ -3,5 +3,6 @@ age,Participant age in years
 participant_id,Anonymized participant ID
 response,"Grammaticality judgment (e.g., 'c' / 'n')"
 rt,Response time in ms (from 'rt')
+rt_measure,What rt measures in this dataset: keypress (stimulus-locked key or button press latency).
 stimulus,Sentence string (from 'sentence')
 trial_order,"Position of the trial within the participant, in presentation order."

@@ -76,6 +76,7 @@ def preprocess_spr(base_dir: Path, processed_dir: Path, stimuli: pd.DataFrame) -
     df_out = df[cols].copy()
     df_out = df_out.sort_values(["participant_id", "trial_order", "word_position"])
 
+    df_out["rt_measure"] = "reading_time"
     df_out.to_csv(processed_dir / "exp1.csv", index=False)
     print(f"exp1.csv: {len(df_out)} rows, {df_out['participant_id'].nunique()} participants")
 
@@ -119,6 +120,7 @@ def preprocess_et(base_dir: Path, processed_dir: Path, stimuli: pd.DataFrame) ->
     df_out = df[cols].copy()
     df_out = df_out.sort_values(["participant_id", "trial_order", "word_position"])
 
+    df_out["rt_measure"] = "first_fixation"
     df_out.to_csv(processed_dir / "exp2.csv", index=False)
     print(f"exp2.csv: {len(df_out)} rows, {df_out['participant_id'].nunique()} participants")
 

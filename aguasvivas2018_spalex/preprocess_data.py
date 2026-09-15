@@ -35,5 +35,6 @@ df["accuracy"]       = df["accuracy"].astype(int)
 
 df = df.sort_values(["participant_id", "trial_order"]).reset_index(drop=True)
 
+df["rt_measure"] = "keypress"
 df.to_csv(EXP1_FILE, index=False, encoding="utf-8")
 print(f"Done. Saved {len(df):,} rows to {EXP1_FILE}")

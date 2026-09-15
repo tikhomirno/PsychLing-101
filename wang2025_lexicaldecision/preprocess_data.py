@@ -62,4 +62,5 @@ df_cleaned = df_cleaned[[
 ]]
 
 # Export the cleaned file
+df_cleaned["rt_measure"] = "keypress"
 df_cleaned.to_csv(SCRIPT_DIR / "processed_data" / "exp1.csv", index=False)

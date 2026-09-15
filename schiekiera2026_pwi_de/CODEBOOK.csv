@@ -16,6 +16,7 @@ naming_condition,"Whether participant responses were produced overtly (spoken al
 participant_id,Unique identifier assigned to each participant.
 phonological_relation,"Phonological relationship between target and distractor: ""related"", ""unrelated"", or NA when the contrast was not manipulated in this experiment."
 rt,"Time taken by the participant to respond, in milliseconds."
+rt_measure,What rt measures in this dataset: keypress (stimulus-locked key or button press latency).
 soa,"Stimulus onset asynchrony between distractor and target-picture onset, in milliseconds (negative values indicate that the distractor preceded the picture)."
 study_id,Unique identifier for the source study .
 target_word_pwi,The intended word of the picture presented on the trial; participants were instructed to produce this word as their response.

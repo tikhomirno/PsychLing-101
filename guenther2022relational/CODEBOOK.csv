@@ -3,5 +3,6 @@ age,Participant age in years (from 'age')
 participant_id,Anonymized participant ID
 response,Participant response (from 'responses')
 rt,Time taken by the participant to respond
+rt_measure,What rt measures in this dataset: keypress (stimulus-locked key or button press latency).
 stimulus,Stimulus string (from 'stim')
 trial_order,"Position of the trial within the participant, in presentation order."

@@ -183,7 +183,11 @@ def preprocess_perceptual_ratings() -> None:
         check_header(reader, expected_columns, RATINGS_INPUT)
 
         with RATINGS_OUTPUT.open("w", encoding="utf-8", newline="") as output_handle:
-            writer = csv.DictWriter(output_handle, fieldnames=output_columns)
+            # csv defaults to CRLF; the committed CSVs are LF, so set it explicitly
+            # or the script does not reproduce its own output.
+            writer = csv.DictWriter(
+                output_handle, fieldnames=output_columns, lineterminator="\n"
+            )
             writer.writeheader()
 
             for row_number, row in enumerate(reader, start=2):
@@ -272,6 +276,7 @@ def preprocess_lexical_decision() -> None:
         "stimulus_translation",
         "accuracy",
         "rt",
+        "rt_measure",
     ]
 
     if not LEXICAL_DECISION_INPUT.exists():
@@ -294,7 +299,11 @@ def preprocess_lexical_decision() -> None:
         with LEXICAL_DECISION_OUTPUT.open(
             "w", encoding="utf-8", newline=""
         ) as output_handle:
-            writer = csv.DictWriter(output_handle, fieldnames=output_columns)
+            # csv defaults to CRLF; the committed CSVs are LF, so set it explicitly
+            # or the script does not reproduce its own output.
+            writer = csv.DictWriter(
+                output_handle, fieldnames=output_columns, lineterminator="\n"
+            )
             writer.writeheader()
 
             for row_number, row in enumerate(reader, start=2):
@@ -355,6 +364,7 @@ def preprocess_lexical_decision() -> None:
                             require_integer=True,
                         ),
                         "rt": rt,
+                        "rt_measure": "keypress",
                     }
                 )
 
@@ -401,6 +411,7 @@ def preprocess_naming() -> None:
         "stimulus_translation",
         "accuracy",
         "rt",
+        "rt_measure",
     ]
 
     if not NAMING_INPUT.exists():
@@ -417,7 +428,11 @@ def preprocess_naming() -> None:
         check_header(reader, expected_columns, NAMING_INPUT)
 
         with NAMING_OUTPUT.open("w", encoding="utf-8", newline="") as output_handle:
-            writer = csv.DictWriter(output_handle, fieldnames=output_columns)
+            # csv defaults to CRLF; the committed CSVs are LF, so set it explicitly
+            # or the script does not reproduce its own output.
+            writer = csv.DictWriter(
+                output_handle, fieldnames=output_columns, lineterminator="\n"
+            )
             writer.writeheader()
 
             for row_number, row in enumerate(reader, start=2):
@@ -472,6 +487,7 @@ def preprocess_naming() -> None:
                             require_integer=True,
                         ),
                         "rt": rt,
+                        "rt_measure": "voice_onset",
                     }
                 )
 

@@ -62,6 +62,7 @@ def main():
     df = df.sort_values(["participant_id", "trial_order"]).reset_index(drop=True)
 
     outpath = OUT_DIR / "exp1.csv"
+    df["rt_measure"] = "keypress"
     df.to_csv(outpath, index=False)
     
     print("Wrote:", outpath)

@@ -151,5 +151,6 @@ input_files = ["original_data/monolinguals.csv", "original_data/bilinguals.csv"]
 for i, file in enumerate(input_files, start=1):
     df_out = transform_file(file)
     output_name = f"processed_data/exp{i}.csv"
+    df_out["rt_measure"] = "keypress"
     df_out.to_csv(output_name, index=False, quoting=csv.QUOTE_MINIMAL)
     print(f"Saved {output_name}")

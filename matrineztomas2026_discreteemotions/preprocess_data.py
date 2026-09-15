@@ -218,6 +218,8 @@ def main() -> None:
         name = f"exp{number}"
         validate_output(data, name)
         output_path = OUTPUT_DIR / f"{name}.csv"
+        if "rt" in data.columns:
+            data["rt_measure"] = "keypress"
         data.to_csv(
             output_path,
             index=False,

@@ -148,7 +148,9 @@ def main():
     exp1 = build_exp1()
     exp2 = build_exp2()
 
+    exp1["rt_measure"] = "keypress"
     exp1.to_csv(OUT_DIR / "exp1.csv", index=False)
+    exp2["rt_measure"] = "keypress"
     exp2.to_csv(OUT_DIR / "exp2.csv", index=False)
 
     print("Wrote:", OUT_DIR / "exp1.csv", exp1.shape)

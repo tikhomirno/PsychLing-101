@@ -100,6 +100,11 @@ codebook_own <- codebook_own |>
 # Export processed files -------------------------------------------------------
 
 codebook_own |> write_csv("CODEBOOK.csv")
+# exp1 and exp2 record cumulative time since the session started, not the latency
+# of the response itself; exp3 is a stimulus-locked keypress.
+exp1$rt_measure <- "session_elapsed"
 exp1 |> write_csv("processed_data/exp1.csv")
+exp2$rt_measure <- "session_elapsed"
 exp2 |> write_csv("processed_data/exp2.csv")
+exp3$rt_measure <- "keypress"
 exp3 |> write_csv("processed_data/exp3.csv")

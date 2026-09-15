@@ -479,6 +479,7 @@ def main():
     PROCESSED_DATA_DIR.mkdir(parents=True, exist_ok=True)
     partial_file = OUT_FILE.with_name(OUT_FILE.name + ".partial")
     try:
+        output["rt_measure"] = "keypress"
         output.to_csv(partial_file, index=False, lineterminator="\n")
         os.replace(partial_file, OUT_FILE)
     finally:

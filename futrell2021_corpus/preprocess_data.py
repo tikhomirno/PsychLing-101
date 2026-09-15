@@ -17,6 +17,7 @@ out = (
     .reset_index(drop=True)
 )
 
+out["rt_measure"] = "reading_time"
 out.to_csv(base_dir / "processed_data" / "exp1.csv", index=False)
 print(f"exp1.csv: {len(out):,} rows, {out['participant_id'].nunique()} participants, "
       f"{out['item'].nunique()} stories")

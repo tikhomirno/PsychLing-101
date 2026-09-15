@@ -10,6 +10,7 @@ gender,Self-reported or observed gender identity of the participant.
 participant_id,Unique identifier assigned to each participant.
 response,Participant's response
 rt,"Time taken by the participant to respond, in milliseconds."
+rt_measure,What rt measures in this dataset: keypress (stimulus-locked key or button press latency).
 session_no,Sequential index indicating the session number for each participant. Each session consists of a fixed block of 90 trials.
 stimulus,The linguistic or visual stimulus presented to the participant in a given trial.
 trial_id,Unique identifier for a single trial within a session or condition.

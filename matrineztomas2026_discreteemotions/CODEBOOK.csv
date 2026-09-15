@@ -9,6 +9,7 @@ participant_id,Experiment-prefixed sequential participant identifier; source fil
 phase_id,"Task phase: production, word_decoding, or emotion_decoding."
 response,"Participant response: a generated novel word in Experiment 1, a guessed Spanish word in Experiment 2, or a selected emotion label in Experiment 3."
 rt,Response time in milliseconds; derived from source timing fields as documented in README.md.
+rt_measure,What rt measures in this dataset: keypress (stimulus-locked key or button press latency).
 stimulus,Participant-visible stimulus: an existing Spanish word in Experiment 1 and a novel Spanish letter string in Experiments 2 and 3.
 target_word,Original Spanish source word from which the novel string was derived; available in Experiments 2 and 3 and not displayed to participants.
 trial_id,Unique identifier for a trial within an experiment and participant session.

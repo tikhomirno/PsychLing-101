@@ -160,6 +160,7 @@ def main() -> None:
         out[column] = out[column].astype("Int64")
 
     output_path = PROCESSED_DIR / "exp1.csv"
+    out["rt_measure"] = "reading_time"
     out.to_csv(output_path, index=False, encoding="utf-8")
 
     print(f"Wrote {output_path}")

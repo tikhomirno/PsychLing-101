@@ -10,6 +10,7 @@ phase_id,Identifier for the experimental phase or block a trial belongs to.
 response,Chosen word.
 response_side,Side of the chosen word (left or right).
 rt,Response time for the trial in milliseconds; available in EXP1 only.
+rt_measure,What rt measures in this dataset: keypress (stimulus-locked key or button press latency).
 stimulus_left,Left-side word shown on the trial.
 stimulus_right,Right-side word shown on the trial.
 trial_id,Unique identifier for a single trial within a session or condition.

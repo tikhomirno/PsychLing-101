@@ -9,5 +9,6 @@ participant_id,Unique identifier assigned to each participant.
 response,Participant's response
 round_time_limit,"Time allowed for one round, in milliseconds. Documented by the published task, which sets timeperlist = 180 seconds; the value is 180000 for every participant in both files."
 rt,"Time taken by the participant to respond, in milliseconds."
+rt_measure,What rt measures in this dataset: inter_response_interval (time since the participant's previous response).
 stimulus,The linguistic or visual stimulus presented to the participant in a given trial.
 trial_order,Presentation order within the session (0-indexed). The order in which the participant saw this trial.

@@ -7,6 +7,7 @@ phase_id,Identifier for the experimental phase or block a trial belongs to (e.g.
 phonological_ambiguity,Feature of the orthographic sequence having phonological mapping in two alphabets.
 response,Participant's response
 rt,Time taken by the participant to respond
+rt_measure,What rt measures in this dataset: keypress (stimulus-locked key or button press latency).
 stimulus,The linguistic stimulus presented to the participant in a given trial.
 target_alphabet,Alphabet of target presentation.
 trial_id,Unique identifier for a single trial within a session or condition.

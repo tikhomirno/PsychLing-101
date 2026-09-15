@@ -12,6 +12,7 @@ question,Comprehension question presented after the sentence; NaN if no question
 response,"Participant's inferred response to the comprehension question: 'y' (yes) or 'n' (no), NaN if no question. Inferred from the correct-answer field (stimuli.txt) and trial accuracy (correct field in RT files).",exp1 exp2
 right_bounded_duration,Right-bounded reading time in ms: total fixation time before first fixation on any word to the right. 0 replaced with NaN.,exp2
 rt,Reading time in ms (exp1: key-press RT from self-paced reading; exp2: first fixation duration on this word). 0 ms replaced with NaN in exp2 (word not fixated before a rightward saccade).,exp1 exp2
+rt_measure,"What rt measures on each row, which differs between files here: first_fixation (duration of the first fixation on the word); reading_time (self-paced reading time, or eye-tracking dwell time on the word)."
 stimulus,Full sentence text (from stimuli.txt joined on sent_nr),exp1 exp2
 trial_order,Position of sentence in the presentation sequence for this participant (sent_pos),exp1 exp2
 word,The specific word on this row (one row per word per participant),exp1 exp2

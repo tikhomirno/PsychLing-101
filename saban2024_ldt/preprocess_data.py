@@ -43,6 +43,7 @@ columns_to_int = ['response', 'accuracy', 'rt']
 df_final = df_final.astype({col:'int' for col in columns_to_int})
 
 #Export to csv
+df_final["rt_measure"] = "keypress"
 df_final.to_csv(SCRIPT_DIR / "processed_data" / "exp1.csv", index=False)
 
 
@@ -67,6 +68,7 @@ df_cleaned["trial_order"] = df_cleaned.groupby("participant_id").cumcount() + 1
 #"Age" taken from the survey files from psytoolkit
 
 #Export to csv
+df_cleaned["rt_measure"] = "keypress"
 df_cleaned.to_csv(SCRIPT_DIR / "processed_data" / "exp2.csv", index=False)
 
 # (removed: a one-off step that rewrote a personal copy of CODEBOOK.csv from

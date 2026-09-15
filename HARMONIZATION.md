@@ -147,6 +147,47 @@ Also restored along the way: gender, education and handedness in
 `Leivada2020_manipulativeDiscourse`; handedness and device type in
 `tsaregorodtseva2026_mousetracking`.
 
+### `rt` now says which latency it is
+
+`rt` was pooling four different measurements. A keypress latency, a voice-onset
+latency, a first-fixation duration and a self-paced reading time are all "reaction
+time", and nothing in the data distinguished them -- so a query across the corpus
+silently mixed them.
+
+Every study that has `rt` now also has a required `rt_measure` column naming the
+measure. Across the 44 studies with `rt` that is `keypress` (38), `reading_time` (4),
+`voice_onset` (3), `session_elapsed` (2), `first_fixation` (1) and
+`inter_response_interval` (1). Four studies differ between their own files, so the
+column varies by row rather than by folder: `frank2013_reading` (exp1 reading time,
+exp2 first fixation), `hutchison2013_semantic` (exp1 keypress, exp2 voice onset),
+`vergallito2020_ipsn` (exp2 keypress, exp3 voice onset) and
+`Wulff2022_StructuralDifferences` (exp1/exp2 session elapsed, exp3 keypress).
+
+Two of the six values exist to say that `rt` is **not a response latency at all**:
+`session_elapsed` (`Wulff2022_StructuralDifferences` exp1 and exp2 record cumulative
+time since the session began) and `inter_response_interval`
+(`zemla2020_semantic_fluency` records time since the participant's previous response).
+That caveat used to live only in prose; it is now a value you can filter on.
+
+Assigning the measure meant reading each study rather than guessing from its name,
+and three studies contradicted the obvious reading: `schiekiera2026_pwi_de` and
+`_en` are picture-word interference but the README says the response is a button
+press, and `connel2022_naming` times "image onset to recognition keypress" despite
+being a naming study. Only `vergallito2020_ipsn` exp3, whose condition is
+`word_naming`, is voice-onset among these.
+
+Because the value is a constant per file, the column was appended to the committed
+CSVs rather than re-running pipelines that take hours and, for the unseeded studies,
+would re-roll unrelated randomness. Each study's `preprocess_data` script was patched
+as well, so a clean run reproduces it; this was checked by re-running
+`vergallito2020_ipsn`, `bonandrini2026_SPChumaneval` and
+`Leivada2020_manipulativeDiscourse` and confirming byte-identical output. No prompts
+file changes: every generator selects its metadata fields explicitly.
+
+**A defect this surfaced.** `vergallito2020_ipsn` wrote its CSVs with `csv.DictWriter`,
+which defaults to CRLF, while its committed files are LF -- so the script had never
+reproduced its own output. Its three writers now set `lineterminator="\n"`.
+
 ### Two things deliberately not done
 
 `devardalamarraetal2025_iconicity` looks like it has reaction times — `ldt_rt` and

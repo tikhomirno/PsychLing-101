@@ -62,6 +62,7 @@ trials_tidy <- trials_raw |>
 
 # ---- Write output ----------------------------------------------------------
 
+trials_tidy$rt_measure <- "keypress"
 write_csv(trials_tidy, file.path(out_dir, "exp1.csv"))
 
 cat("Done.\n")

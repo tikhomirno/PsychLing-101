@@ -107,6 +107,7 @@ df <- df %>%
 
 ## Save as csv
 dir.create("processed_data")
+df$rt_measure <- "keypress"
 write_csv(df, file.path(SCRIPT_DIR, "processed_data", "exp1.csv"), na = "")
 
 ## Update codebook

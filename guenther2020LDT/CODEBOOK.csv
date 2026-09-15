@@ -3,5 +3,6 @@ age,Participant age in years (from 'Age')
 participant_id,Anonymized participant ID
 response,"Response key recoded to 'c' or 'n' (key 67 => 'c', else 'n')"
 rt,Response time in ms (from 'rt')
+rt_measure,What rt measures in this dataset: keypress (stimulus-locked key or button press latency).
 stimulus,Compound string shown on the trial (from 'comp')
 trial_id,Trial order index (factorized from raw trial_id)

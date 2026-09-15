@@ -68,6 +68,7 @@ def preprocess(base_dir: Path) -> None:
     
     # Write
     out_path = processed_dir / "exp1.csv"
+    df_out["rt_measure"] = "keypress"
     df_out.to_csv(out_path, index=False)
 
 

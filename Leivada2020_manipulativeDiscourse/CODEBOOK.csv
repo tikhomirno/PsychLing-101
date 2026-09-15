@@ -7,5 +7,6 @@ handedness,If participant is right or left handed
 participant_id,Unique identifier assigned to each participant.
 response,Participant's response
 rt,"Time taken by the participant to respond, in milliseconds."
+rt_measure,What rt measures in this dataset: keypress (stimulus-locked key or button press latency).
 stimulus,The linguistic or visual stimulus presented to the participant in a given trial.
 years_spent_in_countries_of_residence,How many years the participant spent in the country of residence.

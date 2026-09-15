@@ -13,6 +13,7 @@ participant_id,Unique identifier assigned to each participant.
 position_type,Whether the probed letter sat inside the letter string (internal) or in its final position (external). The first position is never probed; external trials are always the last letter of a 4- or 5-letter string.
 response,The letter the participant reported. Not recorded in the source data; reconstructed from accuracy because the two-alternative forced choice records only correctness: target_letter on a correct trial and distractor_letter on an incorrect one. Carries no information beyond accuracy.
 rt,"Time taken by the participant to respond, in milliseconds."
+rt_measure,What rt measures in this dataset: keypress (stimulus-locked key or button press latency).
 stimulus,The linguistic or visual stimulus presented to the participant in a given trial.
 stimulus_length,Number of characters in the presented letter string (4-6).
 stimulus_type,"Type or category of the presented stimulus, such as word or pseudoword."

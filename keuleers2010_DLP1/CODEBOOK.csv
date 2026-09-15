@@ -6,5 +6,6 @@ participant_id,Unique identifier assigned to each participant.
 phase_id,"Identifier for the experimental phase or block a trial belongs to (e.g., practice, test, recall)."
 response,Participant's response
 rt,"Time taken by the participant to respond, in milliseconds."
+rt_measure,What rt measures in this dataset: keypress (stimulus-locked key or button press latency).
 stimulus,The linguistic or visual stimulus presented to the participant in a given trial.
 trial_order,Presentation order within the session (0-indexed). The order in which the participant saw this trial.

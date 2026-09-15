@@ -7,6 +7,7 @@ phase_id,"Identifier for the experimental phase or block a trial belongs to (e.g
 response,Participant's response
 response_corrected,Cleaned / corrected response (spelling normalized).
 rt,"Milliseconds elapsed, taken from the raw `time` column. In exp1 and exp2 this is cumulative time since the start of the session -- it increases monotonically within a participant -- NOT the latency of an individual response. Per-response latencies would have to be derived by differencing consecutive values. In exp3 the values are not monotonic and do look like per-trial latencies."
+rt_measure,"What rt measures on each row, which differs between files here: keypress (stimulus-locked key or button press latency); session_elapsed (cumulative time since the session began -- not a response latency)."
 stimulus,The linguistic or visual stimulus presented to the participant in a given trial.
 stimulus_is_reversed,"In retest phase, is this stimulus reversed (TRUE), or not (FALSE). NA in test phase."
 stimulus_left,Word (animal) presented on the left side of the rating screen.

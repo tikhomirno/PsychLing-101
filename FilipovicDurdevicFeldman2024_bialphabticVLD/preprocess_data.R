@@ -59,5 +59,6 @@ dat2$rt = dat2$response_time
 block2 <- dat2[, c("phase_id", "list", "participant_id", "trial_id", "stimulus", "trial_order", "lexicality", "target_alphabet",  "phonological_ambiguity", "response", "accuracy", "rt")]
 
 block1_block2 = rbind(block1, block2)
+block1_block2$rt_measure <- "keypress"
 write.csv(block1_block2, file.path(SCRIPT_DIR, "processed_data", "exp1.csv"), row.names = FALSE)
 

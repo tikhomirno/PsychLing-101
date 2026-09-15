@@ -380,6 +380,7 @@ df_selected$trial_order <- df_selected$trial_order - 5
 df_selected <- df_selected %>% distinct(participant_id, trial_order, response_order, .keep_all = TRUE)
 
 # Save preprocessed data as .csv
+df_selected$rt_measure <- "keypress"
 write_csv2(df_selected, file.path(SCRIPT_DIR, "processed_data", "exp1.csv"))
 
 
@@ -654,4 +655,5 @@ df_selected <- df_selected %>% rename(word = target)
 df_selected <- df_selected %>% distinct(participant_id, trial_order, response_order, .keep_all = TRUE)
 
 ### Export
+df_selected$rt_measure <- "keypress"
 write_csv2(df_selected, file.path(SCRIPT_DIR, "processed_data", "exp2.csv"))

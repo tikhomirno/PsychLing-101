@@ -112,6 +112,7 @@ data_clean <- data_clean |>
 
 # save data ---------------------------------------------------------------
 
+data_clean$rt_measure <- "keypress"
 write_csv(data_clean, file = file.path(SCRIPT_DIR, "processed_data", "exp1.csv"))
 
 # -------------------------------------------------------------------------

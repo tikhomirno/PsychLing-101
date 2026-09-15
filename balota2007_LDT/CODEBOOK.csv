@@ -11,6 +11,7 @@ participant_id,Unique identifier assigned to each participant.
 past_health_score,Participant's past health score on a general health questionnaire.
 present_health_score,Participant's present health score on a general health questionnaire.
 rt,"Time taken by the participant to respond, in milliseconds."
+rt_measure,What rt measures in this dataset: keypress (stimulus-locked key or button press latency).
 session_no,"Sequential index indicating the session number within each participant. The first session contained 2,000 trials and the second either 1,372 or 1,374."
 shipley_numCorrect,"Number of correct answers given by the participant on the vocabulary test of the Shipley Institute of Living Scale, a self-administering scale for measuring intellectual impairment and deterioration (Shipley, 1940)."
 shipley_rawScore,"Participant's raw score on the vocabulary test of the Shipley Institute of Living Scale, a self-administering scale for measuring intellectual impairment and deterioration (Shipley, 1940)."

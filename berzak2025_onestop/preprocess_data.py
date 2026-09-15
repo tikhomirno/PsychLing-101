@@ -69,6 +69,7 @@ OUTPUT_COLUMNS = [
     "word_position",
     "stimulus",
     "rt",
+    "rt_measure",
     "first_fixation_duration",
     "gaze_duration",
     "go_past_time",
@@ -187,6 +188,8 @@ def main() -> None:
                 record["answer_options"] = (
                     answer_options(row, idx) if first_word else ""
                 )
+                # rt here is total reading time on the word, not a keypress latency.
+                record["rt_measure"] = "reading_time"
 
                 writers[target].writerow([record[c] for c in OUTPUT_COLUMNS])
                 counts[target] += 1

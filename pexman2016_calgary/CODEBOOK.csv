@@ -16,6 +16,7 @@ prev_acc,"Accuracy on the immediately preceding trial (1=correct, 0=incorrect/ti
 prev_rt,Cleaned RT (ms) on the immediately preceding trial. NA if previous trial was incorrect or an outlier.
 response,"A=abstract, C=concrete, T=timed out."
 rt,"Time taken by the participant to respond, in milliseconds."
+rt_measure,What rt measures in this dataset: keypress (stimulus-locked key or button press latency).
 rt_raw,"Raw unprocessed response time for the trial in milliseconds, before any cleaning or outlier removal."
 rt_zscore,Z-scored RT within each participant x block. Minimizes influence of individual differences in processing speed.
 stimulus,The linguistic or visual stimulus presented to the participant in a given trial.

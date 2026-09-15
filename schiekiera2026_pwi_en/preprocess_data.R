@@ -181,6 +181,7 @@ df <- df %>%
 # ---------------------------------------------------------------------------
 dir.create(here("processed_data"), showWarnings = FALSE)
 out_path <- here("processed_data", "exp1.csv")
+df$rt_measure <- "keypress"
 write.csv(df, out_path, row.names = FALSE)
 message("exp1.csv written to ", out_path)
 message("Rows: ", nrow(df), " | Participants: ",

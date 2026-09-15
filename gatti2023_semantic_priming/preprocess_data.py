@@ -65,6 +65,7 @@ def main():
     ]].copy()
 
     outpath = OUT_DIR / "exp1.csv"
+    df["rt_measure"] = "keypress"
     df.to_csv(outpath, index=False)
 
     print("Wrote:", outpath)
