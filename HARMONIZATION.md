@@ -466,10 +466,23 @@ The review behind this branch found more than the items above. The following are
 but **not yet implemented**; they are listed here so the current state is not mistaken for a
 finished one.
 
-- **Reproducibility.** Five studies cannot be re-run from a clean clone because their scripts
-  contain absolute paths from a contributor's machine, and one reads a different study's data.
-- **Naming consistency.** Nine READMEs are mis-cased (`Readme.md`, `README.MD`), which passes
-  on macOS and fails on Linux; one preprocess script is named `preprocessed_data.py`; one
-  study's scripts use a lowercase `.r` extension.
+- **`participant_id` in the prompts.** 46 of 66 studies are clean. Of the rest, twelve
+  renumber participants `1..N` and discard the real identifier, so their prompts cannot be
+  joined back to `processed_data` at all; three split one participant across many records
+  with a `_partN` or `_block_N` suffix; four omit participants outright, the largest being
+  `schiekiera2026_pwi_de` at 134 of 301; and `aguasvivas2018_spalex` emits the field as
+  `participant` rather than `participant_id`, which the validator already fails.
+- **`connel2022_naming` exceeds the prompt size limit.** 25 of its 60 records are over the
+  100,000-character cap. Sixty records for 25,851 trials means it packs a whole participant
+  into one record, so this is a question about record granularity, not a formatting fix.
+- **Naming consistency.** Eight READMEs are mis-cased (`Readme.md` x6, `README.MD` x2), which
+  passes on macOS and fails on Linux; `guasch2023_prevalence`'s two scripts use a lowercase
+  `.r` extension. Ten `.Rhistory` files and two `__pycache__` directories are tracked.
+  Folder renames are deliberately not planned: they would break existing links, DOI
+  references and contributors' clones for a cosmetic gain.
+- **Validator hardening.** The checks that would have prevented most of the drift corrected
+  on this branch do not exist yet. The most important is that a per-study codebook which is a
+  byte-copy of the root currently passes, which is exactly how 315 phantom entries survived
+  review.
 
 See the analysis branch for the full per-study findings behind each item.
